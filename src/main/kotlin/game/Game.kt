@@ -4,24 +4,28 @@ import org.example.player.Player
 import org.example.potato.Potato
 
 /**
- * Simple Hot Potato Game implementation
- * players = chain U activePlayers
+ * Implements the Simple Hot Potato Game.
+ *
+ * @property [potato] the hot potato good associated to the game.
+ * @property [activePlayers] the non-ordered subset of players which at the current turn never got the good.
+ * @property [chain] the ordered set of players which at the current turn already got the good.
+ * @property [turn] the current turn of the game.
+ * @constructor creates a game with the given [potato] and set [activePlayers] (which at the beginning are all the
+ * players of the game).
  */
-class Game (val potato: Potato,
-            val players: Set<Player>) {
+class Game (
+    private val potato: Potato,
+    var activePlayers: MutableSet<Player>) {
 
-    var chain: MutableList<Player> = mutableListOf()   // Ordered sequence of players that did get the hot potato
-    var currentTurn: Int = 0
-    var activePlayers: MutableSet<Player> = players.toMutableSet() // Keeps track of players that did not already get the hot potato
+    private var chain: MutableList<Player> = mutableListOf()   // Ordered sequence of players that did get the hot potato
+    private var turn: Int = 0
 
     /**
-     * Handles the game execution
+     * Handles the game execution from start to end.
      */
-    fun startGame() {
-        // Select the starting player
+    fun run() {
         var currentHolder = findingStartingPlayer()
 
-        // Running the game
         while(currentHolder != null) {
             updateGame(currentHolder)
             currentHolder = currentHolder.exchangePotato(this)
@@ -31,38 +35,42 @@ class Game (val potato: Potato,
     }
 
     /**
-     * If the player is the last, return `loss`, otherwise `gain`.
-     * This must be called when the player is actually able to give the potato to another player
-     * (at least I think so)
+     * Gives the according payoff depending on if the player is the last one or not.
+     * Recall that a player is the last one either if the good reached the end of its life or no other player was
+     * willing to accept it.
+     *
+     * @param [isLastPlayer] flag passed by a player depending on the fact that it found another player to take the good
+     * or not.
+     *
+     * @return the player's payoff.
      */
     fun returnPayoff (isLastPlayer: Boolean = false) : Int {
-        return if (!isPotatoAlive() || isLastPlayer) {
+        return if (isLastPlayer) {
             potato.loss
-        } else if (currentTurn < potato.lifetime) {
-            potato.gain
         } else {
-            error("Error! current_turn > potato's lifetime")
+            potato.gain
         }
     }
 
     /**
-     * Returns true if the current Turn has not reached the end-of-life of the potato, false otherwise
+     * @return true if the [potato] as not reached its end-of-life, false otherwise
      */
     fun isPotatoAlive () : Boolean{
-        if (potato.lifetime < currentTurn) {
+        if (potato.lifetime < turn) {
             error("the current turn cannot exceed the potato's lifetime")
         }
-        return potato.lifetime > currentTurn
+        return potato.lifetime > turn
     }
 
     /**
-     * Updates the game status and sets.
-     * Must call each time a new player decides to take the hot potato
+     * Updates the game status.
+     *
+     * @param [player] the actor who decided to accept the good at the current [turn]
      */
     private fun updateGame (player: Player) {
         chain.add(player)
         activePlayers.remove(player)
-        currentTurn += 1
+        turn += 1
     }
 
     /**
@@ -73,7 +81,10 @@ class Game (val potato: Potato,
     }
 
     /**
-     * Select the first player to start the game at random within the set.
+     * Select the first player to start the game. It is chosen at random within the set.
+     *
+     * @return the chosen player if it was willing to take the good, otherwise null
+     * (in this case the game will end immediately)
      */
     private fun findingStartingPlayer () : Player? {
         val randomPlayer = activePlayers.random()
