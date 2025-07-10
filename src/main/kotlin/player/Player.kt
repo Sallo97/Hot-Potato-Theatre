@@ -5,17 +5,23 @@ import org.example.game.Game
 /**
  * Represents the common abstract behavior of all types of players in the SHPG.
  *
+ * @property [id] unique identifier for the player.
  * @property [owns_potato] describes as a boolean if the player is the current holder of the hot potato good or not.
  * At the start a player hasn't the good.
  * @property [payoff] the payoff of the player. At the start it is always 0.
  * @constructor creates a player without the hot potato and with a payoff of 0.
  */
-abstract class Player {
-    // PROPERTIES
+abstract class Player (val id: Int){
     var owns_potato: Boolean = false
     var payoff: Int = 0
 
-    // METHODS
+    /**
+     * @return a string containing the player's information
+     */
+    fun getInformation() : String {
+        return "{ [id] = $id ; [payoff] = $payoff }"
+    }
+
     /**
      * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.
      *
@@ -43,7 +49,8 @@ abstract class Player {
      */
     fun exchangePotato (game:Game) : Player? {
         if (!owns_potato) {
-            error("A player can exchange the hot potato only if he/she is actually holding it!")
+            error("players is not holding the good right now." +
+                    "A player can exchange the hot potato only if he/she is holding it during the current turn!")
         }
 
         // Trying to find a good samaritan to take the good...
