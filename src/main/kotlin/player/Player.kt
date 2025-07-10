@@ -3,10 +3,12 @@ package org.example.player
 import org.example.game.Game
 
 /**
- * An abstract representation of a player in the SHPG.
- * A player is defined by its payoff and if it holds the hot potato or not.
- * Each player needs th have methods to decide if he/she accept the potato or not
- * and for proposing to other players to get the hot potato.
+ * Represents the common abstract behavior of all types of players in the SHPG.
+ *
+ * @property [owns_potato] describes as a boolean if the player is the current holder of the hot potato good or not.
+ * At the start a player hasn't the good.
+ * @property [payoff] the payoff of the player. At the start it is always 0.
+ * @constructor creates a player without the hot potato and with a payoff of 0.
  */
 abstract class Player {
     // PROPERTIES
@@ -15,46 +17,47 @@ abstract class Player {
 
     // METHODS
     /**
-     * Implements the behavior of the player in deciding either to take or not the hot potato good.
-     * This method is abstract since it strictly depends on the player.
+     * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.
+     *
+     * @param [game] represents the current game state, which could impact the choice.
+     * @return true if the player *chosen* to accept the good, false otherwise.
      */
     abstract fun decisionMaking (game: Game): Boolean
 
     /**
-     * It is called by other players if they want to propose the current player to take the hot potato or not.
-     * It returns a boolean stating if the player accepted or not.
+     * Handles the bargaining process of accepting or not a hot potato proposed by another player.
+     *
+     * @param [game] represents the current state of the game.
+     * @return true if the player *got* the hot potato, false otherwise.
      */
     fun acceptPotato (game: Game): Boolean {
         owns_potato = decisionMaking(game)
-        if (owns_potato) {
-            payoff += game.returnPayoff()  // TODO Not sure if the payoff should be granted before
-                                            // actually seeing if the player is able to exchange it.
-                                            // Also what if a player gets it and then is not able to exchange it?
-                                            // It gets both gain and loss?
-        }
         return owns_potato
     }
 
     /**
-     * Tries to find another player willing to take the hot potato.
+     * Search among the players who have not already got the hot potato, the first one willing to take it among them.
+     *
+     * @param [game] represents the current state of the game.
+     * @return the player that accepted the hot potato or null if no one was willing.
      */
     fun exchangePotato (game:Game) : Player? {
         if (!owns_potato) {
-            error("A player cannot try to exchange a potato only if he/she is actually holding one!")
+            error("A player can exchange the hot potato only if he/she is actually holding it!")
         }
 
-        // Trying to find a sucker...
+        // Trying to find a good samaritan to take the good...
         if (game.isPotatoAlive()) {
             for (p in game.activePlayers) {
                 if (p.acceptPotato(game)){
                     owns_potato = false
+                    payoff += game.returnPayoff()   // The player is not the last one, since it found a sucker willing to take it, thus it gets a gain to its payoff.
                     return p
                 }
             }
         }
 
-        // Sucker not found, the player has become the last one
-        payoff += game.returnPayoff(isLastPlayer = true)
+        payoff += game.returnPayoff(isLastPlayer = true)    // The player was not able to find another sucker, this it is the last player and gets a loss to its payoff.
         return null
     }
 
