@@ -47,18 +47,25 @@ abstract class Player {
         }
 
         // Trying to find a good samaritan to take the good...
+        var sucker: Player? = null
         if (game.isPotatoAlive()) {
             for (p in game.activePlayers) {
                 if (p.acceptPotato(game)){
-                    owns_potato = false
-                    payoff += game.returnPayoff()   // The player is not the last one, since it found a sucker willing to take it, thus it gets a gain to its payoff.
-                    return p
+                    sucker = p
                 }
             }
         }
 
-        payoff += game.returnPayoff(isLastPlayer = true)    // The player was not able to find another sucker, this it is the last player and gets a loss to its payoff.
-        return null
+        if (sucker != null) {
+            // The player is not the last one.
+            owns_potato = false
+            payoff += game.returnPayoff()
+        } else {
+            // The player is the last one.
+            payoff += game.returnPayoff(isLastPlayer = true)    // The player was not able to find another sucker, this it is the last player and gets a loss to its payoff.
+        }
+
+        return sucker
     }
 
 
