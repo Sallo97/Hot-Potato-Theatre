@@ -56,7 +56,7 @@ abstract class Player (val id: Int){
         // Trying to find a good samaritan to take the good...
         var sucker: Player? = null
         if (game.isPotatoAlive()) {
-            for (p in game.activePlayers) {
+            for (p in game.activePopulation) {
                 if (p.acceptPotato(game)){
                     sucker = p
                 }
@@ -74,7 +74,4 @@ abstract class Player (val id: Int){
 
         return sucker
     }
-
-
-
 }
