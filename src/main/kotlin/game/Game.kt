@@ -7,18 +7,20 @@ import org.example.potato.Potato
  * Implements the Simple Hot Potato Game.
  *
  * @property [potato] the hot potato good associated to the game.
- * @property [activePlayers] the non-ordered subset of players which at the current turn never got the good.
+ * @property [activePopulation] the non-ordered subset of players which at the current turn never got the good.
  * @property [chain] the ordered set of players which at the current turn already got the good.
  * @property [turn] the current turn of the game.
- * @constructor creates a game with the given [potato] and set [activePlayers] (which at the beginning are all the
+ * @property [numOfPlayers] the total number of players in the game.
+ * @constructor creates a game with the given [potato] and set [activePopulation] (which at the beginning are all the
  * players of the game).
  */
 class Game (
-    private val potato: Potato,
-    var activePlayers: MutableSet<Player>) {
+    val potato: Potato,
+    var activePopulation: MutableSet<Player>) {
 
     private var chain: MutableList<Player> = mutableListOf()   // Ordered sequence of players that did get the hot potato
-    private var turn: Int = 0
+    var turn: Int = 0
+    val numOfPlayers = activePopulation.size
 
     /**
      * Handles the game execution from start to end.
@@ -70,7 +72,7 @@ class Game (
      */
     private fun updateGame (player: Player) {
         chain.add(player)
-        activePlayers.remove(player)
+        activePopulation.remove(player)
         turn += 1
     }
 
@@ -102,7 +104,7 @@ class Game (
      * (in this case the game will end immediately)
      */
     private fun findingStartingPlayer () : Player? {
-        val randomPlayer = activePlayers.random()
+        val randomPlayer = activePopulation.random()
 
         return if(randomPlayer.acceptPotato(this)) {
             randomPlayer
