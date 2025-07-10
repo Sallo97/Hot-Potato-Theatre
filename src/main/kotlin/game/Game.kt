@@ -57,7 +57,8 @@ class Game (
      */
     fun isPotatoAlive () : Boolean{
         if (potato.lifetime < turn) {
-            error("the current turn cannot exceed the potato's lifetime")
+            error("ERROR! Potato's lifetime (${potato.lifetime}) < current turn ($turn).\n The good's lifetime  cannot " +
+                    "exceed the potato's lifetime ")
         }
         return potato.lifetime > turn
     }
@@ -74,10 +75,24 @@ class Game (
     }
 
     /**
-     * Prints all information to the user regarding the ending of the game
+     * Prints the all the results of ending the game.
      */
     private fun endGame () {
-        TODO("The programmer has taken a nap. Hold on programmer!")
+        var totalPayoff = 0
+
+        println("Game ended with the following:")
+
+        println("- potato's lifetime = ${potato.lifetime}\t turns = $turn")
+
+
+        print("- Chain of players that partake in the game:\t")
+        for (p in chain) {
+            print(p.getInformation() + "\t")
+            totalPayoff += p.payoff
+        }
+        println()
+
+        print("- Total payoff = $totalPayoff")
     }
 
     /**
