@@ -15,13 +15,6 @@ abstract class Player (val id: Int){
     var payoff: Int = 0
 
     /**
-     * @return a string containing the player's information
-     */
-    fun getInformation() : String {
-        return "{ [id] = $id ; [payoff] = $payoff }"
-    }
-
-    /**
      * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.
      *
      * @param [game] represents the current game state, which could impact the choice.
@@ -67,5 +60,9 @@ abstract class Player (val id: Int){
 
         payoff += game.returnPayoff(isLastPlayer = ownsPotato)
         return sucker
+    }
+
+    override fun toString() : String {
+        return "{id: $id; ownsPotato: $ownsPotato; payoff: $payoff}"
     }
 }
