@@ -42,7 +42,7 @@ fun choiceFromStdin(question: String) : String {
  * @return a correct input from stdin parsed as an absolute integer
  */
 fun absIntFromStdin(name: String) : Int {
-    var input: Int? = null
+    var input: Int?
     while(true){
         print("Input $name (will take the absolute value): ")
         input = readln().toIntOrNull()
