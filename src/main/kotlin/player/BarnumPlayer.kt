@@ -14,7 +14,7 @@ import kotlin.math.pow
  * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [prob] passed as argument.
  */
-class BarnumPlayer (id: Int, prob: Float) : Player(id) {
+class BarnumPlayer (id: Int, prob: Double) : Player(id) {
     val prob = if (prob <= 1.0 && prob >= 0) {
         prob
     } else {
@@ -38,5 +38,9 @@ class BarnumPlayer (id: Int, prob: Float) : Player(id) {
             return game.potato.ratio >= probRatio
         }
         return false
+    }
+
+    override fun toString(): String {
+        return "{id: $id; ownsPotato: $ownsPotato; payoff: $payoff; prob: $prob}"
     }
 }
