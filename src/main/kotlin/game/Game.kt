@@ -11,14 +11,12 @@ import org.example.potato.Potato
  * @property [chain] the ordered set of players which at the current turn already got the good.
  * @property [turn] the current turn of the game.
  * @property [numOfPlayers] the total number of players in the game.
- * @constructor creates a game with the given [potato] and set [activePopulation] (which at the beginning are all the
- * players of the game).
+ * @constructor creates a game with the given [potato] and population.
  */
 class Game (
     val potato: Potato,
     var activePopulation: MutableSet<Player>) {
-
-    private var chain: MutableList<Player> = mutableListOf()   // Ordered sequence of players that did get the hot potato
+    private var chain: MutableList<Player> = mutableListOf()
     var turn: Int = 0
     val numOfPlayers = activePopulation.size
 
@@ -38,12 +36,8 @@ class Game (
 
     /**
      * Gives the according payoff depending on if the player is the last one or not.
-     * Recall that a player is the last one either if the good reached the end of its life or no other player was
-     * willing to accept it.
      *
-     * @param [isLastPlayer] flag passed by a player depending on the fact that it found another player to take the good
-     * or not.
-     *
+     * @param [isLastPlayer] flag passed by a player to specify if it is the last player or not.
      * @return the player's payoff.
      */
     fun returnPayoff (isLastPlayer: Boolean = false) : Int {
@@ -55,11 +49,11 @@ class Game (
     }
 
     /**
-     * @return true if the [potato] as not reached its end-of-life, false otherwise
+     * @return true if the [potato] has not reached its end-of-life, false otherwise
      */
     fun isPotatoAlive () : Boolean{
         if (potato.lifetime < turn) {
-            error("ERROR! Potato's lifetime (${potato.lifetime}) < current turn ($turn).\n The good's lifetime  cannot " +
+            error("ERROR! Potato's lifetime (${potato.lifetime}) < current turn ($turn).\n The current turn  cannot " +
                     "exceed the potato's lifetime ")
         }
         return potato.lifetime > turn
@@ -77,7 +71,7 @@ class Game (
     }
 
     /**
-     * Prints the all the results of ending the game.
+     * Prints the state of the game (total payoff, final chain, etc...) after it finishes.
      */
     private fun endGame () {
         var totalPayoff = 0
