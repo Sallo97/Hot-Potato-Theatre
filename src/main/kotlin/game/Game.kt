@@ -78,17 +78,22 @@ class Game (
 
         println("Game ended with the following:")
 
-        println("- potato's lifetime = ${potato.lifetime}\t turns = $turn")
+        println("- Potato's lifetime = ${potato.lifetime}\t turns = $turn")
 
 
         print("- Chain of players that partake in the game:\t")
-        for (p in chain) {
-            print(p.getInformation() + "\t")
-            totalPayoff += p.payoff
+        if (chain.isEmpty()) {
+            print("∅")
+        } else {
+            for (p in chain) {
+                print(p.toString() + "\t")
+                totalPayoff += p.payoff
+            }
         }
+
         println()
 
-        print("- Total payoff = $totalPayoff")
+        println("- Total payoff = $totalPayoff")
     }
 
     /**
