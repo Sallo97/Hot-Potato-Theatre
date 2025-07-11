@@ -6,13 +6,12 @@ import org.example.game.Game
  * Represents the common abstract behavior of all types of players in the SHPG.
  *
  * @property [id] unique identifier for the player.
- * @property [owns_potato] describes as a boolean if the player is the current holder of the hot potato good or not.
- * At the start a player hasn't the good.
- * @property [payoff] the payoff of the player. At the start it is always 0.
+ * @property [ownsPotato] describes as a boolean if the player is the current holder of the hot potato good or not.
+ * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato and with a payoff of 0.
  */
 abstract class Player (val id: Int){
-    var owns_potato: Boolean = false
+    var ownsPotato: Boolean = false
     var payoff: Int = 0
 
     /**
@@ -37,19 +36,20 @@ abstract class Player (val id: Int){
      * @return true if the player *got* the hot potato, false otherwise.
      */
     fun acceptPotato (game: Game): Boolean {
-        owns_potato = decisionMaking(game)
-        return owns_potato
+        ownsPotato = decisionMaking(game)
+        return ownsPotato
     }
 
     /**
-     * Search among the players who have not already got the hot potato, the first one willing to take it among them.
+     * Search among the active population (i.e. those that did not already take the hot potato), the first one willing to
+     * take the good.
      *
      * @param [game] represents the current state of the game.
      * @return the player that accepted the hot potato or null if no one was willing.
      */
     fun exchangePotato (game:Game) : Player? {
-        if (!owns_potato) {
-            error("players is not holding the good right now." +
+        if (!ownsPotato) {
+            error("players is not holding the good right now.\n" +
                     "A player can exchange the hot potato only if he/she is holding it during the current turn!")
         }
 
@@ -59,19 +59,13 @@ abstract class Player (val id: Int){
             for (p in game.activePopulation) {
                 if (p.acceptPotato(game)){
                     sucker = p
+                    ownsPotato = false
+                    break
                 }
             }
         }
 
-        if (sucker != null) {
-            // The player is not the last one.
-            owns_potato = false
-            payoff += game.returnPayoff()
-        } else {
-            // The player is the last one.
-            payoff += game.returnPayoff(isLastPlayer = true)    // The player was not able to find another sucker, this it is the last player and gets a loss to its payoff.
-        }
-
+        payoff += game.returnPayoff(isLastPlayer = ownsPotato)
         return sucker
     }
 }
