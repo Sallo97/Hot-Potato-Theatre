@@ -10,4 +10,8 @@ package org.example.potato
  */
 data class Potato(val lifetime: Int, val gain:Int, val loss: Int) {
     val ratio : Double = gain.toDouble()/(-loss.toDouble())
+
+    override fun toString(): String {
+        return "{ Lifetime: $lifetime; gain: $gain; loss: $loss }"
+    }
 }
