@@ -6,29 +6,61 @@ import org.example.player.IrrationalPlayer
 import org.example.player.Player
 import org.example.player.RationalPlayer
 import org.example.potato.Potato
+import kotlin.math.absoluteValue
 
 fun main() {
     println("Welcome to Hot Potato Game!")
-    val game = createGame()
-    game.run()
-    println("Bye Bye!")
+    while (true) {
+        val game = createGameFromStdin()
+        game.run()
+
+        val choice = choiceFromStdin("Wanna play another game?")
+        if (choice == "n") {
+            break
+        }
+    }
+    println("Exiting, Bye Bye!")
 }
 
+/**
+ * @param [question] the question asked the user for which it needs to respond.
+ * @return either "y" or "n" depending on if the user agrees or not with the question
+ */
+fun choiceFromStdin(question: String) : String {
+    while(true) {
+        println("$question Press Y/y for Yes, N/n for No")
+        val choice = readln().lowercase()
+        if (choice == "n" || choice == "y") {
+            return choice
+        }
+        println("Invalid input, retrying...")
+    }
+}
+
+/**
+ * @param [name] the name of the argument requested to Stdin.
+ * @return a correct input from stdin parsed as an absolute integer
+ */
+fun absIntFromStdin(name: String) : Int {
+    var input: Int? = null
+    while(true){
+        print("Input $name (will take the absolute value): ")
+        input = readln().toIntOrNull()
+        if(input != null) {
+            return input.absoluteValue
+        }
+        println("Invalid input, retrying...")
+    }
+}
 
 /**
  * @return a Potato object with parameters coming from user's input.
  */
-fun createHotPotato() : Potato{
+fun createHotPotatoFromStdin() : Potato{
     println("Creating the hot potato...")
-    print("Lifetime = ")
-    val lifetime = readln().toInt()
-
-    print("Gain = ")
-    val gain = readln().toInt()
-
-    print("Loss = ")
-    val loss = -readln().toInt()
-
+    val lifetime = absIntFromStdin("lifetime")
+    val gain = absIntFromStdin("gain")
+    val loss = -absIntFromStdin("loss")
     val potato = Potato(lifetime, gain, loss)
     println("Created the potato: $potato")
     return potato
@@ -36,44 +68,54 @@ fun createHotPotato() : Potato{
 
 /**
  * Creates a player among the available archetypes.
- * @return the player object with parameters coming from user's input
+ * @return the Player object with parameters coming from user's input
  */
-fun createPlayer(id: Int = 0) : Player {
+fun createPlayerFromStdin(id: Int = 0) : Player {
     println("Creating player $id...")
     println("Select which type of player do you want between:")
     println("1 - Rational: never takes the good")
     println("2 - Irrational: always takes the good")
     println("3 - Barnum: is aware of the possibility of irrational actors among the population")
-    println("Input: ")
-    val type = readln().toInt()
-
-    val player = when (type) {
-        1 -> RationalPlayer(id)
-        2 -> IrrationalPlayer(id)
-        3 -> {
-            println("choose the probability that an alter can be another Barnum player (must be a value between 0 and 1: ")
-            val prob = readln().toDouble()
-            BarnumPlayer(id, prob)
+    var player: Player? = null
+    while(true) {
+        val type = absIntFromStdin("Player's type")
+        when (type) {
+            1 -> {
+                player = RationalPlayer(id)
+                break
             }
-        else -> error("Invalid input")
+            2 -> {
+                IrrationalPlayer(id)
+                break
+            }
+            3 -> {
+                println("choose the probability that an alter can be another Barnum player (must be a value between 0 and 1: ")
+                val prob = readln().toDouble()
+                player = BarnumPlayer(id, prob)
+                break
+            }
+
+            else -> {
+                println("Inserted type: $type is not in the valid range, retrying...")
+            }
+        }
     }
 
     println("Created the player: $player")
-    return player
+    return player?:error("in createPlayerFromStdin the player to return is null")
 }
 
 /**
- * @return the game object with parameters coming from user's input
+ * @return a Game object with parameters coming from user's input
  */
-fun createGame() : Game {
+fun createGameFromStdin() : Game {
     println("Creating game...")
-    val potato = createHotPotato()
+    val potato = createHotPotatoFromStdin()
 
-    print("Input number of players: ")
-    val numOfPlayers = readln().toInt()
+    val numOfPlayers = absIntFromStdin("number of players")
     val population = mutableSetOf<Player>()
     for (i in 1..numOfPlayers) {
-        val newPlayer = createPlayer(i)
+        val newPlayer = createPlayerFromStdin(i)
         population.add(newPlayer)
     }
 
