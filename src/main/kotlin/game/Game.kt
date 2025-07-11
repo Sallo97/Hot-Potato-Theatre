@@ -11,6 +11,8 @@ import org.example.potato.Potato
  * @property [chain] the ordered set of players which at the current turn already got the good.
  * @property [turn] the current turn of the game.
  * @property [numOfPlayers] the total number of players in the game.
+ * @property [numOfRemainingPlayers] the number of remaining player at the current turn (current player excluded).
+ * @property [totalPayoff] sum of the payoff of all players at the current turn.
  * @constructor creates a game with the given [potato] and population.
  */
 class Game (
@@ -19,6 +21,8 @@ class Game (
     private var chain: MutableList<Player> = mutableListOf()
     var turn: Int = 0
     val numOfPlayers = activePopulation.size
+    var numOfRemainingPlayers = numOfPlayers - 1
+    var totalPayoff = 0
 
     /**
      * Handles the game execution from start to end.
@@ -68,32 +72,33 @@ class Game (
         chain.add(player)
         activePopulation.remove(player)
         turn += 1
+        numOfRemainingPlayers -= 1
+        totalPayoff += player.payoff
     }
 
     /**
      * Prints the state of the game (total payoff, final chain, etc...) after it finishes.
      */
     private fun endGame () {
-        var totalPayoff = 0
 
         println("Game ended with the following:")
-
         println("- Potato's lifetime = ${potato.lifetime}\t turns = $turn")
+        println("- ${chainToString()}")
+        println("- Total payoff = $totalPayoff")
+    }
 
+    private fun chainToString() :String {
+        var str = "Chain of players that partake in the game:"
 
-        print("- Chain of players that partake in the game:\t")
         if (chain.isEmpty()) {
-            print("∅")
+            str += "∅"
         } else {
             for (p in chain) {
-                print(p.toString() + "\t")
-                totalPayoff += p.payoff
+                str += "$p "
             }
         }
 
-        println()
-
-        println("- Total payoff = $totalPayoff")
+        return str
     }
 
     /**
@@ -110,5 +115,9 @@ class Game (
         } else {
             null
         }
+    }
+
+    override fun toString(): String {
+        return "{ turn: $turn; numOfPlayers: $numOfPlayers; numOfRemainingPlayers: $numOfRemainingPlayers }"
     }
 }
