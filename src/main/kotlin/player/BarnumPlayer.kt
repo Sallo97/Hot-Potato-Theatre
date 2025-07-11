@@ -35,7 +35,8 @@ class BarnumPlayer (id: Int, prob: Double) : Player(id) {
             val probPow = prob.pow(game.numOfPlayers - game.turn - 1)
             val probRatio = probPow /  (1 - probPow)
 
-            return game.potato.ratio >= probRatio
+            val accept = game.potato.ratio >= probRatio
+            return accept
         }
         return false
     }
