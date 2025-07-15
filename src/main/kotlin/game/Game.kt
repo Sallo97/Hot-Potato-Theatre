@@ -11,7 +11,6 @@ import org.example.potato.Potato
  * @property [chain] the ordered set of players which at the current turn already got the good.
  * @property [turn] the current turn of the game.
  * @property [numOfPlayers] the total number of players in the game.
- * @property [numOfRemainingPlayers] the number of remaining player at the current turn (current player excluded).
  * @property [totalPayoff] sum of the payoff of all players at the current turn.
  * @constructor creates a game with the given [potato] and population.
  */
@@ -19,37 +18,22 @@ class Game (
     val potato: Potato,
     var activePopulation: MutableSet<Player>) {
     private var chain: MutableList<Player> = mutableListOf()
-    var turn: Int = 0
-    val numOfPlayers = activePopulation.size
-    var numOfRemainingPlayers = numOfPlayers - 1
+    var turn: UInt = 0u
+    val numOfPlayers: UInt = activePopulation.size.toUInt()
     var totalPayoff = 0
 
     /**
      * Handles the game execution from start to end.
      */
     fun run() {
-        var currentHolder = findingStartingPlayer()
+        var foundNewHolder = findingStartingPlayer()
 
-        while(currentHolder != null) {
-            updateGame(currentHolder)
-            currentHolder = currentHolder.exchangePotato(this)
+        while(foundNewHolder) {
+            updateGame()
+            foundNewHolder = potato.currentHolder!!.exchangePotato(this)
         }
 
         endGame()
-    }
-
-    /**
-     * Gives the according payoff depending on if the player is the last one or not.
-     *
-     * @param [isLastPlayer] flag passed by a player to specify if it is the last player or not.
-     * @return the player's payoff.
-     */
-    fun returnPayoff (isLastPlayer: Boolean = false) : Int {
-        return if (isLastPlayer) {
-            potato.loss
-        } else {
-            potato.gain
-        }
     }
 
     /**
@@ -68,12 +52,24 @@ class Game (
      *
      * @param [player] the actor who decided to accept the good at the current [turn]
      */
-    private fun updateGame (player: Player) {
-        chain.add(player)
-        activePopulation.remove(player)
-        turn += 1
-        numOfRemainingPlayers -= 1
-        totalPayoff += player.payoff
+    private fun updateGame () {
+        potato.currentHolder!!.let {
+            chain.add(it)
+            activePopulation.remove(it)
+        }
+        turn += 1u
+    }
+
+    /**
+     * @return the payoff associated to the player and updates totalPayoff accordingly.
+     * @param [isLastPlayer] flag passed by a player to specify if it is the last player or not.
+     *
+     */
+    fun getPayoff(isLastPlayer: Boolean = false) : Int {
+        val payoff = potato.getPayoff(isLastPlayer)
+        totalPayoff += payoff
+
+        return payoff
     }
 
     /**
@@ -107,17 +103,18 @@ class Game (
      * @return the chosen player if it was willing to take the good, otherwise null
      * (in this case the game will end immediately)
      */
-    private fun findingStartingPlayer () : Player? {
+    private fun findingStartingPlayer () : Boolean {
         val randomPlayer = activePopulation.random()
 
-        return if(randomPlayer.acceptPotato(this)) {
-            randomPlayer
+        if(randomPlayer.decideAcceptance(this)) {
+            potato.currentHolder = randomPlayer
+            return true
         } else {
-            null
+            return false
         }
     }
 
     override fun toString(): String {
-        return "{ turn: $turn; numOfPlayers: $numOfPlayers; numOfRemainingPlayers: $numOfRemainingPlayers }"
+        return "{ turn: $turn; numOfPlayers: $numOfPlayers; numOfRemainingPlayers: ${activePopulation.size} }"
     }
 }
