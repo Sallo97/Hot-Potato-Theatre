@@ -2,7 +2,7 @@ package org.example
 
 import org.example.game.Game
 import org.example.player.BarnumPlayer
-import org.example.player.IrrationalPlayer
+import org.example.player.GulliblePlayer
 import org.example.player.Player
 import org.example.player.RationalPlayer
 import org.example.potato.Potato
@@ -24,11 +24,11 @@ fun main() {
 
 /**
  * @param [question] the question asked the user for which it needs to respond.
- * @return either "y" or "n" depending on if the user agrees or not with the question
+ * @return either "y" or "n" depending on if the user agrees or not with [question]
  */
 fun choiceFromStdin(question: String) : String {
     while(true) {
-        println("$question Press Y/y for Yes, N/n for No")
+        print("$question Press Y/y for Yes, N/n for No: ")
         val choice = readln().lowercase()
         if (choice == "n" || choice == "y") {
             return choice
@@ -58,25 +58,24 @@ fun absIntFromStdin(name: String) : Int {
  */
 fun createHotPotatoFromStdin() : Potato{
     println("Creating the hot potato...")
-    val lifetime = absIntFromStdin("lifetime")
-    val gain = absIntFromStdin("gain")
-    val loss = -absIntFromStdin("loss")
+    val lifetime = absIntFromStdin("lifetime").toUInt()
+    val gain = absIntFromStdin("gain").toUInt()
+    val loss = absIntFromStdin("loss").toUInt()
     val potato = Potato(lifetime, gain, loss)
     println("Created the potato: $potato")
     return potato
 }
 
 /**
- * Creates a player among the available archetypes.
  * @return the Player object with parameters coming from user's input
  */
 fun createPlayerFromStdin(id: Int = 0) : Player {
     println("Creating player $id...")
     println("Select which type of player do you want between:")
     println("1 - Rational: never takes the good")
-    println("2 - Irrational: always takes the good")
+    println("2 - Gullible: always takes the good")
     println("3 - Barnum: is aware of the possibility of irrational actors among the population")
-    var player: Player? = null
+    var player: Player?
     while(true) {
         val type = absIntFromStdin("Player's type")
         when (type) {
@@ -85,7 +84,7 @@ fun createPlayerFromStdin(id: Int = 0) : Player {
                 break
             }
             2 -> {
-                IrrationalPlayer(id)
+                player = GulliblePlayer(id)
                 break
             }
             3 -> {
@@ -102,7 +101,7 @@ fun createPlayerFromStdin(id: Int = 0) : Player {
     }
 
     println("Created the player: $player")
-    return player?:error("in createPlayerFromStdin the player to return is null")
+    return player
 }
 
 /**
