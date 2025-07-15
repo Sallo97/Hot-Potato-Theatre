@@ -97,19 +97,30 @@ class Game (
 
     /**
      * Select the first player to start the game. It is chosen at random within the set.
-     *
-     * @return the chosen player if it was willing to take the good, otherwise null
-     * (in this case the game will end immediately)
+     * @param [tryAll] if true check over all the set for a willing player, otherwise will check only a single random
+     * player.
+     * @return true if a player was willing to accept the good, false otherwise.
      */
-    private fun findingStartingPlayer () : Boolean {
-        val randomPlayer = activePopulation.random()
+    private fun findingStartingPlayer (tryAll: Boolean = false) : Boolean {
+        var found: Player? = null
 
-        if(randomPlayer.decideAcceptance(this)) {
-            potato.currentHolder = randomPlayer
-            return true
+        if (tryAll) {
+            for (p in activePopulation) {
+                if(p.decideAcceptance(this)) {
+                    found = p
+                    break
+                }
+            }
         } else {
-            return false
+            val randomPlayer = activePopulation.random()
+
+            if(randomPlayer.decideAcceptance(this)) {
+                found = randomPlayer
+            }
         }
+
+        potato.currentHolder = found
+        return found != null
     }
 
     /**
