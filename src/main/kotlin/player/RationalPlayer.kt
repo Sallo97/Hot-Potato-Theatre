@@ -6,8 +6,6 @@ import org.example.game.Game
  * Represents a rational player in the SHPG.
  *
  * @property [id] unique identifier for the player.
- * @property [ownsPotato] describes as a boolean if the player is the current holder of the hot potato good or not.
- * At the start a player hasn't the good.
  * @property [payoff] the payoff of the player. At the start it is always 0.
  * @constructor creates a player without the hot potato and with a payoff of 0.
  */
@@ -18,7 +16,7 @@ class RationalPlayer(id: Int) : Player(id) {
      *
      * @return false, a rational player will never accept a hot potato good.
      */
-    override fun decisionMaking (game: Game) : Boolean {
+    override fun decideAcceptance (game: Game) : Boolean {
         return false
     }
 }
