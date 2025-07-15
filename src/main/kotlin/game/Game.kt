@@ -17,7 +17,7 @@ import org.example.potato.Potato
 class Game (
     val potato: Potato,
     var activePopulation: MutableSet<Player>) {
-    private var chain: MutableList<Player> = mutableListOf()
+    var chain: MutableList<Player> = mutableListOf()
     var turn: UInt = 0u
     val numOfPlayers: UInt = activePopulation.size.toUInt()
     var totalPayoff = 0
@@ -32,8 +32,6 @@ class Game (
             updateGame()
             foundNewHolder = potato.currentHolder!!.exchangePotato(this)
         }
-
-        endGame()
     }
 
     /**
@@ -73,14 +71,14 @@ class Game (
     }
 
     /**
-     * Prints the state of the game (total payoff, final chain, etc...) after it finishes.
+     * @return the final state of the game (total payoff, final chain, etc...).
      */
-    private fun endGame () {
-
-        println("Game ended with the following:")
-        println("- Potato's lifetime = ${potato.lifetime}\t turns = $turn")
-        println("- ${chainToString()}")
-        println("- Total payoff = $totalPayoff")
+    fun getEndGameInfo () : String {
+        val str = "Game ended with the following:\n" +
+        "- Potato's lifetime = ${potato.lifetime}\t turns = $turn\n" +
+        "- ${chainToString()}\n"
+        "- Total payoff = $totalPayoff\n"
+        return str
     }
 
     private fun chainToString() :String {
