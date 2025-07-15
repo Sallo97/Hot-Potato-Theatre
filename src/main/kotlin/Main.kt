@@ -3,6 +3,7 @@ package org.example
 import org.example.game.Game
 import org.example.player.BarnumPlayer
 import org.example.player.GulliblePlayer
+import org.example.player.MyopicPlayer
 import org.example.player.Player
 import org.example.player.RationalPlayer
 import org.example.potato.Potato
@@ -15,7 +16,7 @@ fun main() {
         game.run()
 
         val choice = choiceFromStdin("Wanna play another game?")
-        if (choice == "n") {
+        if (choice == "n"  ) {
             break
         }
     }
@@ -43,10 +44,27 @@ fun choiceFromStdin(question: String) : String {
  */
 fun absIntFromStdin(name: String) : Int {
     var input: Int?
-    while(true){
+    while(true) {
         print("Input $name (will take the absolute value): ")
         input = readln().toIntOrNull()
         if(input != null) {
+            return input.absoluteValue
+        }
+        println("Invalid input, retrying...")
+    }
+}
+
+/**
+ * @param [name] the name of the argument requested to Stdin.
+ * @param [range] the range in which the value must be inbetween (included)
+ * @return a correct input from stdin parsed as an absolute double
+ */
+fun absDoubleWithinRangeFromStdin(name: String, range: IntRange) : Double {
+    var input: Double?
+    while(true) {
+        print("Input $name (will take the absolute value): ")
+        input = readln().toDoubleOrNull()
+        if(input != null && range.contains(input.toInt())) {
             return input.absoluteValue
         }
         println("Invalid input, retrying...")
@@ -75,6 +93,8 @@ fun createPlayerFromStdin(id: Int = 0) : Player {
     println("1 - Rational: never takes the good")
     println("2 - Gullible: always takes the good")
     println("3 - Barnum: is aware of the possibility of irrational actors among the population")
+    println("4 - Myopic: if the remaining turns are larger than its threshold it behaves gullably, otherwise rationally")
+
     var player: Player?
     while(true) {
         val type = absIntFromStdin("Player's type")
@@ -88,11 +108,19 @@ fun createPlayerFromStdin(id: Int = 0) : Player {
                 break
             }
             3 -> {
-                println("choose the probability that an alter can be another Barnum player (must be a value between 0 and 1: ")
-                val prob = readln().toDouble()
+                println("choose : ")
+                val message = "the probability that other alters are Barnum players"
+                val prob = absDoubleWithinRangeFromStdin(message, IntRange(0, 1))
                 player = BarnumPlayer(id, prob)
                 break
             }
+            4 -> {
+                println("choose : ")
+                val threshold = absIntFromStdin("threshold").toUInt()
+                player = MyopicPlayer(id, threshold)
+                break
+            }
+
 
             else -> {
                 println("Inserted type: $type is not in the valid range, retrying...")
