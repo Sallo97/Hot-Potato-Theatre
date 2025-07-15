@@ -16,7 +16,7 @@ class GullibleTest: GameTest() {
                 this.add(player)
             }
         }
-        doGameTest(potato,
+        doExactGameTest(potato,
             players,
             1000u,
             1000,
@@ -31,7 +31,7 @@ class GullibleTest: GameTest() {
             val player = GulliblePlayer(1)
             this.add(player)
         }
-        doGameTest(potato,
+        doExactGameTest(potato,
             players,
             1u,
             1,

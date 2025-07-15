@@ -16,7 +16,7 @@ class RationalGame : GameTest(){
                this.add(player)
             }
         }
-        doGameTest(potato,
+        doExactGameTest(potato,
             players,
             0u,
             0,
@@ -31,7 +31,7 @@ class RationalGame : GameTest(){
             val player = RationalPlayer(1)
             this.add(player)
         }
-        doGameTest(potato,
+        doExactGameTest(potato,
             players,
             0u,
             0,
