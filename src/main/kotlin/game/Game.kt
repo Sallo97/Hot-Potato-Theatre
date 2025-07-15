@@ -17,7 +17,7 @@ import org.example.potato.Potato
 class Game (
     val potato: Potato,
     var activePopulation: MutableSet<Player>) {
-    var chain: MutableList<Player> = mutableListOf()
+    private var chain: MutableList<Player> = mutableListOf()
     var turn: UInt = 0u
     val numOfPlayers: UInt = activePopulation.size.toUInt()
     var totalPayoff = 0
@@ -110,6 +110,13 @@ class Game (
         } else {
             return false
         }
+    }
+
+    /**
+     * @return the chain size
+     */
+    fun getChainSize() : Int {
+        return chain.size
     }
 
     override fun toString(): String {
