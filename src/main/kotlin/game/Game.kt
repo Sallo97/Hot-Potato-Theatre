@@ -24,9 +24,11 @@ class Game (
 
     /**
      * Handles the game execution from start to end.
+     * @param [tryAll] if true for finding the starting player check over all the set for a willing player, otherwise
+     * will check only a single random player.
      */
-    fun run() {
-        var foundNewHolder = findingStartingPlayer()
+    fun run(tryAll: Boolean = false) {
+        var foundNewHolder = findingStartingPlayer(tryAll)
 
         while(foundNewHolder) {
             updateGame()
