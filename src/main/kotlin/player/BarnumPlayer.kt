@@ -13,13 +13,10 @@ import kotlin.math.pow
  * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [prob] passed as argument.
  */
-class BarnumPlayer (id: Int, prob: Double) : Player(id) {
-    val prob = if (prob <= 1.0 && prob >= 0) {
-        prob
-    } else {
-        error("prob = $prob must be a value between 0 and 1 (included)!")
+class BarnumPlayer (id: Int, val prob: Double) : Player(id) {
+    init {
+        require(prob in 0.0..1.0)
     }
-
     /**
      * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.
      * The decision of a Barnum player depends on the state of the game (the number of remaining players and
