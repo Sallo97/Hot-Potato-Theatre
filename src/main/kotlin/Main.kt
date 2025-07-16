@@ -6,6 +6,7 @@ import org.example.player.GulliblePlayer
 import org.example.player.MyopicPlayer
 import org.example.player.Player
 import org.example.player.RationalPlayer
+import org.example.player.StochasticPlayer
 import org.example.potato.Potato
 import kotlin.math.absoluteValue
 
@@ -95,6 +96,7 @@ fun createPlayerFromStdin(id: Int = 0) : Player {
     println("2 - Gullible: always takes the good")
     println("3 - Barnum: is aware of the possibility of irrational actors among the population")
     println("4 - Myopic: if the remaining turns are larger than its threshold it behaves gullably, otherwise rationally")
+    println("5 - Stochastic: interprets the decision as a static stochastic process.")
 
     var player: Player?
     while(true) {
@@ -109,16 +111,21 @@ fun createPlayerFromStdin(id: Int = 0) : Player {
                 break
             }
             3 -> {
-                println("choose : ")
                 val message = "the probability that other alters are Barnum players"
                 val prob = absDoubleWithinRangeFromStdin(message, IntRange(0, 1))
                 player = BarnumPlayer(id, prob)
                 break
             }
             4 -> {
-                println("choose : ")
                 val threshold = absIntFromStdin("threshold").toUInt()
                 player = MyopicPlayer(id, threshold)
+                break
+            }
+            5 -> {
+                val message = "weight, an hyperparameter between 0 and 1 which determines" +
+                        " how much weight the probability have."
+                val weight = absDoubleWithinRangeFromStdin(message, IntRange(0, 1))
+                player = StochasticPlayer(id, weight)
                 break
             }
 
