@@ -33,7 +33,7 @@ open class GameTest {
         assertEquals(expTurn, game.turn, "turn (${game.turn}) !=  expected($expTurn)")
         assertEquals(expChainSize, game.getChainSize(), "generated chain's size(${game.getChainSize()})\ndiffers from " +
                 "expected one($expChainSize)")
-        assertEquals(expTotalPayoff, game.totalPayoff, "totalPayoff(${game.totalPayoff} != " +
+        assertEquals(expTotalPayoff, game.totalPayoff, "totalPayoff(${game.totalPayoff}) != " +
                 "expected($expTotalPayoff)")
     }
 
