@@ -58,7 +58,7 @@ fun absIntFromStdin(name: String) : Int {
 
 /**
  * @param [name] the name of the argument requested to Stdin.
- * @param [range] the range in which the value must be inbetween (included)
+ * @param [range] the range of integers in which the value must be inbetween (included)
  * @return a correct input from stdin parsed as an absolute double
  */
 fun absDoubleWithinRangeFromStdin(name: String, range: IntRange) : Double {
