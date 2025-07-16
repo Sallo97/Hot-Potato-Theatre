@@ -27,13 +27,16 @@ class BarnumPlayer (id: Int, val prob: Double) : Player(id) {
      * @return true if the player *chosen* to accept the good, false otherwise.
      */
     override fun decideAcceptance(game: Game): Boolean {
-        if(game.isPotatoAlive() && game.activePopulation.isNotEmpty()) {
-            val probPow = prob.pow(game.activePopulation.size - 1)
-            val probRatio = probPow /  (1 - probPow)
+        val potato = game.potato
+        val remainingPlayers = game.activePopulation.size - 1   // all the remaining players except the current one
 
-            return game.potato.ratio >= probRatio
+        if(!game.isPotatoAlive() || remainingPlayers <= 0) {
+            return false
         }
-        return false
+
+        val probPow = prob.pow(game.activePopulation.size - 1)
+        val probRatio = probPow /  (1 - probPow)
+        return potato.ratio >= probRatio
     }
 
     override fun toString(): String {
