@@ -26,8 +26,8 @@ class MyopicPlayer(id: Int, val threshold: UInt) : Player(id) {
      */
     override fun decideAcceptance(game: Game): Boolean {
         val remainingLifespan = game.potato.lifetime - game.turn
-        val flag = min(game.activePopulation.size.toUInt(), remainingLifespan) > threshold
-        return flag
+        val acceptance = min(game.activePopulation.size.toUInt(), remainingLifespan) > threshold
+        return acceptance
     }
 
     override fun toString(): String {
