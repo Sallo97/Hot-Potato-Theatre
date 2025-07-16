@@ -6,12 +6,15 @@ import kotlin.math.pow
 /**
  * A Barnum player in the SHPG, i.e. an irrational player which views decisions as a static stochastic process.
  *
- * @property [weight] fixed hyperparameter to compute the probability.
+ * @property [weight] fixed hyperparameter to compute the probability. Must be a value between 0.0 and 1.0
  * @property [id] unique identifier for the player.
  * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [weight] passed as argument.
  */
 class StochasticPlayer(id: Int, val weight: Double) : Player(id) {
+    init {
+        require(weight in 0.0..1.0)
+    }
 
     /**
      * Determines the current probability that the chain ends at the current [turn]
