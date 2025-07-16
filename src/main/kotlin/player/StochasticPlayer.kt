@@ -50,7 +50,5 @@ class StochasticPlayer(id: Int, val rejectAlterBelief: Double = 0.5) : Player(id
 
         val decision = gainWeight >= lossWeight
         return decision
-
-
     }
 }
