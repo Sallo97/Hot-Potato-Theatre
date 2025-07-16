@@ -6,7 +6,7 @@ import org.example.potato.Potato
 import kotlin.random.Random
 import kotlin.test.Test
 
-class BarnumGameTest: GameTest() {
+class BarnumTest: GameTest() {
 
     @Test
     fun testBarnum1() {
