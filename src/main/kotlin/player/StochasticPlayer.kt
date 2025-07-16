@@ -4,26 +4,29 @@ import org.example.game.Game
 import kotlin.math.pow
 
 /**
- * A Barnum player in the SHPG, i.e. an irrational player which views decisions as a static stochastic process.
+ * A Stochastic player in the SHPG, i.e. an irrational player which views decisions as a static stochastic process.
  *
- * @property [weight] fixed hyperparameter to compute the probability. Must be a value between 0.0 and 1.0
+ * @property [rejectAlterBelief] the belief that an alter will reject the potato at the next turn.
  * @property [id] unique identifier for the player.
  * @property [payoff] the payoff of the player.
- * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [weight] passed as argument.
+ * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [rejectAlterBelief] passed as argument.
  */
-class StochasticPlayer(id: Int, val weight: Double) : Player(id) {
+class StochasticPlayer(id: Int, val rejectAlterBelief: Double = 0.5) : Player(id) {
     init {
-        require(weight in 0.0..1.0)
+        require(rejectAlterBelief in 0.0..1.0)
     }
 
     /**
-     * Determines the current probability that the chain ends at the current [turn]
-     *
-     * @return the computed probability value which must be between 0 and 1.
+     * @param [currentTurn] the number of the turn being played.
+     * @param [lifetime] the potato's lifetime
+     * @param [remainingPlayers] the number of active players (i.e. that could take the hot potato, this player included)
+     * @return the probability that the game will still continue(i.e. another player will take the potato).
      */
-    private fun terminationProb(turn: Int) : Double {
-        val pow = (1 - weight).pow(turn - 1)
-        return pow * weight
+    private fun continueProbability(currentTurn: UInt, lifetime: UInt, remainingPlayers: Int) : Double {
+        val remainingTurns = minOf(lifetime - currentTurn, (remainingPlayers - 1).toUInt())
+
+        val result = (1 - rejectAlterBelief).pow(remainingTurns.toInt())
+        return result
     }
 
     /**
@@ -34,10 +37,20 @@ class StochasticPlayer(id: Int, val weight: Double) : Player(id) {
      * @return true if the player *chosen* to accept the good, false otherwise.
      */
     override fun decideAcceptance(game: Game): Boolean {
-        val terminationProb = terminationProb(game.turn.toInt())
-        val gainWeight = (1 - terminationProb) * game.potato.gain.toDouble()
-        val lossWeight = terminationProb * game.potato.loss.toDouble()
-        val accept = gainWeight >= lossWeight
-        return accept
+        val potato = game.potato
+
+        val continueProbability = continueProbability(
+            game.turn,
+            potato.lifetime,
+            game.activePopulation.size)
+        val gainWeight = continueProbability * potato.gain.toDouble()
+
+        val endProbability = 1 - continueProbability
+        val lossWeight = endProbability * potato.loss.toInt()
+
+        val decision = gainWeight >= lossWeight
+        return decision
+
+
     }
 }
