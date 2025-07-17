@@ -38,7 +38,11 @@ class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val helpAlterBel
         val probAnotherAlterWillHelp = helpAlterBelief.pow(otherHelpers.toDouble())
 
         val gainWeight = potato.gain.toDouble() * (1 + (0.5 * altruism))
-        val lossWeight = potato.loss.toDouble() / (altruism * (1 - probAnotherAlterWillHelp))
+        val lossWeight = if (probAnotherAlterWillHelp != 1.0) {
+            potato.loss.toDouble() / (altruism * (1 - probAnotherAlterWillHelp))
+        } else {
+            potato.loss.toDouble()
+        }
 
         val decision = gainWeight >= lossWeight
         return decision
