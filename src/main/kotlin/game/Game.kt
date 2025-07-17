@@ -91,8 +91,22 @@ class Game (
      * @return the number of turns left before the end of the game.
      */
     fun getRemainingTurns() : Int {
-        val result = minOf(potato.lifetime - status.turn, getNumOfAvailablePlayers())
+        val result = minOf(potato.lifetime - status.turn, getNumOfAvailablePlayers() - 1)
         return result
+    }
+
+    /**
+     * @return the size of the chain of players that partake in the game.
+     */
+    fun getChainSize() : Int {
+        return status.chain.size
+    }
+
+    /**
+     * @return the sum of all player payoff
+     */
+    fun getTotalPayoff() : Int {
+        return status.totalPayoff
     }
 
     /**
