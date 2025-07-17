@@ -1,7 +1,6 @@
 package org.example.player
 
 import org.example.game.Game
-import kotlin.math.min
 
 /**
  * Represents a player whose rationality depends on [threshold]: if the current lifetime of the potato is greater than
