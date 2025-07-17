@@ -1,5 +1,7 @@
 package org.example.game
 
+import org.example.coalition.Coalition
+import org.example.player.CoalitionalPlayer
 import org.example.player.Player
 import org.example.potato.Potato
 
@@ -7,6 +9,7 @@ import org.example.potato.Potato
  * Implements the Simple Hot Potato Game.
  *
  * @property [potato] the hot potato good associated to the game.
+ * @property [coalition] the active coalition of coalitional players in the game.
  * @property [activePopulation] the non-ordered subset of players which at the current turn never got the good.
  * @property [chain] the ordered set of players which at the current turn already got the good.
  * @property [turn] the current turn of the game.
@@ -16,11 +19,17 @@ import org.example.potato.Potato
  */
 class Game (
     val potato: Potato,
-    var activePopulation: MutableSet<Player>) {
-    private var chain: MutableList<Player> = mutableListOf()
+    val activePopulation: MutableSet<Player>) {
+    val coalition: Coalition
+    private val chain: MutableList<Player> = mutableListOf()
     var turn: UInt = 0u
     val numOfPlayers: UInt = activePopulation.size.toUInt()
     var totalPayoff = 0
+
+    init {
+        val coalitionSetSize = activePopulation.filter { it is CoalitionalPlayer }.size.toUInt()
+        coalition = Coalition(coalitionSetSize)
+    }
 
     /**
      * Handles the game execution from start to end.
@@ -31,9 +40,37 @@ class Game (
         var foundNewHolder = findingStartingPlayer(tryAll)
 
         while(foundNewHolder) {
-            updateGame()
-            foundNewHolder = potato.currentHolder!!.exchangePotato(this)
+            val holder = potato.currentHolder!!
+            updateGame(holder)
+
+            foundNewHolder = holder.exchangePotato(this)
+            givePayoff(holder, foundNewHolder)
         }
+
+        // Game Ended, let the coalition split their total payoff among the members
+        coalition.splitTotalPayoff()
+    }
+
+    /**
+     * @return the final state of the game (total payoff, final chain, etc...).
+     */
+    fun getEndGameInfo () : String {
+        val str = "Game ended with the following:\n" +
+                "- Potato's lifetime = ${potato.lifetime}\t turns = $turn\n" +
+                "- ${chainToString()}\n"
+        "- Total payoff = $totalPayoff\n"
+        return str
+    }
+
+    /**
+     * @return the chain size
+     */
+    fun getChainSize() : Int {
+        return chain.size
+    }
+
+    override fun toString(): String {
+        return "{ turn: $turn; numOfPlayers: $numOfPlayers; numOfRemainingPlayers: ${activePopulation.size} }"
     }
 
     /**
@@ -50,37 +87,33 @@ class Game (
     /**
      * Updates the game status.
      *
-     * @param [player] the actor who decided to accept the good at the current [turn]
+     * @param [p] the actor who decided to accept the good at the current [turn]
      */
-    private fun updateGame () {
-        potato.currentHolder!!.let {
+    private fun updateGame (p: Player) {
+        p.let {
             chain.add(it)
             activePopulation.remove(it)
+            if (it is CoalitionalPlayer) {
+                coalition.addMember(it)
+            }
         }
         turn += 1u
     }
 
     /**
-     * @return the payoff associated to the player and updates totalPayoff accordingly.
-     * @param [isLastPlayer] flag passed by a player to specify if it is the last player or not.
-     *
+     * Gives the payoff to player [p] and updates game status. Be aware that if [p] is a coalitional player, then it
+     * gives the payoff to the coalition instead.
+     * @param [isLastPlayer] specifies of if [p] is the last player or not.
      */
-    fun getPayoff(isLastPlayer: Boolean = false) : Int {
+     private fun givePayoff(p:Player, isLastPlayer: Boolean = false) {
         val payoff = potato.getPayoff(isLastPlayer)
         totalPayoff += payoff
 
-        return payoff
-    }
-
-    /**
-     * @return the final state of the game (total payoff, final chain, etc...).
-     */
-    fun getEndGameInfo () : String {
-        val str = "Game ended with the following:\n" +
-        "- Potato's lifetime = ${potato.lifetime}\t turns = $turn\n" +
-        "- ${chainToString()}\n"
-        "- Total payoff = $totalPayoff\n"
-        return str
+        if (p !is CoalitionalPlayer) {
+            p.payoff += payoff
+        } else {
+            coalition.totalPayoff += payoff
+        }
     }
 
     private fun chainToString() :String {
@@ -123,16 +156,5 @@ class Game (
 
         potato.currentHolder = found
         return found != null
-    }
-
-    /**
-     * @return the chain size
-     */
-    fun getChainSize() : Int {
-        return chain.size
-    }
-
-    override fun toString(): String {
-        return "{ turn: $turn; numOfPlayers: $numOfPlayers; numOfRemainingPlayers: ${activePopulation.size} }"
     }
 }
