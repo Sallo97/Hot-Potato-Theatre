@@ -10,7 +10,7 @@ import org.example.game.Game
  * @constructor creates a player without the hot potato and with an initial payoff of 0.
  */
 abstract class Player (val id: Int){
-    var payoff: Int = 0
+    var payoff: Double = 0.0
 
     /**
      * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.
@@ -45,7 +45,6 @@ abstract class Player (val id: Int){
         }
 
         val isOwner = potato.isOwner(this)
-        payoff += game.getPayoff(isLastPlayer = isOwner)
         return !isOwner
 }
 
