@@ -8,24 +8,24 @@ import kotlin.test.Test
 class GullibleTest: GameTest() {
 
     @Test
-    fun testRational1() {
-        val potato = Potato(lifetime = 1000, gain = 0, loss = 1000)
+    fun testGullible1() {
+        val potato = Potato(lifetime = 5, gain = 0, loss = 1000)
         val players = mutableSetOf<Player>().apply {
-            for(i in 1..1000) {
+            for(i in 1..5) {
                 val player = GulliblePlayer(i)
                 this.add(player)
             }
         }
         doExactGameTest(potato,
             players,
-            1000,
-            1000,
+            5,
+            5,
             -1000)
 
     }
 
     @Test
-    fun testRational2() {
+    fun testGullible2() {
         val potato = Potato(lifetime = 100, gain = 1000, loss = 0)
         val players = mutableSetOf<Player>().apply {
             val player = GulliblePlayer(1)

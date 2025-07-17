@@ -26,7 +26,7 @@ class StochasticPlayer(id: Int, val rejectAlterBelief: Double = 0.5) : Player(id
      */
     override fun decideAcceptance(game: Game): Boolean {
         val potato = game.potato
-        val remainingTurns = game.getRemainingTurns()
+        val remainingTurns = game.getRemainingTurnsExceptCurrent()
 
         val continueProbability = (1 - rejectAlterBelief).pow(remainingTurns)
         val gainWeight = continueProbability * potato.gain
