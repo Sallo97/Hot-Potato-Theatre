@@ -9,6 +9,7 @@ import org.example.backend.potato.Potato
 /**
  * Implements the Simple Hot Potato Game.
  *
+ * @param[startingPopulation] the set of players of the game.
  * @property [potato] the hot potato good associated to the game.
  * @property [coalition] the active coalition of coalitional players in the game.
  * @property [status] keeps track of the state of the game.
@@ -16,13 +17,13 @@ import org.example.backend.potato.Potato
  */
 class Game (
     val potato: Potato,
-    activePopulation: MutableSet<Player>) {
+    startingPopulation: Set<Player>) {
 
     val coalition: Coalition
-    private val status : GameStatus = GameStatus(activePopulation)
+    private val status : GameStatus = GameStatus(startingPopulation as MutableSet)
 
     init {
-        val coalitionSetSize = activePopulation.filter { it is CoalitionalPlayer }.size.toUInt()
+        val coalitionSetSize = startingPopulation.filter { it is CoalitionalPlayer }.size.toUInt()
         coalition = Coalition(coalitionSetSize)
     }
 
