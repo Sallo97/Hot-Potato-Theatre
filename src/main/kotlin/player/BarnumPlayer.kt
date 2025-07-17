@@ -28,13 +28,13 @@ class BarnumPlayer (id: Int, val prob: Double) : Player(id) {
      */
     override fun decideAcceptance(game: Game): Boolean {
         val potato = game.potato
-        val remainingPlayers = game.activePopulation.size - 1   // all the remaining players except the current one
+        val remainingPlayers = game.getNumOfAvailablePlayers() - 1   // we remove the current one
 
         if(!game.isPotatoAlive() || remainingPlayers <= 0) {
             return false
         }
 
-        val probPow = prob.pow(game.activePopulation.size - 1)
+        val probPow = prob.pow(remainingPlayers)
         val probRatio = probPow /  (1 - probPow)
         return potato.ratio >= probRatio
     }

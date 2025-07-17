@@ -14,7 +14,7 @@ import kotlin.math.min
  * of the game is greater than [threshold], then it sees it as an infinite chain, otherwise it sees the end.
  * @constructor creates a player without the hot potato and with a payoff of 0.
  */
-class MyopicPlayer(id: Int, val threshold: UInt) : Player(id) {
+class MyopicPlayer(id: Int, val threshold: Int) : Player(id) {
 
     /**
      * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.
@@ -25,9 +25,11 @@ class MyopicPlayer(id: Int, val threshold: UInt) : Player(id) {
      * @return true if the player *chosen* to accept the good, false otherwise.
      */
     override fun decideAcceptance(game: Game): Boolean {
-        val remainingLifespan = game.potato.lifetime - game.turn
-        val acceptance = min(game.activePopulation.size.toUInt(), remainingLifespan) > threshold
-        return acceptance
+        val turn = game.getCurrentTurn()
+        val remainingTurns = minOf(game.potato.lifetime - turn, game.getNumOfAvailablePlayers())
+
+        val decision = remainingTurns > threshold
+        return decision
     }
 
     override fun toString(): String {

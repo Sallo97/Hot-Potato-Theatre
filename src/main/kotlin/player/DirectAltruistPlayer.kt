@@ -34,11 +34,14 @@ class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val helpAlterBel
      */
     override fun decideAcceptance(game: Game): Boolean {
         val potato = game.potato
-        val otherHelpers = minOf(potato.lifetime - game.turn, (game.activePopulation.size - 2).toUInt())
-        val probAnotherAlterWillHelp = helpAlterBelief.pow(otherHelpers.toDouble())
+        val turn: Int = game.getCurrentTurn()
+        val remainingPlayers: Int = game.getNumOfAvailablePlayers() - 2 // remove both current player and beneficiary.
 
-        val gainWeight = potato.gain.toDouble() * (1 + (0.5 * altruism))
-        val lossWeight = if (probAnotherAlterWillHelp != 1.0) {
+        val otherHelpers: Int = minOf(potato.lifetime - turn, (remainingPlayers))
+        val probAnotherAlterWillHelp: Double = helpAlterBelief.pow(otherHelpers)
+
+        val gainWeight: Double = potato.gain.toDouble() * (1 + (0.5 * altruism))
+        val lossWeight: Double = if (probAnotherAlterWillHelp != 1.0) {
             potato.loss.toDouble() / (altruism * (1 - probAnotherAlterWillHelp))
         } else {
             potato.loss.toDouble()
@@ -46,5 +49,9 @@ class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val helpAlterBel
 
         val decision = gainWeight > lossWeight
         return decision
+    }
+
+    override fun toString(): String {
+        return "{id: $id; payoff: $payoff; altruism: $altruism; helpAlterBelief: $helpAlterBelief }"
     }
 }

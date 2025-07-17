@@ -9,7 +9,7 @@ import org.example.game.Game
  * @property [acceptanceToRisk] how much the current players is willing to risk accepting the potato for the proposed
  * coalition. Is a value between 0 and 1. Default value is 1/2.
  * @property [payoff] the payoff of the player.
- * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [alterAcceptBelief] passed as argument.
+ * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [acceptanceToRisk] passed as argument.
  */
 class CoalitionalPlayer(id:Int, val acceptanceToRisk: Double) : Player(id) {
     init {
@@ -40,5 +40,9 @@ class CoalitionalPlayer(id:Int, val acceptanceToRisk: Double) : Player(id) {
             bestCasePayoff * acceptanceToRisk > potato.loss.toDouble()
         }
         return decision
+    }
+
+    override fun toString(): String {
+        return "{id: $id; payoff: $payoff; acceptanceToRisk: $acceptanceToRisk}"
     }
 }

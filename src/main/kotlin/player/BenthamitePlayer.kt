@@ -20,21 +20,29 @@ class BenthamitePlayer(id: Int, val alterAcceptBelief: Double = 0.5) : Player(id
 
     /**
      * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.
-     * The decision of a Benthamite player depends on how much the player is willing to increased the total payoff.
+     * The decision of a Benthamite player depends on how much the player is willing to increase the total payoff.
      *
      * @param [game] represents the current game state, which impacts the choice.
      * @return true if the player *chosen* to accept the good, false otherwise.
      */
     override fun decideAcceptance(game: Game): Boolean {
         val potato = game.potato
-        val remainingTurns = minOf(potato.lifetime - game.turn, game.activePopulation.size.toUInt() - 1u)
+        val turn = game.getCurrentTurn()
+        val remainingPlayers = game.getNumOfAvailablePlayers() - 1 // remove the current player
 
-        val probAnotherAlterWillAccept = alterAcceptBelief.pow(remainingTurns.toInt())
+        val remainingTurns = minOf(potato.lifetime - turn, remainingPlayers)
 
-        val gainWeight = (potato.gain.toDouble() * remainingTurns.toDouble() * (1 - probAnotherAlterWillAccept)) - potato.loss.toDouble()
+        val probAnotherAlterWillAccept = alterAcceptBelief.pow(remainingTurns)
+
+        val gainWeight = (potato.gain.toDouble() * remainingTurns.toDouble()
+                * (1 - probAnotherAlterWillAccept)) - potato.loss.toDouble()
         val lossWeight = potato.loss.toDouble()
 
         val decision = gainWeight > lossWeight
         return decision
+    }
+
+    override fun toString(): String {
+        return "{id: $id; payoff: $payoff; alterAcceptBelief: $alterAcceptBelief}"
     }
 }
