@@ -44,7 +44,7 @@ class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val helpAlterBel
             potato.loss.toDouble()
         }
 
-        val decision = gainWeight >= lossWeight
+        val decision = gainWeight > lossWeight
         return decision
     }
 }

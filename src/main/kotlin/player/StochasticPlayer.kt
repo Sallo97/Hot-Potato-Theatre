@@ -48,7 +48,7 @@ class StochasticPlayer(id: Int, val rejectAlterBelief: Double = 0.5) : Player(id
         val endProbability = 1 - continueProbability
         val lossWeight = endProbability * potato.loss.toInt()
 
-        val decision = gainWeight >= lossWeight
+        val decision = gainWeight > lossWeight
         return decision
     }
 }
