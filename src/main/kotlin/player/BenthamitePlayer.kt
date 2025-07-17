@@ -27,10 +27,7 @@ class BenthamitePlayer(id: Int, val alterAcceptBelief: Double = 0.5) : Player(id
      */
     override fun decideAcceptance(game: Game): Boolean {
         val potato = game.potato
-        val turn = game.getCurrentTurn()
-        val remainingPlayers = game.getNumOfAvailablePlayers() - 1 // remove the current player
-
-        val remainingTurns = minOf(potato.lifetime - turn, remainingPlayers)
+        val remainingTurns = game.getRemainingTurnsExceptCurrent()
 
         val probAnotherAlterWillAccept = alterAcceptBelief.pow(remainingTurns)
 

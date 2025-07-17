@@ -34,10 +34,8 @@ class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val helpAlterBel
      */
     override fun decideAcceptance(game: Game): Boolean {
         val potato = game.potato
-        val turn: Int = game.getCurrentTurn()
-        val remainingPlayers: Int = game.getNumOfAvailablePlayers() - 2 // remove both current player and beneficiary.
 
-        val otherHelpers: Int = minOf(potato.lifetime - turn, (remainingPlayers))
+        val otherHelpers = game.getRemainingTurnsWithCurrent() - 2 // remove both current player and beneficiary.
         val probAnotherAlterWillHelp: Double = helpAlterBelief.pow(otherHelpers)
 
         val gainWeight: Double = potato.gain.toDouble() * (1 + (0.5 * altruism))
