@@ -26,7 +26,7 @@ open class GameTest {
                         expTurn: Int,
                         expChainSize: Int,
                         expTotalPayoff:Int,
-                        tryAll: Boolean = false) {
+                        tryAll: Boolean = true) {
         val game = Game(potato, players)
         game.run(tryAll)
 
@@ -55,7 +55,7 @@ open class GameTest {
                       expTurn: Int,
                       expChainSize: Int,
                       expTotalPayoff:Int,
-                      tryAll: Boolean = false) {
+                      tryAll: Boolean = true) {
         val game = Game(potato, players)
         game.run(tryAll)
 
