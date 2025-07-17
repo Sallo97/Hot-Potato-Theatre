@@ -7,11 +7,11 @@ import kotlin.random.Random
 import kotlin.test.Test
 
 class BarnumTest: GameTest() {
+    val potato = Potato(lifetime = 5, gain = 5, loss = 10)
 
     @Test
     fun testBarnum1() {
         // All players have prob = 1, meaning they behave as rational players.
-        val potato = Potato(lifetime = 5u, gain = 5u, loss = 10u)
         val players = mutableSetOf<Player>().apply {
             for (i in 1..10) {
                 val player = BarnumPlayer(i, prob = 1.0)
@@ -21,7 +21,7 @@ class BarnumTest: GameTest() {
 
         doExactGameTest(potato,
             players,
-            0u,
+            0,
             0,
             0)
     }
@@ -29,7 +29,6 @@ class BarnumTest: GameTest() {
     @Test
     fun testBarnum2() {
         // All players have prob = 0, meaning they behave as gullible players.
-        val potato = Potato(lifetime = 5u, gain = 5u, loss = 10u)
         val players = mutableSetOf<Player>().apply {
             for (i in 1..10) {
                 val player = BarnumPlayer(i, prob = 0.0)
@@ -39,7 +38,7 @@ class BarnumTest: GameTest() {
 
         doExactGameTest(potato,
             players,
-            5u,
+            5,
             5,
             10)
     }
@@ -47,7 +46,6 @@ class BarnumTest: GameTest() {
     @Test
     fun testBarnum3() {
         // All players have random prob except one with prob = 1
-        val potato = Potato(5u, 5u, 10u)
         val players = mutableSetOf<Player>().apply {
             for (i in 1..4) {
                 val randProb = Random.nextDouble(0.0, 1.0 + Double.MIN_VALUE)
@@ -60,7 +58,7 @@ class BarnumTest: GameTest() {
 
         doGEGameTest(potato,
             players,
-            1u,
+            1,
             1,
         -10,
             true)

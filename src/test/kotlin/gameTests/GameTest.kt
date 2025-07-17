@@ -23,17 +23,20 @@ open class GameTest {
      */
     fun doExactGameTest(potato: Potato,
                         players: MutableSet<Player>,
-                        expTurn: UInt,
+                        expTurn: Int,
                         expChainSize: Int,
                         expTotalPayoff:Int,
                         tryAll: Boolean = false) {
         val game = Game(potato, players)
         game.run(tryAll)
 
-        assertEquals(expTurn, game.turn, "turn (${game.turn}) !=  expected($expTurn)")
-        assertEquals(expChainSize, game.getChainSize(), "generated chain's size(${game.getChainSize()})\ndiffers from " +
+        val turn = game.getCurrentTurn()
+        val chainSize = game.getChainSize()
+        val totalPayoff = game.getTotalPayoff()
+        assertEquals(expTurn, turn, "turn (${turn}) !=  expected($expTurn)")
+        assertEquals(expChainSize, chainSize, "generated chain's size(${chainSize})\ndiffers from " +
                 "expected one($expChainSize)")
-        assertEquals(expTotalPayoff, game.totalPayoff, "totalPayoff(${game.totalPayoff}) != " +
+        assertEquals(expTotalPayoff, totalPayoff, "totalPayoff($totalPayoff) != " +
                 "expected($expTotalPayoff)")
     }
 
@@ -49,17 +52,20 @@ open class GameTest {
      */
     fun doGEGameTest(potato: Potato,
                       players: MutableSet<Player>,
-                      expTurn: UInt,
+                      expTurn: Int,
                       expChainSize: Int,
                       expTotalPayoff:Int,
                       tryAll: Boolean = false) {
         val game = Game(potato, players)
         game.run(tryAll)
 
-        assertTrue(game.turn >= expTurn, "turn (${game.turn}) isn't >=  expected($expTurn)")
-        assertTrue(game.getChainSize() >= expTotalPayoff, "generated chain's size(${game.getChainSize()}) isn't >= " +
+        val turn = game.getCurrentTurn()
+        val chainSize = game.getChainSize()
+        val totalPayoff = game.getTotalPayoff()
+        assertTrue(turn >= expTurn, "turn ($turn) isn't >=  expected($expTurn)")
+        assertTrue(chainSize >= expTotalPayoff, "generated chain's size($chainSize) isn't >= " +
                 "expected one($expChainSize")
-        assertTrue(game.totalPayoff >= expTotalPayoff, "totalPayoff(${game.totalPayoff} isn't >= " +
+        assertTrue(totalPayoff >= expTotalPayoff, "totalPayoff($totalPayoff isn't >= " +
                 "expected($expTotalPayoff)")
 
     }

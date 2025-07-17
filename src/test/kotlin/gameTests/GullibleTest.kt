@@ -9,7 +9,7 @@ class GullibleTest: GameTest() {
 
     @Test
     fun testRational1() {
-        val potato = Potato(lifetime = 1000u, gain = 0u, loss = 1000u)
+        val potato = Potato(lifetime = 1000, gain = 0, loss = 1000)
         val players = mutableSetOf<Player>().apply {
             for(i in 1..1000) {
                 val player = GulliblePlayer(i)
@@ -18,7 +18,7 @@ class GullibleTest: GameTest() {
         }
         doExactGameTest(potato,
             players,
-            1000u,
+            1000,
             1000,
             -1000)
 
@@ -26,14 +26,14 @@ class GullibleTest: GameTest() {
 
     @Test
     fun testRational2() {
-        val potato = Potato(lifetime = 100u, gain = 1000u, loss = 0u)
+        val potato = Potato(lifetime = 100, gain = 1000, loss = 0)
         val players = mutableSetOf<Player>().apply {
             val player = GulliblePlayer(1)
             this.add(player)
         }
         doExactGameTest(potato,
             players,
-            1u,
+            1,
             1,
             0)
 
