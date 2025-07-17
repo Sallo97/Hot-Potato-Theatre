@@ -228,7 +228,7 @@ private fun getPlayerTypeFromStdin() : Int {
             "5 - Stochastic: interprets the decision as a static stochastic process\n" +
             "6 - Direct Altruist: concerned with the well-being of another player. For sake of simplicity we assume the beneficiary is always an alter that still has to get the hot potato\n" +
             "7 - Benthamite: focused on maximizing the total payoff of the game. Still it is aware that other player could take the risk\n" +
-            "8 - Coalitional: concerned in forming a coalition with other players of the same type in order to get a better payoff\n"
+            "8 - Coalitional: concerned in forming a coalition with other players of the same type in order to get a better payoff"
     println(typeOfPlayerMsg)
 
     val type: Int = absIntWithinRangeFromStdin("player type", 1..8)
