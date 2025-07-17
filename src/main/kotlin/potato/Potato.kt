@@ -12,7 +12,7 @@ import org.example.player.Player
  * @property [currentHolder] the current player holding the potato. At the start no one holds it.
  * We interpret gain and loss value as dollars for sake of simplicity
  */
-data class Potato(val lifetime:UInt, val gain:UInt, val loss:UInt) {
+data class Potato(val lifetime:Int, val gain:Int, val loss:Int) {
     val ratio : Double = gain.toDouble()/(loss.toDouble())
     var currentHolder: Player? = null
 
@@ -28,16 +28,9 @@ data class Potato(val lifetime:UInt, val gain:UInt, val loss:UInt) {
      */
     fun getPayoff (isLastPlayer: Boolean = false) : Int {
         return if (isLastPlayer) {
-            -loss.toInt()
+            -loss
         } else {
-            gain.toInt()
+            gain
         }
-    }
-
-    /**
-     * @return true if [p] is the current holder, false otherwise.
-     */
-    fun isOwner(p: Player) : Boolean {
-        return p == currentHolder
     }
 }
