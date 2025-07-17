@@ -27,7 +27,7 @@ class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val helpAlterBel
 
     /**
      * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.
-     * The decision of a Stochastic player depends on the probability that the game could end at the current turn.
+     * The decision of a Direct Altruist player depends on how much it is interested in helping the beneficiary.
      *
      * @param [game] represents the current game state, which impacts the choice.
      * @return true if the player *chosen* to accept the good, false otherwise.
