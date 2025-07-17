@@ -4,6 +4,7 @@ import org.example.player.Player
 
 /**
  * Defines a hot potato object.
+ *
  * @property [lifetime] the number of turn in which the hot potato is still valid (i.e. the payoff is a gain).
  * @property [gain] the payoff for all players that take the hot potato and are not the last player. It is always positive.
  * @property [loss] the payoff for the last player that takes the hot potato. It is always negative.
