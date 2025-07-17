@@ -16,18 +16,6 @@ class StochasticPlayer(id: Int, val rejectAlterBelief: Double = 0.5) : Player(id
         require(rejectAlterBelief in 0.0..1.0)
     }
 
-    /**
-     * @param [currentTurn] the number of the turn being played.
-     * @param [lifetime] the potato's lifetime
-     * @param [remainingPlayers] the number of active players (i.e. that could take the hot potato, this player included)
-     * @return the probability that the game will still continue(i.e. another player will take the potato).
-     */
-    private fun continueProbability(currentTurn: UInt, lifetime: UInt, remainingPlayers: Int) : Double {
-        val remainingTurns = minOf(lifetime - currentTurn, (remainingPlayers - 1).toUInt())
-
-        val result = (1 - rejectAlterBelief).pow(remainingTurns.toInt())
-        return result
-    }
 
     /**
      * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.
@@ -38,15 +26,13 @@ class StochasticPlayer(id: Int, val rejectAlterBelief: Double = 0.5) : Player(id
      */
     override fun decideAcceptance(game: Game): Boolean {
         val potato = game.potato
+        val remainingTurns = game.getRemainingTurns()
 
-        val continueProbability = continueProbability(
-            game.turn,
-            potato.lifetime,
-            game.activePopulation.size)
-        val gainWeight = continueProbability * potato.gain.toDouble()
+        val continueProbability = (1 - rejectAlterBelief).pow(remainingTurns)
+        val gainWeight = continueProbability * potato.gain
 
         val endProbability = 1 - continueProbability
-        val lossWeight = endProbability * potato.loss.toInt()
+        val lossWeight = endProbability * potato.loss
 
         val decision = gainWeight > lossWeight
         return decision
