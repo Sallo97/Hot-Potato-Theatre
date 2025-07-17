@@ -39,7 +39,7 @@ class Game (
             updateGame(holder)
 
             foundNewHolder = findingWillingPlayer(tryAll)
-            givePayoff(holder, foundNewHolder)
+            givePayoff(holder, !foundNewHolder)
         }
 
         // Game Ended, let the coalition split their total payoff among the members
@@ -88,10 +88,18 @@ class Game (
     }
 
     /**
-     * @return the number of turns left before the end of the game.
+     * @return the number of turns left not counting current one before the end of the game.
      */
-    fun getRemainingTurns() : Int {
-        val result = minOf(potato.lifetime - status.turn, getNumOfAvailablePlayers() - 1)
+    fun getRemainingTurnsWithCurrent() : Int {
+        val result = minOf(potato.lifetime - status.turn, getNumOfAvailablePlayers())
+        return result
+    }
+
+    /**
+     * @return the number of turns left not counting current one before the end of the game.
+     */
+    fun getRemainingTurnsExceptCurrent() : Int {
+        val result = getRemainingTurnsWithCurrent() - 1
         return result
     }
 
@@ -146,7 +154,7 @@ class Game (
      * @return true if a new player to exchange the good was found, false otherwise.
      */
     private fun findingWillingPlayer(askAll: Boolean) : Boolean {
-        if (getRemainingTurns() <= 0) {
+        if (getRemainingTurnsWithCurrent() <= 0) {
             return false
         }
 
