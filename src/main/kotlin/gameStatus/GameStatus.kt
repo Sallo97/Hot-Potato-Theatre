@@ -23,9 +23,9 @@ data class GameStatus(
      * updates the game status after a turn has been played.
      */
     fun updateStatus(p: Player) {
+        turn++
         chain.add(p)
         activePopulation.remove(p)
-        turn += 1
     }
 
     fun chainToString() :String {
