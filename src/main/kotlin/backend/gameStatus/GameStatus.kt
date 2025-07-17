@@ -1,6 +1,6 @@
-package org.example.gameStatus
+package org.example.backend.gameStatus
 
-import org.example.player.Player
+import org.example.backend.player.Player
 
 /**
  * Contains useful information regarding the status of a SHPG

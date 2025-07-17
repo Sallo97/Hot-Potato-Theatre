@@ -1,6 +1,6 @@
-package org.example.player
+package org.example.backend.player
 
-import org.example.game.Game
+import org.example.backend.game.Game
 
 /**
  * Represents an irrational player in the SHPG, i.e. one which will always take the good if asked.

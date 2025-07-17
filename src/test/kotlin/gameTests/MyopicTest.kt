@@ -1,8 +1,8 @@
 package gameTests
 
-import org.example.player.MyopicPlayer
-import org.example.player.Player
-import org.example.potato.Potato
+import org.example.backend.player.MyopicPlayer
+import org.example.backend.player.Player
+import org.example.backend.potato.Potato
 import kotlin.test.Test
 
 class MyopicTest : GameTest() {

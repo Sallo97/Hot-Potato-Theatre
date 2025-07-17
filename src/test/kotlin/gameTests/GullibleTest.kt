@@ -1,8 +1,8 @@
 package gameTests
 
-import org.example.player.GulliblePlayer
-import org.example.player.Player
-import org.example.potato.Potato
+import org.example.backend.player.GulliblePlayer
+import org.example.backend.player.Player
+import org.example.backend.potato.Potato
 import kotlin.test.Test
 
 class GullibleTest: GameTest() {

@@ -1,8 +1,8 @@
 package gameTests
 
-import org.example.player.Player
-import org.example.player.StochasticPlayer
-import org.example.potato.Potato
+import org.example.backend.player.Player
+import org.example.backend.player.StochasticPlayer
+import org.example.backend.potato.Potato
 import kotlin.test.Test
 
 class StochasticTest : GameTest() {

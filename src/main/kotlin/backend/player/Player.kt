@@ -1,6 +1,6 @@
-package org.example.player
+package org.example.backend.player
 
-import org.example.game.Game
+import org.example.backend.game.Game
 
 /**
  * Represents the common abstract behavior of all types of players in the SHPG.

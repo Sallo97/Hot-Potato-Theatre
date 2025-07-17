@@ -1,6 +1,6 @@
-package org.example.player
+package org.example.backend.player
 
-import org.example.game.Game
+import org.example.backend.game.Game
 
 /**
  * A Coalitional player in the SHPG, i.e. an irrational player concerned in forming a coalition with other players of the
