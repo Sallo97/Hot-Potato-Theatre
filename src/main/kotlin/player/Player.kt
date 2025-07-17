@@ -20,34 +20,6 @@ abstract class Player (val id: Int){
      */
     abstract fun decideAcceptance (game: Game): Boolean
 
-    /**
-     * Search among the active population (i.e. those that did not already take the hot potato), the first one willing to
-     * take the good.
-     *
-     * @param [game] represents the current state of the game.
-     * @return true if a new player to exchange the good was found, false otherwise
-     */
-    fun exchangePotato (game:Game) : Boolean {
-        val potato = game.potato
-        if (!potato.isOwner(this)) {
-            error("players is not holding the good right now.\n" +
-                    "A player can exchange the hot potato only if he/she is holding it during the current turn!")
-        }
-
-        // Trying to find a good samaritan to take the good...
-        if (game.isPotatoAlive()) {
-            for (p in game.activePopulation) {
-                if (p.decideAcceptance(game)){
-                    potato.currentHolder = p
-                    break
-                }
-            }
-        }
-
-        val isOwner = potato.isOwner(this)
-        return !isOwner
-}
-
     override fun toString() : String {
         return "{id: $id; payoff: $payoff}"
     }
