@@ -17,7 +17,7 @@ data class GameStatus(
     val chain: MutableList<Player> = mutableListOf()
     var turn: Int = 0
     val numOfPlayers: Int = activePopulation.size
-    var totalPayoff: Int = 0
+    var totalPayoff: Double = 0.0
 
     /**
      * updates the game status after a turn has been played.
