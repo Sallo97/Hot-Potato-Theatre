@@ -53,8 +53,9 @@ class Game (
     fun getEndGameInfo () : String {
         val str = "Game ended with the following:\n" +
                 "- Potato's lifetime = ${potato.lifetime}\t turns = ${status.turn}\n" +
-                "- ${status.chainToString()}\n"
-        "- Total payoff = ${status.totalPayoff}\n"
+                "- ${status.chainToString()}\n" +
+                "- Total payoff = ${status.totalPayoff}\n" +
+                "- Coalition = $coalition\n"
         return str
     }
 
