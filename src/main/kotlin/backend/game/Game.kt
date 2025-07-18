@@ -23,7 +23,7 @@ class Game (
     private val status : GameStatus = GameStatus(startingPopulation as MutableSet)
 
     init {
-        val coalitionSetSize = startingPopulation.filter { it is CoalitionalPlayer }.size.toUInt()
+        val coalitionSetSize = startingPopulation.filter { it is CoalitionalPlayer }.size
         coalition = Coalition(coalitionSetSize)
     }
 
@@ -48,20 +48,29 @@ class Game (
     }
 
     /**
-     * @return the final state of the game (total payoff, final chain, etc...).
+     * @return true if the game ended, false otherwise.
      */
-    fun getEndGameInfo () : String {
-        val str = "Game ended with the following:\n" +
-                "- Potato's lifetime = ${potato.lifetime}\t turns = ${status.turn}\n" +
-                "- ${status.chainToString()}\n" +
-                "- Total payoff = ${status.totalPayoff}\n" +
-                "- Coalition = $coalition\n"
-        return str
+    fun isGameEnded() : Boolean {
+        val result = getRemainingTurnsWithCurrent() == 0
+        return result
     }
 
-    override fun toString(): String {
-        return "{ turn: ${status.turn}; numOfPlayers: ${status.numOfPlayers}; " +
-                "numOfRemainingPlayers: ${status.activePopulation.size} }"
+    /**
+     * @return the final state of the game (total payoff, final chain, etc...).
+     */
+    override fun toString () : String {
+        var str = if (isGameEnded()) {
+            "Ongoing game with:\n" +
+                    "- current turn = ${getCurrentTurn()}\n" +
+                    "- turns left (not counting current) = ${getRemainingTurnsExceptCurrent()}\n"
+        } else {
+            "Game ended with:\n" +
+                    "- total number of turns = ${getCurrentTurn()}\n"
+        }
+        str +=  "- Total payoff = ${status.totalPayoff}\n" +
+                "- ${status.chainToString()}\n" +
+                "- Coalition = $coalition\n"
+        return str
     }
 
     /**
@@ -90,7 +99,7 @@ class Game (
     }
 
     /**
-     * @return the number of turns left not counting current one before the end of the game.
+     * @return the number of turns left counting also the current one .
      */
     fun getRemainingTurnsWithCurrent() : Int {
         val result = minOf(potato.lifetime - status.turn, getNumOfAvailablePlayers())
@@ -98,7 +107,7 @@ class Game (
     }
 
     /**
-     * @return the number of turns left not counting current one before the end of the game.
+     * @return the number of turns left not counting the current one.
      */
     fun getRemainingTurnsExceptCurrent() : Int {
         val result = getRemainingTurnsWithCurrent() - 1
@@ -115,7 +124,7 @@ class Game (
     /**
      * @return the sum of all player payoff
      */
-    fun getTotalPayoff() : Int {
+    fun getTotalPayoff() : Double {
         return status.totalPayoff
     }
 
