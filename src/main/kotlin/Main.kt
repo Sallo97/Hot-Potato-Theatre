@@ -27,7 +27,9 @@ private fun chooseAndExecuteMode() {
                 "3 - Help.\n" +
                 "4 - Exit application."
         println(message)
+
         val mode = absIntWithinRangeFromStdin("mode", 1..4)
+        println()
         when(mode) {
             1 -> {
                 createAndExecuteGame()
@@ -107,12 +109,12 @@ private fun help() {
                             "the same name, in which a group of players try to exchange to each other a good -the hot potato- until" +
                             "it becomes worthless. The last player holding the hot potato is the loser of the game.\n\n" +
                             "The hot potato is formalized as an exchangeable good with:\n" +
-                            "1 - lifetime: the number of turns for which it can still be passed around.\n" +
-                            "2 - gain: the payoff received for taking the good to all players that arend the last one.\n" +
-                            "3 - loss: the penalty received by the lsat player for taking the good.\n\n" +
+                            "\t- lifetime: the number of turns for which it can still be passed around.\n" +
+                            "\t- gain: the payoff received for taking the good to all players that arend the last one.\n" +
+                            "\t- loss: the penalty received by the lsat player for taking the good.\n\n" +
                             "An SHPG is composed of:\n" +
-                            "1 - potato: the unique hot potato of the game.\n" +
-                            "2 - population: the set of players partaking the game.\n\n" +
+                            "\t- potato: the unique hot potato of the game.\n" +
+                            "\t- population: the set of players partaking the game.\n\n" +
                             "At the start the game searches for a player willing to take the good. If no one is willing, the game" +
                             "ends immediately with no winners or losers. If found, then the current player will try to find another" +
                             "player interested in taking the good. The game continues until either the potato's lifetime expired or" +
@@ -138,7 +140,7 @@ private fun help() {
 
             3 -> {
                 val examplesMsg =
-                    "The available examples are an assortment of read-to-lay games to show the possible scenarios" +
+                    "The available examples are an assortment of ready-to-play games to show the possible scenarios" +
                             "realizable with this program.\n\n"
                 print(examplesMsg)
             }

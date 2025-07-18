@@ -65,7 +65,7 @@ fun absIntFromStdin(name: String) : Int {
  * @return a string describing all the available types of player.
  */
 val getTypesOfPlayerAvailable by lazy {
-    val str = "1 - Rational player: never takes the hot potato\n" +
+    val str = "1 - Rational: never takes the hot potato\n" +
             "2 - Gullible: always takes the hot potato\n" +
             "3 - Barnum: is aware of the possibility of irrational actors among the population, thus it could consider taking the hot potato depending on them.\n" +
             "4 - Myopic: is not able to see the end to the game if its length surpasses its reasoning capability. If it sees the game as infinite, it will act rationally, otherwise will accept the good.\n" +
@@ -142,7 +142,7 @@ private fun gameTypeFromStdin() : Boolean{
  * type, otherwise each player could have different type.
  */
 private fun createSetOfPlayersFromStdin(numOfPlayers: Int, isHomogeneous: Boolean = false) : Set<Player> {
-    println("Creating set of players...")
+    // println("Creating set of players...")
 
     var type: Int? = if(isHomogeneous) {
         getPlayerTypeFromStdin()
@@ -227,7 +227,7 @@ private fun createPlayerOfTypeFromStdin(type: Int, id:Int = 0) : Player {
             error("Invalid type for player")
         }
     }
-    println("Created the player: $player")
+    // println("Created the player: $player")
     return player
 }
 
