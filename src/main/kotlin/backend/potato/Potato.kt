@@ -12,8 +12,8 @@ import org.example.backend.player.Player
  * @property [currentHolder] the current player holding the potato. At the start no one holds it.
  * We interpret gain and loss value as dollars for sake of simplicity
  */
-data class Potato(val lifetime:Int, val gain:Int, val loss:Int) {
-    val ratio : Double = gain.toDouble()/(loss.toDouble())
+data class Potato(val lifetime:Int, val gain:Double, val loss:Double) {
+    val ratio : Double = gain/(loss)
     var currentHolder: Player? = null
 
     override fun toString(): String {
@@ -26,7 +26,7 @@ data class Potato(val lifetime:Int, val gain:Int, val loss:Int) {
      * @param [isLastPlayer] flag passed by a player to specify if it is the last player or not.
      * @return the player's payoff.
      */
-    fun getPayoff (isLastPlayer: Boolean = false) : Int {
+    fun getPayoff (isLastPlayer: Boolean = false) : Double {
         return if (isLastPlayer) {
             -loss
         } else {
