@@ -1,6 +1,7 @@
 package org.example.backend.player
 
 import org.example.backend.game.Game
+import kotlin.math.absoluteValue
 
 /**
  * A Coalitional player in the SHPG, i.e. an irrational player concerned in forming a coalition with other players of the
@@ -37,7 +38,12 @@ class CoalitionalPlayer(id:Int, val acceptanceToRisk: Double) : Player(id) {
         val decision = if(worstCasePayoff > 0) {
             true
         } else {
-            bestCasePayoff * acceptanceToRisk > potato.loss.toDouble()
+            if(bestCasePayoff < 0) {
+                false
+            }
+
+            bestCasePayoff -
+            bestCasePayoff * (1 + (1.0 * acceptanceToRisk))  > worstCasePayoff.absoluteValue
         }
         return decision
     }
