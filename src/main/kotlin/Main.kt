@@ -8,7 +8,7 @@ fun main() {
     while (true) {
         val game = createGameFromStdin()
         game.run()
-        println(game.getEndGameInfo())
+        println(game.toString())
 
         val choice = choiceFromStdin("Wanna play another game?")
         if (choice == "n"  ) {
