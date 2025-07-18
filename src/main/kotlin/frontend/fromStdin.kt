@@ -32,14 +32,14 @@ fun createGameFromStdin() : Game {
 
 /**
  * @param [question] the question asked the user for which it needs to respond.
- * @return either "y" or "n" depending on if the user agrees or not with [question]
+ * @return true if the user choose "y", false if it chooses "n".
  */
-fun choiceFromStdin(question: String) : String {
+fun choiceFromStdin(question: String) : Boolean {
     while(true) {
         print("$question Press Y/y for Yes, N/n for No: ")
         val choice = readln().lowercase()
         if (choice == "n" || choice == "y") {
-            return choice
+            return choice == "y"
         }
         println(invalidInputMsg)
     }
@@ -49,7 +49,7 @@ fun choiceFromStdin(question: String) : String {
  * @param [name] the name of the argument requested to Stdin.
  * @return a correct input from stdin parsed as an absolute integer
  */
-private fun absIntFromStdin(name: String) : Int {
+fun absIntFromStdin(name: String) : Int {
     var input: Int?
     while(true) {
         print("Input $name (will take the absolute value): ")
@@ -66,7 +66,7 @@ private fun absIntFromStdin(name: String) : Int {
  * @param [range] the range of integers in which the value must be inbetween (included)
  * @return a correct input from stdin parsed as an absolute integer.
  */
-private fun absIntWithinRangeFromStdin(name: String, range: IntRange) : Int {
+fun absIntWithinRangeFromStdin(name: String, range: IntRange) : Int {
     while(true){
         val input = absIntFromStdin(name)
         if(input in range) {
