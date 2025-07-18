@@ -69,7 +69,7 @@ private fun createAndExecuteGame() {
  */
 private fun playExample() {
     while(true){
-        println("Choose one of the available examples:\n")
+        println("Choose one of the available examples:")
         for ((index, example) in examples.withIndex()) {
             println("${index + 1} - $example")
         }
