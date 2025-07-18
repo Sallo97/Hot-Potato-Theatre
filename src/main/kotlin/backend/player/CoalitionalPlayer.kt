@@ -29,11 +29,16 @@ class CoalitionalPlayer(id:Int, val acceptanceToRisk: Double) : Player(id) {
         val potato = game.potato
         val coalition = game.coalition
 
-        val worstCaseTotalPayoff: Double = (coalition.totalPayoff - potato.loss.toDouble()) // totalPayoff of the coalition when the current player becomes the last one.
-        val worstCasePayoff: Double = worstCaseTotalPayoff / coalition.size()
+        val worstCaseTotalPayoff: Double = (coalition.totalPayoff - potato.loss) // totalPayoff of the coalition when the current player becomes the last one.
+        val worstCasePayoff: Double = worstCaseTotalPayoff / (coalition.size() + 1)
 
-        val bestCaseTotalPayoff: Double = (coalition.totalCoalitionalPlayers.toDouble() * potato.gain.toDouble()) - potato.loss.toDouble() // totalPayoff if all coalitional players enter the coalition.
-        val bestCasePayoff: Double = bestCaseTotalPayoff / coalition.totalCoalitionalPlayers.toDouble()
+        val allPlayersExceptLast = coalition.totalCoalitionalPlayers - 1 // the Last will not get the gain
+        val bestCaseTotalPayoff: Double = (allPlayersExceptLast * potato.gain) - potato.loss // totalPayoff if all coalitional players enter the coalition.
+        val bestCasePayoff: Double = bestCaseTotalPayoff / coalition.totalCoalitionalPlayers
+
+        val playerLeft = coalition.possibleMembers - 1 // removing the current player
+        val playerLeftWeight : Double = playerLeft * 0.8
+        val bestCaseWeight: Double = bestCasePayoff * (playerLeftWeight * acceptanceToRisk)
 
         val decision = if(worstCasePayoff > 0) {
             true
@@ -41,9 +46,7 @@ class CoalitionalPlayer(id:Int, val acceptanceToRisk: Double) : Player(id) {
             if(bestCasePayoff < 0) {
                 false
             }
-
-            bestCasePayoff -
-            bestCasePayoff * (1 + (1.0 * acceptanceToRisk))  > worstCasePayoff.absoluteValue
+             bestCaseWeight > worstCasePayoff.absoluteValue
         }
         return decision
     }
