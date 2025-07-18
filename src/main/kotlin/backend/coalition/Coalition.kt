@@ -11,7 +11,7 @@ import org.example.backend.player.CoalitionalPlayer
  * @property [possibleMembers] the number of coalitional players not yet in the coalition.
  */
 data class Coalition (
-    val totalCoalitionalPlayers: UInt) {
+    val totalCoalitionalPlayers: Int) {
 
     var totalPayoff : Double = 0.0
     private val members: MutableSet<CoalitionalPlayer> = mutableSetOf()
@@ -41,13 +41,12 @@ data class Coalition (
     }
 
     override fun toString(): String {
-        val membersStr = if (members.isEmpty()) {
-            "∅"
+        val message = if (members.isEmpty()) {
+            "No coalition was formed"
         } else {
-            members.toString()
+            "Coalition = { coalition payoff = $totalPayoff; number of members = ${members.size}, members = [$members] }"
         }
-        val msg = "Coalition = { coalition payoff = $totalPayoff; number of members = ${members.size}, members = $membersStr }"
-        return msg
+        return message
     }
 
 }
