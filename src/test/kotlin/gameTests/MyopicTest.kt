@@ -6,7 +6,7 @@ import org.example.backend.potato.Potato
 import kotlin.test.Test
 
 class MyopicTest : GameTest() {
-    val potato = Potato(10,100, 200)
+    val potato = Potato(10,100.0, 200.0)
 
     @Test
     fun testMyopic1() {
@@ -22,7 +22,7 @@ class MyopicTest : GameTest() {
             players,
             2,
             2,
-            -100,
+            -100.0,
         )
     }
 
@@ -45,7 +45,7 @@ class MyopicTest : GameTest() {
             players,
             5,
             5,
-            200,
+            200.0,
             true
         )
     }

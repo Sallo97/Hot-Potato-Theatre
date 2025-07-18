@@ -6,7 +6,7 @@ import org.example.backend.potato.Potato
 import kotlin.test.Test
 
 class StochasticTest : GameTest() {
-    val potato = Potato(10, 100, 200)
+    val potato = Potato(10, 100.0, 200.0)
 
 
     @Test
@@ -23,7 +23,7 @@ class StochasticTest : GameTest() {
             players,
             5,
             5,
-            200)
+            200.0)
     }
 
     @Test
@@ -40,6 +40,6 @@ class StochasticTest : GameTest() {
             players,
             0,
             0,
-            0)
+            0.0)
     }
 }

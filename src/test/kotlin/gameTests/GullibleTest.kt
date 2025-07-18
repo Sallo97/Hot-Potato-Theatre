@@ -9,7 +9,7 @@ class GullibleTest: GameTest() {
 
     @Test
     fun testGullible1() {
-        val potato = Potato(lifetime = 5, gain = 0, loss = 1000)
+        val potato = Potato(lifetime = 5, gain = 0.0, loss = 1000.0)
         val players = mutableSetOf<Player>().apply {
             for(i in 1..5) {
                 val player = GulliblePlayer(i)
@@ -20,13 +20,13 @@ class GullibleTest: GameTest() {
             players,
             5,
             5,
-            -1000)
+            -1000.0)
 
     }
 
     @Test
     fun testGullible2() {
-        val potato = Potato(lifetime = 100, gain = 1000, loss = 0)
+        val potato = Potato(lifetime = 100, gain = 1000.0, loss = 0.0)
         val players = mutableSetOf<Player>().apply {
             val player = GulliblePlayer(1)
             this.add(player)
@@ -35,7 +35,7 @@ class GullibleTest: GameTest() {
             players,
             1,
             1,
-            0)
+            0.0)
 
     }
 }

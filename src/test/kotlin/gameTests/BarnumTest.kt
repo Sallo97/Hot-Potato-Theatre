@@ -7,7 +7,7 @@ import kotlin.random.Random
 import kotlin.test.Test
 
 class BarnumTest: GameTest() {
-    val potato = Potato(lifetime = 5, gain = 5, loss = 10)
+    val potato = Potato(lifetime = 5, gain = 5.0, loss = 10.0)
 
     @Test
     fun testBarnum1() {
@@ -23,7 +23,7 @@ class BarnumTest: GameTest() {
             players,
             0,
             0,
-            0)
+            0.0)
     }
 
     @Test
@@ -40,7 +40,7 @@ class BarnumTest: GameTest() {
             players,
             5,
             5,
-            10)
+            10.0)
     }
 
     @Test

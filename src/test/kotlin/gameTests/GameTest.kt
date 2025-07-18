@@ -25,7 +25,7 @@ open class GameTest {
                         players: MutableSet<Player>,
                         expTurn: Int,
                         expChainSize: Int,
-                        expTotalPayoff:Int,
+                        expTotalPayoff:Double,
                         tryAll: Boolean = true) {
         val game = Game(potato, players)
         game.run(tryAll)
