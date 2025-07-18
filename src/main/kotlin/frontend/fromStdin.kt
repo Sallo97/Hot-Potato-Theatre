@@ -241,8 +241,8 @@ private fun getPlayerTypeFromStdin() : Int {
 private fun createHotPotatoFromStdin() : Potato{
     println("Creating the hot potato...")
     val lifetime = absIntFromStdin("lifetime")
-    val gain = absIntFromStdin("gain")
-    val loss = absIntFromStdin("loss")
+    val gain = absDoubleFromStdin("gain")
+    val loss = absDoubleFromStdin("loss")
     val potato = Potato(lifetime, gain, loss)
     println("Created the potato: $potato")
     return potato
