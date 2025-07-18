@@ -9,6 +9,7 @@ import org.example.backend.player.Player
  * @property [turn] the current turn of the game.
  * @property [numOfPlayers] the total number of players in the game.
  * @property [totalPayoff] sum of the payoff of all players at the current turn.
+ * @property [gameEnded] tells if the game ended or not.
  *
  */
 data class GameStatus(
@@ -18,6 +19,7 @@ data class GameStatus(
     var turn: Int = 0
     val numOfPlayers: Int = activePopulation.size
     var totalPayoff: Double = 0.0
+    var gameEnded = false
 
     /**
      * updates the game status after a turn has been played.

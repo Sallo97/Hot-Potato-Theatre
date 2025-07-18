@@ -45,21 +45,21 @@ class Game (
 
         // Game Ended, let the coalition split their total payoff among the members
         coalition.splitTotalPayoff()
+        status.gameEnded = true
     }
 
     /**
      * @return true if the game ended, false otherwise.
      */
     fun isGameEnded() : Boolean {
-        val result = getRemainingTurnsWithCurrent() == 0
-        return result
+        return  status.gameEnded
     }
 
     /**
      * @return the final state of the game (total payoff, final chain, etc...).
      */
     override fun toString () : String {
-        var str = if (isGameEnded()) {
+        var str = if (!isGameEnded()) {
             "Ongoing game with:\n" +
                     "- current turn = ${getCurrentTurn()}\n" +
                     "- turns left (not counting current) = ${getRemainingTurnsExceptCurrent()}\n"
