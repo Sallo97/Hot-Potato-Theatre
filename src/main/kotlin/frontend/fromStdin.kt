@@ -6,6 +6,7 @@ import org.example.backend.player.BenthamitePlayer
 import org.example.backend.player.CoalitionalPlayer
 import org.example.backend.player.DirectAltruistPlayer
 import org.example.backend.player.GulliblePlayer
+import org.example.backend.player.InputPlayer
 import org.example.backend.player.MyopicPlayer
 import org.example.backend.player.Player
 import org.example.backend.player.RationalPlayer
@@ -72,7 +73,8 @@ val getTypesOfPlayerAvailable by lazy {
             "5 - Stochastic: interprets the decision of taking the hot potato as a static stochastic process, independent of other players.\n" +
             "6 - Direct Altruist: concerned with the well-being of another player. For sake of simplicity we assume the beneficiary is always another player that did not get the hot potato previously.\n" +
             "7 - Benthamite: focused on maximizing the total payoff of the game, rather than its own. Still, if it knows that other players could take the risk of accepting the potato, it could deny the proposal.\n" +
-            "8 - Coalitional: concerned in forming a coalition with other players of the same type in order to get a better payoff."
+            "8 - Coalitional: concerned in forming a coalition with other players of the same type in order to get a better payoff.\n" +
+            "9 - Input: the decision is provided by the user from Stdin"
     str
 }
 
@@ -222,6 +224,9 @@ private fun createPlayerOfTypeFromStdin(type: Int, id:Int = 0) : Player {
 
             CoalitionalPlayer(id, acceptanceToRisk)
         }
+        9 -> {
+            InputPlayer(id)
+        }
 
         else -> {
             error("Invalid type for player")
@@ -238,7 +243,7 @@ private fun getPlayerTypeFromStdin() : Int {
     val typeOfPlayerMsg = "Select which type of player do you want between:\n$getTypesOfPlayerAvailable"
     println(typeOfPlayerMsg)
 
-    val type: Int = absIntWithinRangeFromStdin("player type", 1..8)
+    val type: Int = absIntWithinRangeFromStdin("player type", 1..typeOfPlayerMsg.lines().size)
     return type
 }
 
