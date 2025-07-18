@@ -15,15 +15,26 @@ class GameExample (
     val name: String,
     val description: String
 ) {
+
+    /**
+     * Execute the game within the example.
+     */
     fun run() {
         println("Executing example $name...")
         game.run()
 
     }
 
+    /**
+     * @return the string associated with the game within
+     */
+    fun gameToString() : String {
+        return game.toString()
+    }
+
     override fun toString(): String {
-        val message = "*** EXAMPLE NAME: $name ***\n" +
-            "Description: $description"
+        val message = "example name: $name\n" +
+            "description: $description"
         return message
     }
 }
