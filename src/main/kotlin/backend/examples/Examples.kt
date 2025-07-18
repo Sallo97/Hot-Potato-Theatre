@@ -2,6 +2,7 @@ package org.example.backend.examples
 
 import org.example.backend.game.Game
 import org.example.backend.player.CoalitionalPlayer
+import org.example.backend.player.GulliblePlayer
 import org.example.backend.player.Player
 import org.example.backend.player.RationalPlayer
 import org.example.backend.potato.Potato
@@ -30,9 +31,9 @@ val rationalExample by lazy {
  */
 val gullibleExample by lazy {
     val potato = Potato(5, 5.0, 5.0)
-    val set = mutableSetOf<CoalitionalPlayer>().apply {
+    val set = mutableSetOf<GulliblePlayer>().apply {
         for (i in 1..5) {
-            val player = CoalitionalPlayer(i, 0.5)
+            val player = GulliblePlayer(i)
             this.add(player)
         }
     }
@@ -68,11 +69,11 @@ val coalitionalExample by lazy {
 /**
  * The set of all available examples.
  */
-val examples:Set<GameExample> by lazy {
-    val set = mutableSetOf<GameExample>().apply {
+val examples:List<GameExample> by lazy {
+    val list = mutableListOf<GameExample>().apply {
         this.add(rationalExample)
         this.add(gullibleExample)
         this.add(coalitionalExample)
     }
-    set
+    list
 }
