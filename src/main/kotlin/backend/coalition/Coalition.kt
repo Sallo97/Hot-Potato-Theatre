@@ -26,7 +26,6 @@ data class Coalition (
         for (p in members) {
             p.payoff += payoff
         }
-        totalPayoff = 0.0
     }
 
      fun addMember(p: CoalitionalPlayer) {
@@ -39,6 +38,16 @@ data class Coalition (
      */
     fun size(): Int {
         return members.size
+    }
+
+    override fun toString(): String {
+        val membersStr = if (members.isEmpty()) {
+            "∅"
+        } else {
+            members.toString()
+        }
+        val msg = "Coalition = { coalition payoff = $totalPayoff; number of members = ${members.size}, members = $membersStr }"
+        return msg
     }
 
 }
