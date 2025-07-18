@@ -33,7 +33,7 @@ class GameExample (
     }
 
     override fun toString(): String {
-        val message = "example name: $name\n" +
+        val message = "example: $name\n" +
             "description: $description"
         return message
     }
