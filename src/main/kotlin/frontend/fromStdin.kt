@@ -62,6 +62,21 @@ fun absIntFromStdin(name: String) : Int {
 }
 
 /**
+ * @return a string describing all the available types of player.
+ */
+val getTypesOfPlayerAvailable by lazy {
+    val str = "1 - Rational player: never takes the hot potato\n" +
+            "2 - Gullible: always takes the hot potato\n" +
+            "3 - Barnum: is aware of the possibility of irrational actors among the population, thus it could consider taking the hot potato depending on them.\n" +
+            "4 - Myopic: is not able to see the end to the game if its length surpasses its reasoning capability. If it sees the game as infinite, it will act rationally, otherwise will accept the good.\n" +
+            "5 - Stochastic: interprets the decision of taking the hot potato as a static stochastic process, independent of other players.\n" +
+            "6 - Direct Altruist: concerned with the well-being of another player. For sake of simplicity we assume the beneficiary is always another player that did not get the hot potato previously.\n" +
+            "7 - Benthamite: focused on maximizing the total payoff of the game, rather than its own. Still, if it knows that other players could take the risk of accepting the potato, it could deny the proposal.\n" +
+            "8 - Coalitional: concerned in forming a coalition with other players of the same type in order to get a better payoff."
+    str
+}
+
+/**
  * @param [name] the name of the argument requested to Stdin.
  * @param [range] the range of integers in which the value must be inbetween (included)
  * @return a correct input from stdin parsed as an absolute integer.
@@ -220,15 +235,7 @@ private fun createPlayerOfTypeFromStdin(type: Int, id:Int = 0) : Player {
  * @return the player's type as an integer
  */
 private fun getPlayerTypeFromStdin() : Int {
-    val typeOfPlayerMsg = "Select which type of player do you want between:\n" +
-            "1 - Rational: never takes the good\n" +
-            "2 - Gullible: always takes the good\n" +
-            "3 - Barnum: is aware of the possibility of irrational actors among the population\n" +
-            "4 - Myopic: if the remaining turns are larger than its threshold it behaves gullably, otherwise rationally\n" +
-            "5 - Stochastic: interprets the decision as a static stochastic process\n" +
-            "6 - Direct Altruist: concerned with the well-being of another player. For sake of simplicity we assume the beneficiary is always an alter that still has to get the hot potato\n" +
-            "7 - Benthamite: focused on maximizing the total payoff of the game. Still it is aware that other player could take the risk\n" +
-            "8 - Coalitional: concerned in forming a coalition with other players of the same type in order to get a better payoff"
+    val typeOfPlayerMsg = "Select which type of player do you want between:\n$getTypesOfPlayerAvailable"
     println(typeOfPlayerMsg)
 
     val type: Int = absIntWithinRangeFromStdin("player type", 1..8)
