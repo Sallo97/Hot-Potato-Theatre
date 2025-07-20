@@ -16,6 +16,11 @@ data class Potato(val lifetime:Int, val gain:Double, val loss:Double) {
     val ratio : Double = gain/(loss)
     var currentHolder: Player? = null
 
+    init {
+        require(gain != 0.0)
+        require(loss != 0.0)
+    }
+
     override fun toString(): String {
         return "{ lifetime: $lifetime; gain: $gain; loss: $loss; ratio: $ratio }"
     }
