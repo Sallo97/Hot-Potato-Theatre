@@ -6,14 +6,14 @@ import kotlin.math.pow
 /**
  * A Stochastic player in the SHPG, i.e. an irrational player which views decisions as a static stochastic process.
  *
- * @property [rejectAlterBelief] the belief that an alter will reject the potato at the next turn.
+ * @property [alterDenyBelief] the belief that an alter at the next turn will deny the hot potato good. Is a value between [0,1]
  * @property [id] unique identifier for the player.
  * @property [payoff] the payoff of the player.
- * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [rejectAlterBelief] passed as argument.
+ * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [alterDenyBelief] passed as argument.
  */
-class StochasticPlayer(id: Int, val rejectAlterBelief: Double = 0.5) : Player(id) {
+class StochasticPlayer(id: Int, val alterDenyBelief: Double = 0.5) : Player(id) {
     init {
-        require(rejectAlterBelief in 0.0..1.0)
+        require(alterDenyBelief in 0.0..1.0)
     }
 
 
@@ -26,13 +26,13 @@ class StochasticPlayer(id: Int, val rejectAlterBelief: Double = 0.5) : Player(id
      */
     override fun decideAcceptance(game: Game): Boolean {
         val potato = game.potato
-        val remainingTurns = game.getRemainingTurnsExceptCurrent()
+        val remainingPlayers = game.getNumOfAvailablePlayers() - 1
 
-        val continueProbability = (1 - rejectAlterBelief).pow(remainingTurns)
-        val gainWeight = continueProbability * potato.gain
+        val probGameEndsNextTurn = alterDenyBelief.pow(remainingPlayers)
+        val probGameContinuesNextTurn = 1 - probGameEndsNextTurn
 
-        val endProbability = 1 - continueProbability
-        val lossWeight = endProbability * potato.loss
+        val gainWeight = probGameContinuesNextTurn * potato.gain
+        val lossWeight = probGameEndsNextTurn * potato.loss
 
         val decision = gainWeight > lossWeight
         return decision

@@ -14,15 +14,15 @@ import kotlin.math.pow
  *
  * @property [altruism] value between [0,1] representing how much the player is willing to help the beneficiary.
  * Default value is 1/2.
- * @property [helpAlterBelief] the belief of the current player that an alter will help the same beneficiary. Is a value
- * in [0,1]. Default value is 1/2.
+ * @property [alterBelief] the belief of the current player that an alter will help the same beneficiary. Is a value > 0.
+ * Default value is 1
  * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [altruism] passed as argument.
  */
-class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val helpAlterBelief: Double = 0.5) : Player(id) {
+class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val alterBelief: Double = 1.0) : Player(id) {
     init {
         require(altruism in 0.0..1.0)
-        require(helpAlterBelief in 0.0..1.0)
+        require(alterBelief in 0.0..1.0)
     }
 
     /**
@@ -35,21 +35,17 @@ class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val helpAlterBel
     override fun decideAcceptance(game: Game): Boolean {
         val potato = game.potato
 
-        val otherHelpers = game.getRemainingTurnsWithCurrent() - 2 // remove both current player and beneficiary.
-        val probAnotherAlterWillHelp: Double = helpAlterBelief.pow(otherHelpers)
+        val otherHelpers = game.getNumOfAvailablePlayers() - 2 // remove both current player and beneficiary.
+        val responsibilityScaling: Double = 1 / otherHelpers.toDouble().pow(alterBelief)
 
-        val gainWeight: Double = potato.gain.toDouble() * (1 + (0.5 * altruism))
-        val lossWeight: Double = if (probAnotherAlterWillHelp != 1.0) {
-            potato.loss.toDouble() / (altruism * (1 - probAnotherAlterWillHelp))
-        } else {
-            potato.loss.toDouble()
-        }
+        val gainWeight: Double = potato.gain * responsibilityScaling
+        val lossWeight: Double = potato.loss * (1 - altruism)
 
         val decision = gainWeight > lossWeight
         return decision
     }
 
     override fun toString(): String {
-        return "{id: $id; payoff: $payoff; altruism: $altruism; helpAlterBelief: $helpAlterBelief }"
+        return "{id: $id; payoff: $payoff; altruism: $altruism; helpAlterBelief: $alterBelief }"
     }
 }
