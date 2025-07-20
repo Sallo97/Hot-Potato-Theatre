@@ -1,5 +1,3 @@
-package org.example
-
 import org.example.backend.examples.examples
 import org.example.frontend.absIntWithinRangeFromStdin
 import org.example.frontend.choiceFromStdin
