@@ -2,7 +2,7 @@ package frontend.ui
 
 import backend.player.createSetOfPlayersFromStdin
 import backend.game.Game
-import backend.potato.Potato
+import backend.potato.createHotPotatoFromStdin
 import kotlin.math.absoluteValue
 
 const val invalidInputMsg = "Invalid input, retrying..."
@@ -111,18 +111,4 @@ private fun gameTypeFromStdin() : Boolean{
     val choice = absIntWithinRangeFromStdin("type of game", 1..2)
     val result = choice == 1
     return result
-}
-
-
-/**
- * @return a Potato object with parameters coming from user's input.
- */
-private fun createHotPotatoFromStdin() : Potato{
-    println("Creating the hot potato...")
-    val lifetime = absIntFromStdin("lifetime")
-    val gain = absDoubleFromStdin("gain")
-    val loss = absDoubleFromStdin("loss")
-    val potato = Potato(lifetime, gain, loss)
-    println("Created the potato: $potato")
-    return potato
 }

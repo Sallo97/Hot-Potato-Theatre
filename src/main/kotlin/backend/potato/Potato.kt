@@ -8,11 +8,13 @@ import backend.player.Player
  * @property [lifetime] the number of turn in which the hot potato is still valid (i.e. the payoff is a gain).
  * @property [gain] the payoff for all players that take the hot potato and are not the last player. It is always positive.
  * @property [loss] the payoff for the last player that takes the hot potato. It is always negative.
+ * @property [gainFactor] by how much the gain changes over a turn.
+ * @property [loss] by how much the loss changes over a turn.
  * @property [ratio] the positive ratio between gain and loss (i.e. gain / (-loss)).
  * @property [currentHolder] the current player holding the potato. At the start no one holds it.
  * We interpret gain and loss value as dollars for sake of simplicity
  */
-data class Potato(val lifetime:Int, val gain:Double, val loss:Double) {
+data class Potato(val lifetime:Int, var gain:Double, var loss:Double, val gainFactor: Double = 1.0, val lossFactor: Double = 1.0) {
     val ratio : Double = gain/(loss)
     var currentHolder: Player? = null
 
@@ -22,7 +24,7 @@ data class Potato(val lifetime:Int, val gain:Double, val loss:Double) {
     }
 
     override fun toString(): String {
-        return "{ lifetime: $lifetime; gain: $gain; loss: $loss; ratio: $ratio }"
+        return "{ lifetime: $lifetime; gain: $gain; gainFactor: $gainFactor; loss: $loss; lossFactor: $lossFactor }"
     }
 
     /**
@@ -37,5 +39,13 @@ data class Potato(val lifetime:Int, val gain:Double, val loss:Double) {
         } else {
             gain
         }
+    }
+
+    /**
+     * Updates the potato gain and loss after a turn by their factors.
+     */
+    fun updatePotato () {
+        gain *= gainFactor
+        loss *= lossFactor
     }
 }
