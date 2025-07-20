@@ -1,6 +1,6 @@
 package org.example.backend.coalition
 
-import org.example.backend.player.CoalitionalPlayer
+import backend.player.CoalitionalPlayer
 
 /**
  * Implements a basic coalition between coalitional players, managing all the surrounding information.

@@ -7,10 +7,11 @@ import org.example.backend.game.Game
  * on maximizing the total payoff of the game. Still, if during a decision, it is aware that other players could take the
  * risk, then it could reject the potato.
  *
- * @property [gainWeight] how much weight has the acceptance of the hot potato.
- * @property [lossWeight] how much weight has the deny of the hot potato
+ * @property [gainWeight] how much weight has the acceptance of the hot potato. Is a value > 0.
+ * @property [lossWeight] how much weight has the loss of the hot potato. Is a value > 0.
  * @property [payoff] the payoff of the player.
- * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [gainWeight] passed as argument.
+ * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [gainWeight] and [lossWeight] set
+ * as hyperparameters.
  */
 class BenthamitePlayer(id: Int, val gainWeight: Double = 0.5, val lossWeight: Double = 0.5) : Player(id){
     init {
