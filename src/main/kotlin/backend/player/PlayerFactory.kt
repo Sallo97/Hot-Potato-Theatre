@@ -1,18 +1,19 @@
 package backend.player
 
+import backend.game.GameType
 import frontend.ui.absDoubleFromStdin
 import frontend.ui.absDoubleWithinRangeFromStdin
 import frontend.ui.absIntFromStdin
 import frontend.ui.absIntWithinRangeFromStdin
 
 /**
- * @return a set of [numOfPlayers] players. If [isHomogeneous] is passed, then the set will have only player of the same
+ * @return a set of [numOfPlayers] players. [gameType] specifies the type of game
  * type, otherwise each player could have different type.
  */
-fun createSetOfPlayersFromStdin(numOfPlayers: Int, isHomogeneous: Boolean = false) : Set<Player> {
+fun createSetOfPlayersFromStdin(numOfPlayers: Int, gameType: GameType) : Set<Player> {
     // println("Creating set of players...")
 
-    var type: PlayerType? = if(isHomogeneous) {
+    var type: PlayerType? = if(gameType == GameType.HOMOGENEOUS) {
         getPlayerTypeFromStdin()
     } else {
         null
@@ -20,7 +21,7 @@ fun createSetOfPlayersFromStdin(numOfPlayers: Int, isHomogeneous: Boolean = fals
 
     val result:MutableSet<Player> = mutableSetOf()
     for (id in 1..numOfPlayers) {
-        if(!isHomogeneous) {
+        if(gameType == GameType.MIXED) {
             type = getPlayerTypeFromStdin()
         }
         val player = createPlayerOfTypeFromStdin(type!!, id)

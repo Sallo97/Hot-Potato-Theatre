@@ -1,26 +1,9 @@
 package frontend.ui
 
-import backend.player.createSetOfPlayersFromStdin
-import backend.game.Game
-import backend.potato.createHotPotatoFromStdin
 import kotlin.math.absoluteValue
 
 const val invalidInputMsg = "Invalid input, retrying..."
 
-/**
- * @return a Game Object with parameters coming from user's input
- */
-fun createGameFromStdin() : Game {
-    println("Creating game...")
-    val potato = createHotPotatoFromStdin()
-    val isHomogeneous = gameTypeFromStdin()
-
-    val numOfPlayers = absIntFromStdin("number of players")
-    val set = createSetOfPlayersFromStdin(numOfPlayers, isHomogeneous)
-
-    val game = Game(potato, set)
-    return game
-}
 
 /**
  * @param [question] the question asked the user for which it needs to respond.
@@ -100,15 +83,3 @@ fun absDoubleWithinRangeFromStdin(name: String, range: IntRange) : Double {
     }
 }
 
-/**
- * @return true if the user asked for a Homogenous game, false otherwise.
- */
-private fun gameTypeFromStdin() : Boolean{
-    println("Select type of game:")
-    println("1 - Homogeneous: game where players are all of the same type")
-    println("2 - Mixed: game where players can be of different types")
-
-    val choice = absIntWithinRangeFromStdin("type of game", 1..2)
-    val result = choice == 1
-    return result
-}

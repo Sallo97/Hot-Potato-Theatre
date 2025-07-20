@@ -1,8 +1,8 @@
 import backend.player.PlayerType
 import backend.examples.examples
+import backend.game.createGameFromStdin
 import frontend.ui.absIntWithinRangeFromStdin
 import frontend.ui.choiceFromStdin
-import frontend.ui.createGameFromStdin
 
 fun main() {
     val greetings = "Welcome to the Simple Hot Potato Theatre!\n"
