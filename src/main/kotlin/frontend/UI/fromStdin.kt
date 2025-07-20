@@ -3,7 +3,7 @@ package org.example.frontend
 import org.example.backend.game.Game
 import org.example.backend.player.BarnumPlayer
 import org.example.backend.player.BenthamitePlayer
-import org.example.backend.player.CoalitionalPlayer
+import backend.player.CoalitionalPlayer
 import org.example.backend.player.DirectAltruistPlayer
 import org.example.backend.player.GulliblePlayer
 import org.example.backend.player.InputPlayer
@@ -187,36 +187,35 @@ private fun createPlayerOfTypeFromStdin(type: Int, id:Int = 0) : Player {
         3 -> {
             val message = "the probability that other alters are Barnum players"
             val prob = absDoubleWithinRangeFromStdin(message, IntRange(0, 1))
-
             BarnumPlayer(id, prob)
         }
         4 -> {
-            val threshold = absIntFromStdin("threshold")
-
+            val message = "threshold"
+            val threshold = absIntFromStdin(message)
             MyopicPlayer(id, threshold)
         }
         5 -> {
-            val message = "weight, an hyperparameter between 0 and 1 which determines" +
-                    " how much weight the probability have."
-            val weight = absDoubleWithinRangeFromStdin(message, IntRange(0, 1))
-
-            StochasticPlayer(id, weight)
+            val message = "the probability that an alter will deny the good at the next turn"
+            val alterDenyBelief = absDoubleWithinRangeFromStdin(message, IntRange(0, 1))
+            StochasticPlayer(id, alterDenyBelief)
         }
         6 -> {
             val altruismMessage = "altruism, value between [0,1] representing how much the player is willing to help the beneficiary."
             val altruism = absDoubleWithinRangeFromStdin(altruismMessage, IntRange(0, 1))
 
-            val helpAlterMessage = "the belief of the current player that an alter will help the same beneficiary. Is a value\n" +
-                    " * in [0,1]."
-            val helpAlterBelief = absDoubleWithinRangeFromStdin(helpAlterMessage, IntRange(0, 1))
+            val alterBelief = "the belief of the current player that an alter will help the same beneficiary. Is a value > 0"
+            val helpAlterBelief = absDoubleFromStdin(alterBelief)
 
             DirectAltruistPlayer(id, altruism, helpAlterBelief)
         }
         7 -> {
-            val alterMessage = "the belief of the current player that an alter will accept the potato at the current turn. Is a value in [0,1]"
-            val alterAcceptBelief = absDoubleWithinRangeFromStdin(alterMessage, IntRange(0, 1))
+            val gainMessage = "how much weight has the acceptance of the hot potato. Is a value > 0"
+            val gainWeight = absDoubleFromStdin(gainMessage)
 
-            BenthamitePlayer(id, alterAcceptBelief)
+            val lossMessage = "how much weight has the loss of the hot potato. Is a value > 0"
+            val lossWeight = absDoubleFromStdin(lossMessage)
+
+            BenthamitePlayer(id, gainWeight, lossWeight)
         }
         8 -> {
             val riskMessage = "how much the current players is willing to risk accepting the potato for the proposed coalition. Is a value between 0 and 1."
