@@ -1,7 +1,6 @@
 package backend.player
 
-import org.example.backend.game.Game
-import org.example.backend.player.Player
+import backend.game.Game
 import kotlin.math.absoluteValue
 
 /**

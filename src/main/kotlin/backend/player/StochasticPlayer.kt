@@ -1,6 +1,6 @@
-package org.example.backend.player
+package backend.player
 
-import org.example.backend.game.Game
+import backend.game.Game
 import kotlin.math.pow
 
 /**
@@ -13,9 +13,8 @@ import kotlin.math.pow
  */
 class StochasticPlayer(id: Int, val alterDenyBelief: Double = 0.5) : Player(id) {
     init {
-        require(alterDenyBelief in 0.0..1.0)
+        require(alterDenyBelief in 0.0..1.0) {"alterDenyBelief must be between 0.0 and 1.0"}
     }
-
 
     /**
      * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.

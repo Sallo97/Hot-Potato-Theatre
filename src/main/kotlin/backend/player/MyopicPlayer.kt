@@ -1,6 +1,6 @@
-package org.example.backend.player
+package backend.player
 
-import org.example.backend.game.Game
+import backend.game.Game
 
 /**
  * Represents a player whose rationality depends on [threshold]: if the current lifetime of the potato is greater than

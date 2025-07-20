@@ -1,8 +1,8 @@
-import org.example.backend.examples.examples
-import org.example.frontend.absIntWithinRangeFromStdin
-import org.example.frontend.choiceFromStdin
-import org.example.frontend.createGameFromStdin
-import org.example.frontend.getTypesOfPlayerAvailable
+import backend.player.PlayerType
+import backend.examples.examples
+import frontend.ui.absIntWithinRangeFromStdin
+import frontend.ui.choiceFromStdin
+import frontend.ui.createGameFromStdin
 
 fun main() {
     val greetings = "Welcome to the Simple Hot Potato Theatre!\n"
@@ -132,7 +132,7 @@ private fun help() {
                 val typeMsg = "Players in the Simple Hot Potato Game (SHPG for short) have only one behavior: " +
                         "decide to either accept or deny to take the hot potato when offered\n\n" +
                         "The decision logics is embedded to the associated type of the player.\n" +
-                        "The types available are:\n$getTypesOfPlayerAvailable\n\n"
+                        "The types available are:\n${PlayerType.getAvailableTypes()}\n\n"
                 print(typeMsg)
             }
 

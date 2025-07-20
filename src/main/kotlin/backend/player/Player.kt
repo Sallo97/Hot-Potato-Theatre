@@ -1,6 +1,6 @@
-package org.example.backend.player
+package backend.player
 
-import org.example.backend.game.Game
+import backend.game.Game
 
 /**
  * Represents the common abstract behavior of all types of players in the SHPG.
@@ -9,7 +9,7 @@ import org.example.backend.game.Game
  * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato and with an initial payoff of 0.
  */
-abstract class Player (val id: Int){
+sealed class Player (val id: Int){
     var payoff: Double = 0.0
 
     /**

@@ -1,8 +1,8 @@
 package gameTests
 
-import org.example.backend.player.Player
-import org.example.backend.player.RationalPlayer
-import org.example.backend.potato.Potato
+import backend.player.Player
+import backend.player.RationalPlayer
+import backend.potato.Potato
 import kotlin.test.Test
 
 class RationalGame : GameTest(){

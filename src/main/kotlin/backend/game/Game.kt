@@ -1,10 +1,10 @@
-package org.example.backend.game
+package backend.game
 
-import org.example.backend.coalition.Coalition
+import backend.coalition.Coalition
 import backend.gameStatus.GameStatus
 import backend.player.CoalitionalPlayer
-import org.example.backend.player.Player
-import org.example.backend.potato.Potato
+import backend.player.Player
+import backend.potato.Potato
 
 /**
  * Implements the Simple Hot Potato Game.

@@ -1,7 +1,7 @@
 package backend.gameStatus
 
-import org.example.backend.player.Player
-import org.example.backend.player.RationalPlayer
+import backend.player.Player
+import backend.player.RationalPlayer
 
 /**
  * Contains useful information regarding the status of a SHPG

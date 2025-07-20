@@ -1,6 +1,6 @@
-package org.example.backend.player
+package backend.player
 
-import org.example.backend.game.Game
+import backend.game.Game
 
 /**
  * A Benthamite player in the SHPG, i.e. an irrational player not concerned with their own payoff, rather it is focused

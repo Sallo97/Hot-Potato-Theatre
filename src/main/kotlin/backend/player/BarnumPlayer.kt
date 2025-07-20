@@ -1,6 +1,6 @@
-package org.example.backend.player
+package backend.player
 
-import org.example.backend.game.Game
+import backend.game.Game
 import kotlin.math.pow
 
 /**

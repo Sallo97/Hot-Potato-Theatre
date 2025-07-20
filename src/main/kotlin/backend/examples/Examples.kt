@@ -1,11 +1,11 @@
-package org.example.backend.examples
+package backend.examples
 
-import org.example.backend.game.Game
+import backend.game.Game
 import backend.player.CoalitionalPlayer
-import org.example.backend.player.GulliblePlayer
-import org.example.backend.player.Player
-import org.example.backend.player.RationalPlayer
-import org.example.backend.potato.Potato
+import backend.player.GulliblePlayer
+import backend.player.Player
+import backend.player.RationalPlayer
+import backend.potato.Potato
 
 /**
  * An example of a game composed of 5 rational players.

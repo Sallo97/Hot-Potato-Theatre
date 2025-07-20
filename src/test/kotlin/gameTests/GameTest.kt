@@ -1,8 +1,8 @@
 package gameTests
 
-import org.example.backend.game.Game
-import org.example.backend.player.Player
-import org.example.backend.potato.Potato
+import backend.game.Game
+import backend.player.Player
+import backend.potato.Potato
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

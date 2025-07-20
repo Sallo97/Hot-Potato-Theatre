@@ -1,8 +1,8 @@
 package gameTests
 
 import backend.player.CoalitionalPlayer
-import org.example.backend.player.Player
-import org.example.backend.potato.Potato
+import backend.player.Player
+import backend.potato.Potato
 import kotlin.test.Test
 
 class CoalitionalTest: GameTest() {

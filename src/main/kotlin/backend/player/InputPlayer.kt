@@ -1,7 +1,7 @@
-package org.example.backend.player
+package backend.player
 
-import org.example.backend.game.Game
-import org.example.frontend.choiceFromStdin
+import backend.game.Game
+import frontend.ui.choiceFromStdin
 
 /**
  * An Input player in the SHPG, i.e. an irrational player whose decision depends on the user input.

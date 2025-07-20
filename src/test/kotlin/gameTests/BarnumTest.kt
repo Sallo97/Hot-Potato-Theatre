@@ -1,8 +1,8 @@
 package gameTests
 
-import org.example.backend.player.BarnumPlayer
-import org.example.backend.player.Player
-import org.example.backend.potato.Potato
+import backend.player.BarnumPlayer
+import backend.player.Player
+import backend.potato.Potato
 import kotlin.random.Random
 import kotlin.test.Test
 

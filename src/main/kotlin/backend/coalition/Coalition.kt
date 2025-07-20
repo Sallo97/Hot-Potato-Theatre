@@ -1,4 +1,4 @@
-package org.example.backend.coalition
+package backend.coalition
 
 import backend.player.CoalitionalPlayer
 

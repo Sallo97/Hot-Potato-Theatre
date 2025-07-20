@@ -1,6 +1,6 @@
-package org.example.backend.potato
+package backend.potato
 
-import org.example.backend.player.Player
+import backend.player.Player
 
 /**
  * Defines a hot potato object.

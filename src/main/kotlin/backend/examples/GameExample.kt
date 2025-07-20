@@ -1,6 +1,6 @@
-package org.example.backend.examples
+package backend.examples
 
-import org.example.backend.game.Game
+import backend.game.Game
 
 /**
  * Represents a pre-cooked game. Concretely Wraps an already-created game with some
