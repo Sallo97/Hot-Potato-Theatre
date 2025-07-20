@@ -8,7 +8,7 @@ import kotlin.math.absoluteValue
  * same type in order to get a better payoff.
  *
  * @property [acceptanceToRisk] how much the current players is willing to risk accepting the potato for the proposed
- * coalition. Is a value between 0 and 1. Default value is 1/2.
+ * coalition. Is a value in [0,1]. Default value is 1/2.
  * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [acceptanceToRisk] passed as argument.
  */
