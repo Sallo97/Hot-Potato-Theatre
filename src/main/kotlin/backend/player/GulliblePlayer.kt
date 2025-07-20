@@ -9,7 +9,7 @@ import backend.game.Game
  * @property [payoff] the payoff of the player. At the start it is always 0.
  * @constructor creates a player without the hot potato and with a payoff of 0.
  */
-class GulliblePlayer (id: Int) : Player(id) {
+class GulliblePlayer (id: Int) : Player(id, PlayerType.GULLIBLE) {
 
     /**
      * Handles the decision logic of the irrational player in taking or not the good.
@@ -18,5 +18,9 @@ class GulliblePlayer (id: Int) : Player(id) {
      */
     override fun decideAcceptance(game: Game): Boolean {
         return true
+    }
+
+    override fun toString(): String {
+        return "${super.toString()} }"
     }
 }

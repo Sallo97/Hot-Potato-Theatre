@@ -1,9 +1,15 @@
 package frontend.ui
 
-import kotlin.math.absoluteValue
-
 const val invalidInputMsg = "Invalid input, retrying..."
 
+/**
+ * Describes the restriction enforced on the requested input.
+ */
+enum class InputRestriction(val description: String) {
+    ANY(""),
+    NOT_NEGATIVE("(must be not negative)"),
+    STRICTLY_POSITIVE("(must be strictly positive)");
+}
 
 /**
  * @param [question] the question asked the user for which it needs to respond.
@@ -22,57 +28,82 @@ fun choiceFromStdin(question: String) : Boolean {
 
 /**
  * @param [name] the name of the argument requested to Stdin.
- * @param [isNotNegative] require the input to be >= 0.
+ * @param [restriction] defines which property the input needs to satisfy.
  * @param [range] specifies the range in which the input should be.
  * @return a correct input from stdin parsed as an absolute integer
  */
-fun intFromStdin(name: String, isNotNegative: Boolean = false, range: IntRange? = null): Int {
-    val message = createInputMessage(name, isNotNegative, range)
+fun intFromStdin(name: String,
+                 restriction: InputRestriction = InputRestriction.ANY,
+                 range: IntRange? = null): Int {
+    val message = createInputMessage(name, restriction, range)
 
     while (true) {
         print(message)
         val input = readln().toIntOrNull()
 
-        if (input != null && (!isNotNegative || input >= 0) && (range?.contains(input) != false)) {
-            return input.absoluteValue
+        input?.let {
+            val satisfy = satisfiesRestriction(it, restriction)
+            if(satisfy) {
+                return it
+            }
         }
+
         println(invalidInputMsg)
     }
 }
 
+private fun <T> satisfiesRestriction (num: T, restriction: InputRestriction) : Boolean
+        where T : Number, T : Comparable<T> {
+    when (restriction) {
+        InputRestriction.ANY -> {
+            return true
+        }
+        InputRestriction.NOT_NEGATIVE -> {
+            if(num >= 0 as T) {
+                return true
+            }
+        }
+        InputRestriction.STRICTLY_POSITIVE -> {
+            if(num > 0 as T) {
+                return true
+            }
+        }
+    }
+    return false
+}
+
 /**
  * @param [name] the name of the argument requested to Stdin.
- * @param [isNotNegative] require the input to be >=0.
+ * @param [restriction] defines which property the input needs to satisfy.
  * @param [range] specifies the range in which the input should be.
  * @return a correct input from stdin parsed as an absolute double.
  */
 fun doubleFromStdin(
     name: String,
-    isNotNegative: Boolean = false,
+    restriction: InputRestriction = InputRestriction.ANY,
     range: ClosedFloatingPointRange<Double>? = null
 ): Double {
-    val message = createInputMessage(name, isNotNegative, range)
+    val message = createInputMessage(name, restriction, range)
 
     while (true) {
         print(message)
         val input = readln().toDoubleOrNull()
-
-        if (input != null && (!isNotNegative || input >= 0) && (range?.contains(input) != false)) {
-            return input.absoluteValue
+        input?.let {
+            val satisfy = satisfiesRestriction(it, restriction)
+            if(satisfy) {
+                return it
+            }
         }
 
         println(invalidInputMsg)
     }
 }
 
-private fun <T : Comparable<T>> createInputMessage(name: String, isNotNegative: Boolean = false, range: ClosedRange<T>? = null) : String {
+private fun <T : Comparable<T>> createInputMessage(name: String,
+                                                   restriction: InputRestriction = InputRestriction.ANY,
+                                                   range: ClosedRange<T>? = null) : String {
     val startMessage = "Input $name"
-    val positiveMessage = if (isNotNegative) {
-        " (must be strictly positive)"
-    } else {
-        ""
-    }
-    val rangeText = range?.let { " (range: ${it.start}..${it.endInclusive})" } ?: ""
+    val rangeText = range?.let { "(range: ${it.start}..${it.endInclusive})" } ?: ""
 
-    return "$startMessage$positiveMessage$rangeText: "
+    return "$startMessage ${restriction.description} $rangeText: "
 }

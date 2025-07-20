@@ -2,6 +2,7 @@ package backend.game
 
 import backend.player.createSetOfPlayersFromStdin
 import backend.potato.createHotPotatoFromStdin
+import frontend.ui.InputRestriction
 import frontend.ui.intFromStdin
 
 /**
@@ -12,10 +13,10 @@ fun createGameFromStdin() : Game {
     val potato = createHotPotatoFromStdin()
     val gameType = gameTypeFromStdin()
 
-    val numOfPlayers = intFromStdin("number of players", true)
+    val numOfPlayers = intFromStdin("number of players", InputRestriction.NOT_NEGATIVE)
     val set = createSetOfPlayersFromStdin(numOfPlayers, gameType)
 
-    val game = Game(potato, set)
+    val game = Game(potato, set, gameType)
     return game
 }
 
@@ -26,7 +27,7 @@ private fun gameTypeFromStdin() : GameType {
     println("Select type of game:")
     println(GameType.getAvailableTypes())
 
-    val choice = intFromStdin("type of game", true, 1..GameType.entries.size)
+    val choice = intFromStdin("type of game", InputRestriction.NOT_NEGATIVE, 1..GameType.entries.size)
     val result = GameType.fromInt(choice)
     return result!!
 }

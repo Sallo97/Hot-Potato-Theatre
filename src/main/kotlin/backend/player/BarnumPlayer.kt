@@ -13,7 +13,7 @@ import kotlin.math.pow
  * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [prob] passed as argument.
  */
-class BarnumPlayer (id: Int, val prob: Double) : Player(id) {
+class BarnumPlayer (id: Int, val prob: Double) : Player(id, PlayerType.BARNUM) {
     init {
         require(prob in 0.0..1.0)
     }
@@ -40,6 +40,7 @@ class BarnumPlayer (id: Int, val prob: Double) : Player(id) {
     }
 
     override fun toString(): String {
-        return "{id: $id; payoff: $payoff; prob: $prob}"
+        val str = "${super.toString()} prob: $prob}"
+        return str
     }
 }

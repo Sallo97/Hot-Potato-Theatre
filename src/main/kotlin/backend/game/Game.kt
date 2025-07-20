@@ -13,11 +13,13 @@ import backend.potato.Potato
  * @property [potato] the hot potato good associated to the game.
  * @property [coalition] the active coalition of coalitional players in the game.
  * @property [status] keeps track of the state of the game.
+ * @property [type] the type of game (Homogeneous or Mixed).
  * @constructor creates a game with the given [potato] and population.
  */
 class Game (
     val potato: Potato,
-    startingPopulation: Set<Player>) {
+    startingPopulation: Set<Player>,
+    val type: GameType) {
 
     val coalition: Coalition
     private val status : GameStatus = GameStatus(startingPopulation as MutableSet)
@@ -69,7 +71,9 @@ class Game (
         }
         str +=  "- Total payoff = ${status.totalPayoff}\n" +
                 "- ${status.chainToString()}\n" +
-                "- Coalition = $coalition\n"
+                "- Coalition = $coalition\n" +
+                "- type = $type\n"
+
         return str
     }
 

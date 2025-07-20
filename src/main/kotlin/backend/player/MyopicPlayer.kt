@@ -13,7 +13,7 @@ import backend.game.Game
  * of the game is greater than [threshold], then it sees it as an infinite chain, otherwise it sees the end.
  * @constructor creates a player without the hot potato and with a payoff of 0.
  */
-class MyopicPlayer(id: Int, val threshold: Int) : Player(id) {
+class MyopicPlayer(id: Int, val threshold: Int) : Player(id, PlayerType.MYOPIC) {
 
     /**
      * Handles the decision logic of the player behind either the acceptance or denying of the hot potato.
@@ -31,8 +31,7 @@ class MyopicPlayer(id: Int, val threshold: Int) : Player(id) {
     }
 
     override fun toString(): String {
-        return "{id: $id; payoff: $payoff; threshold: $threshold}"
+        val str = "${super.toString()} threshold: $threshold}"
+        return str
     }
-
-
 }

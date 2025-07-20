@@ -11,7 +11,8 @@ import kotlin.math.pow
  * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [alterDenyBelief] passed as argument.
  */
-class StochasticPlayer(id: Int, val alterDenyBelief: Double = 0.5) : Player(id) {
+class StochasticPlayer(id: Int,
+                       val alterDenyBelief: Double = 0.5) : Player(id, PlayerType.STOCHASTIC) {
     init {
         require(alterDenyBelief in 0.0..1.0) {"alterDenyBelief must be between 0.0 and 1.0"}
     }
@@ -30,10 +31,15 @@ class StochasticPlayer(id: Int, val alterDenyBelief: Double = 0.5) : Player(id) 
         val probGameEndsNextTurn = alterDenyBelief.pow(remainingPlayers)
         val probGameContinuesNextTurn = 1 - probGameEndsNextTurn
 
-        val gainWeight = probGameContinuesNextTurn * potato.gain
-        val lossWeight = probGameEndsNextTurn * potato.loss
+        val gainWeight = probGameContinuesNextTurn * potato.currentGain
+        val lossWeight = probGameEndsNextTurn * potato.currentLoss
 
         val decision = gainWeight > lossWeight
         return decision
+    }
+
+    override fun toString(): String {
+        val str = "${super.toString()} alterDenyBelief = $alterDenyBelief }"
+        return str
     }
 }

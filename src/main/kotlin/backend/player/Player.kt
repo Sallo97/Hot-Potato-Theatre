@@ -7,9 +7,10 @@ import backend.game.Game
  *
  * @property [id] unique identifier for the player.
  * @property [payoff] the payoff of the player.
+ * @property [behavior] describes the player behavior.
  * @constructor creates a player without the hot potato and with an initial payoff of 0.
  */
-sealed class Player (val id: Int){
+sealed class Player (val id: Int, val behavior: PlayerType){
     var payoff: Double = 0.0
 
     /**
@@ -21,6 +22,6 @@ sealed class Player (val id: Int){
     abstract fun decideAcceptance (game: Game): Boolean
 
     override fun toString() : String {
-        return "{id: $id; payoff: $payoff}"
+        return "$behavior {id: $id; payoff: $payoff "
     }
 }

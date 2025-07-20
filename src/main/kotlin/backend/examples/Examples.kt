@@ -1,6 +1,7 @@
 package backend.examples
 
 import backend.game.Game
+import backend.game.GameType
 import backend.player.CoalitionalPlayer
 import backend.player.GulliblePlayer
 import backend.player.Player
@@ -19,7 +20,7 @@ val rationalExample by lazy {
             this.add(player)
         }
     }
-    val game = Game(potato, set)
+    val game = Game(potato, set, type = GameType.HOMOGENEOUS)
     GameExample(
         game,
         "Rational Game",
@@ -40,7 +41,7 @@ val gullibleExample by lazy {
         }
     }
 
-    val game = Game(potato, set)
+    val game = Game(potato, set, GameType.HOMOGENEOUS)
     GameExample(
         game,
         "Gullible Game",
@@ -52,7 +53,7 @@ val gullibleExample by lazy {
  * An example of a game composed of 10 coalitional players.
  */
 val coalitionalExample by lazy {
-    val potato = Potato(lifetime = 10, gain = 5.0, loss = 10.0)
+    val potato = Potato(lifetime = 10, baseGain = 5.0, baseLoss = 10.0)
     val set = mutableSetOf<Player>().apply {
         for(i in 1..10) {
             val player = CoalitionalPlayer(i, 0.5)
@@ -60,7 +61,7 @@ val coalitionalExample by lazy {
         }
     }
 
-    val game = Game(potato, set)
+    val game = Game(potato, set, GameType.HOMOGENEOUS)
     GameExample(
         game,
         "Coalitional Game",

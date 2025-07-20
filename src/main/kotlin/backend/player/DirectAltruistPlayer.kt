@@ -19,7 +19,9 @@ import kotlin.math.pow
  * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [altruism] passed as argument.
  */
-class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val alterBelief: Double = 1.0) : Player(id) {
+class DirectAltruistPlayer(
+    id: Int, val altruism: Double = 0.5,
+    val alterBelief: Double = 1.0) : Player(id, PlayerType.DIRECT_ALTRUIST) {
     init {
         require(altruism in 0.0..1.0)
     }
@@ -41,14 +43,15 @@ class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val alterBelief:
             1 / otherHelpers.toDouble().pow(alterBelief)
         }
 
-        val gainWeight: Double = potato.gain * responsibilityScaling
-        val lossWeight: Double = potato.loss * (1 - altruism)
+        val gainWeight: Double = potato.currentGain * responsibilityScaling
+        val lossWeight: Double = potato.currentLoss * (1 - altruism)
 
         val decision = gainWeight > lossWeight
         return decision
     }
 
     override fun toString(): String {
-        return "{id: $id; payoff: $payoff; altruism: $altruism; helpAlterBelief: $alterBelief }"
+        val str = "${super.toString()} altruism: $altruism; helpAlterBelief: $alterBelief }"
+        return str
     }
 }

@@ -1,6 +1,7 @@
 import backend.player.PlayerType
 import backend.examples.examples
 import backend.game.createGameFromStdin
+import frontend.ui.InputRestriction
 import frontend.ui.intFromStdin
 import frontend.ui.choiceFromStdin
 
@@ -26,7 +27,7 @@ private fun chooseAndExecuteMode() {
                 "4 - Exit application."
         println(message)
 
-        val mode = intFromStdin("mode", true, 1..4)
+        val mode = intFromStdin("mode", InputRestriction.STRICTLY_POSITIVE, 1..4)
         println()
         when(mode) {
             1 -> {
@@ -73,7 +74,7 @@ private fun playExample() {
         }
 
         val numOfExamples = examples.size
-        val choice = intFromStdin("example", true,  1..numOfExamples)
+        val choice = intFromStdin("example", InputRestriction.STRICTLY_POSITIVE,  1..numOfExamples)
         val example = examples[choice - 1]
         example.run()
         println(example.gameToString())
@@ -99,7 +100,7 @@ private fun help() {
                 "2 - What types of players are available?\n" +
                 "3 - What are the available examples?"
         println(choiceMessage)
-        val choice = intFromStdin("choice", true, 1..3)
+        val choice = intFromStdin("choice", InputRestriction.STRICTLY_POSITIVE, 1..3)
         when (choice) {
             1 -> {
                 val shpgMsg =

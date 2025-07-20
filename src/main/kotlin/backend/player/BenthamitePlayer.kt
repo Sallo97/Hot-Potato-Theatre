@@ -13,7 +13,10 @@ import backend.game.Game
  * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [gainWeight] and [lossWeight] set
  * as hyperparameters.
  */
-class BenthamitePlayer(id: Int, val gainWeight: Double = 0.5, val lossWeight: Double = 0.5) : Player(id){
+class BenthamitePlayer(
+    id: Int,
+    val gainWeight: Double = 0.5,
+    val lossWeight: Double = 0.5) : Player(id, PlayerType.BENTHAMITE){
     init {
         require(gainWeight in 0.0..1.0)
     }
@@ -30,7 +33,7 @@ class BenthamitePlayer(id: Int, val gainWeight: Double = 0.5, val lossWeight: Do
         val remainingTurns = game.getRemainingTurnsExceptCurrent()
         val remainingPlayers = game.getNumOfAvailablePlayers() - 1 // do not consider current player
 
-        val groupBenefit: Double = gainWeight * (potato.gain * remainingTurns - potato.loss)
+        val groupBenefit: Double = gainWeight * (potato.currentGain * remainingTurns - potato.currentLoss)
 
         val diffusionResponsibility: Double = if (remainingPlayers == 0) {
             0.0
@@ -43,6 +46,7 @@ class BenthamitePlayer(id: Int, val gainWeight: Double = 0.5, val lossWeight: Do
     }
 
     override fun toString(): String {
-        return "{id: $id; payoff: $payoff; alterAcceptBelief: $gainWeight}"
+        val str = "${super.toString()} alterAcceptBelief: $gainWeight}"
+        return str
     }
 }
