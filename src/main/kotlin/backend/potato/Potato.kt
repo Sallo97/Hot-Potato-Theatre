@@ -11,7 +11,7 @@ import backend.player.Player
  * @property [type] specifies if the potato is fixed or mutable.
  * @property [gainFactor] by how much the gain changes over a turn.
  * @property [baseLoss] by how much the loss changes over a turn.
- * @property [ratio] the positive ratio between gain and loss (i.e. gain / (-loss)).
+ * @property [ratio] the positive ratio between the current gain and loss (i.e. gain / (-loss)).
  * @property [currentHolder] the current player holding the potato. At the start no one holds it.
  * We interpret gain and loss value as dollars for sake of simplicity
  */

@@ -46,8 +46,7 @@ class DirectAltruistPlayer(
         val gainWeight: Double = potato.currentGain * responsibilityScaling
         val lossWeight: Double = potato.currentLoss * (1 - altruism)
 
-        val decision = gainWeight > lossWeight
-        return decision
+        return potatoAcceptance(gainWeight, lossWeight, potato)
     }
 
     override fun toString(): String {

@@ -41,8 +41,7 @@ class BenthamitePlayer(
             lossWeight * (1/remainingPlayers)
         }
 
-        val decision = groupBenefit > diffusionResponsibility
-        return decision
+        return potatoAcceptance(groupBenefit, diffusionResponsibility, potato)
     }
 
     override fun toString(): String {

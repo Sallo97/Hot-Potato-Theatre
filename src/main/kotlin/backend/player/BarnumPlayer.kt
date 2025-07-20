@@ -30,13 +30,14 @@ class BarnumPlayer (id: Int, val prob: Double) : Player(id, PlayerType.BARNUM) {
         val potato = game.potato
         val remainingTurns = game.getRemainingTurnsExceptCurrent()
 
-        if(!game.isPotatoAlive() || remainingTurns <= 0) {
+        if(!game.isPotatoAlive() || game.getRemainingTurnsWithCurrent() <= 0) {
             return false
         }
 
         val probPow = prob.pow(remainingTurns)
         val probRatio = probPow /  (1 - probPow)
-        return potato.ratio >= probRatio
+
+        return potatoAcceptance(potato.ratio, probRatio, potato)
     }
 
     override fun toString(): String {
