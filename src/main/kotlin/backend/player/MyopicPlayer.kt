@@ -24,8 +24,7 @@ class MyopicPlayer(id: Int, val threshold: Int) : Player(id) {
      * @return true if the player *chosen* to accept the good, false otherwise.
      */
     override fun decideAcceptance(game: Game): Boolean {
-        val turn = game.getCurrentTurn()
-        val remainingTurns = minOf(game.potato.lifetime - turn, game.getNumOfAvailablePlayers())
+        val remainingTurns = game.getRemainingTurnsExceptCurrent()
 
         val decision = remainingTurns > threshold
         return decision
