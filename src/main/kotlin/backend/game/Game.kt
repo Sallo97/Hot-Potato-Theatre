@@ -136,6 +136,7 @@ class Game (
      */
     private fun updateGame (p: Player) {
         status.updateStatus(p)
+        potato.updatePotato()
         if (p is CoalitionalPlayer) {
             coalition.addMember(p)
         }
