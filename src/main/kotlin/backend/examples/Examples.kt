@@ -1,7 +1,7 @@
 package org.example.backend.examples
 
 import org.example.backend.game.Game
-import org.example.backend.player.CoalitionalPlayer
+import backend.player.CoalitionalPlayer
 import org.example.backend.player.GulliblePlayer
 import org.example.backend.player.Player
 import org.example.backend.player.RationalPlayer
