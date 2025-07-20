@@ -24,7 +24,7 @@ class MyopicPlayer(id: Int, val threshold: Int) : Player(id) {
      * @return true if the player *chosen* to accept the good, false otherwise.
      */
     override fun decideAcceptance(game: Game): Boolean {
-        val remainingTurns = game.getRemainingTurnsExceptCurrent()
+        val remainingTurns = game.getRemainingTurnsWithCurrent()
 
         val decision = remainingTurns > threshold
         return decision
