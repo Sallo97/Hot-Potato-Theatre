@@ -2,7 +2,7 @@ package org.example.backend.game
 
 import org.example.backend.coalition.Coalition
 import backend.gameStatus.GameStatus
-import org.example.backend.player.CoalitionalPlayer
+import backend.player.CoalitionalPlayer
 import org.example.backend.player.Player
 import org.example.backend.potato.Potato
 
@@ -99,10 +99,11 @@ class Game (
     }
 
     /**
-     * @return the number of turns left counting also the current one .
+     * @return the number of turns left counting also the current one. Must be a value >= 0.
      */
     fun getRemainingTurnsWithCurrent() : Int {
-        val result = minOf(potato.lifetime - status.turn, getNumOfAvailablePlayers())
+        var result = minOf(potato.lifetime - status.turn, getNumOfAvailablePlayers())
+        result = maxOf(result, 0)
         return result
     }
 
@@ -110,7 +111,7 @@ class Game (
      * @return the number of turns left not counting the current one.
      */
     fun getRemainingTurnsExceptCurrent() : Int {
-        val result = getRemainingTurnsWithCurrent() - 1
+        val result = maxOf(getRemainingTurnsWithCurrent() - 1, 0)
         return result
     }
 
