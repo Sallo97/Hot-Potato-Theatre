@@ -11,9 +11,10 @@ import org.example.backend.potato.Potato
  * An example of a game composed of 5 rational players.
  */
 val rationalExample by lazy {
-    val potato = Potato(5, 5.0, 5.0)
+    val potato = Potato(200, 1000.0, 5.0)
+    val numOfPlayers = 100
     val set = mutableSetOf<RationalPlayer>().apply {
-        for (i in 1..5) {
+        for (i in 1..numOfPlayers) {
             val player = RationalPlayer(i)
             this.add(player)
         }
@@ -22,7 +23,7 @@ val rationalExample by lazy {
     GameExample(
         game,
         "Rational Game",
-        "A simple game of 5 rational players with potato = $potato."
+        "A simple game of $numOfPlayers rational players with potato = $potato."
     )
 }
 
@@ -30,9 +31,10 @@ val rationalExample by lazy {
  * An example of a game composed of 5 gullible players.
  */
 val gullibleExample by lazy {
-    val potato = Potato(5, 5.0, 5.0)
+    val potato = Potato(200, 5.0, 1000.0)
+    val numOfPlayer = 100
     val set = mutableSetOf<GulliblePlayer>().apply {
-        for (i in 1..5) {
+        for (i in 1..numOfPlayer) {
             val player = GulliblePlayer(i)
             this.add(player)
         }
@@ -42,7 +44,7 @@ val gullibleExample by lazy {
     GameExample(
         game,
         "Gullible Game",
-        "A simple game of 5 gullible players with potato = $potato."
+        "A simple game of $numOfPlayer gullible players with potato = $potato."
     )
 }
 
