@@ -28,10 +28,15 @@ class BenthamitePlayer(id: Int, val gainWeight: Double = 0.5, val lossWeight: Do
     override fun decideAcceptance(game: Game): Boolean {
         val potato = game.potato
         val remainingTurns = game.getRemainingTurnsExceptCurrent()
-        val remainingPlayers = game.getNumOfAvailablePlayers()
+        val remainingPlayers = game.getNumOfAvailablePlayers() - 1 // do not consider current player
 
-        val groupBenefit = gainWeight * (potato.gain * remainingTurns - potato.loss)
-        val diffusionResponsibility = lossWeight * (1/remainingPlayers)
+        val groupBenefit: Double = gainWeight * (potato.gain * remainingTurns - potato.loss)
+
+        val diffusionResponsibility: Double = if (remainingPlayers == 0) {
+            0.0
+        } else {
+            lossWeight * (1/remainingPlayers)
+        }
 
         val decision = groupBenefit > diffusionResponsibility
         return decision
