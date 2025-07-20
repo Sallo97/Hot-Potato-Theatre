@@ -30,6 +30,11 @@ class CoalitionalPlayer(id:Int, val acceptanceToRisk: Double) : Player(id) {
         val potato = game.potato
         val coalition = game.coalition
 
+        // If at least one player think is worth being in a coalition, then a ll others will accept immediately.
+        if (coalition.size() > 0) {
+            return true
+        }
+
         val worstCaseTotalPayoff: Double = (coalition.totalPayoff - potato.loss) // totalPayoff of the coalition when the current player becomes the last one.
         val worstCasePayoff: Double = worstCaseTotalPayoff / (coalition.size() + 1)
 
