@@ -1,8 +1,7 @@
 package backend.potato
 
-import frontend.ui.absDoubleFromStdin
-import frontend.ui.absIntFromStdin
-import frontend.ui.absIntWithinRangeFromStdin
+import frontend.ui.doubleFromStdin
+import frontend.ui.intFromStdin
 
 /**
  * @return a Potato object with parameters coming from user's input.
@@ -10,14 +9,14 @@ import frontend.ui.absIntWithinRangeFromStdin
 fun createHotPotatoFromStdin() : Potato {
     println("Creating the hot potato...")
     val potatoType = potatoTypeFromStdin()
-    val lifetime = absIntFromStdin("lifetime")
-    val gain = absDoubleFromStdin("gain")
-    val loss = absDoubleFromStdin("loss")
+    val lifetime = intFromStdin("lifetime", true)
+    val gain = doubleFromStdin("gain")
+    val loss = doubleFromStdin("loss")
     val gainFactor = if(potatoType == PotatoType.FIXED) { 1.0 } else {
-       absDoubleFromStdin("by how much the gain changes over time")
+       doubleFromStdin("by how much the gain changes over time")
     }
     val lossFactor = if(potatoType == PotatoType.FIXED) { 1.0 } else {
-        absDoubleFromStdin("by how much the loss changes over time")
+        doubleFromStdin("by how much the loss changes over time")
     }
     val potato = Potato(lifetime, gain, loss, gainFactor, lossFactor)
     println("Created the potato: $potato")
@@ -30,7 +29,7 @@ fun createHotPotatoFromStdin() : Potato {
 private fun potatoTypeFromStdin() : PotatoType {
     println("Select type of potato:")
     println(PotatoType.getAvailableTypes())
-    val choice = absIntWithinRangeFromStdin("type of potato", 1..PotatoType.entries.size)
+    val choice = intFromStdin("type of potato", true, 1..PotatoType.entries.size)
     val result = PotatoType.fromInt(choice)!!
     return result
 }

@@ -1,10 +1,8 @@
 package backend.player
 
 import backend.game.GameType
-import frontend.ui.absDoubleFromStdin
-import frontend.ui.absDoubleWithinRangeFromStdin
-import frontend.ui.absIntFromStdin
-import frontend.ui.absIntWithinRangeFromStdin
+import frontend.ui.doubleFromStdin
+import frontend.ui.intFromStdin
 
 /**
  * @return a set of [numOfPlayers] players. [gameType] specifies the type of game
@@ -53,40 +51,40 @@ private fun createPlayerOfTypeFromStdin(type: PlayerType, id:Int = 0) : Player {
         }
         PlayerType.BARNUM -> {
             val message = "the probability that other alters are Barnum players"
-            val prob = absDoubleWithinRangeFromStdin(message, IntRange(0, 1))
+            val prob = doubleFromStdin(message, true, 0.0..1.0)
             BarnumPlayer(id, prob)
         }
         PlayerType.MYOPIC -> {
             val message = "threshold"
-            val threshold = absIntFromStdin(message)
+            val threshold = intFromStdin(message, true)
             MyopicPlayer(id, threshold)
         }
         PlayerType.STOCHASTIC -> {
             val message = "the probability that an alter will deny the good at the next turn"
-            val alterDenyBelief = absDoubleWithinRangeFromStdin(message, IntRange(0, 1))
+            val alterDenyBelief = doubleFromStdin(message, true,  0.0..1.0)
             StochasticPlayer(id, alterDenyBelief)
         }
         PlayerType.DIRECT_ALTRUIST -> {
             val altruismMessage = "altruism, value between [0,1] representing how much the player is willing to help the beneficiary."
-            val altruism = absDoubleWithinRangeFromStdin(altruismMessage, IntRange(0, 1))
+            val altruism = doubleFromStdin(altruismMessage, true, 0.0..1.0)
 
             val alterBelief = "the belief of the current player that an alter will help the same beneficiary. Is a value > 0"
-            val helpAlterBelief = absDoubleFromStdin(alterBelief)
+            val helpAlterBelief = doubleFromStdin(alterBelief, true)
 
             DirectAltruistPlayer(id, altruism, helpAlterBelief)
         }
         PlayerType.BENTHAMITE -> {
             val gainMessage = "how much weight has the acceptance of the hot potato. Is a value > 0"
-            val gainWeight = absDoubleFromStdin(gainMessage)
+            val gainWeight = doubleFromStdin(gainMessage, true)
 
             val lossMessage = "how much weight has the loss of the hot potato. Is a value > 0"
-            val lossWeight = absDoubleFromStdin(lossMessage)
+            val lossWeight = doubleFromStdin(lossMessage, true)
 
             BenthamitePlayer(id, gainWeight, lossWeight)
         }
         PlayerType.COALITIONAL -> {
             val riskMessage = "how much the current players is willing to risk accepting the potato for the proposed coalition. Is a value between 0 and 1."
-            val acceptanceToRisk = absDoubleWithinRangeFromStdin(riskMessage, IntRange(0, 1))
+            val acceptanceToRisk = doubleFromStdin(riskMessage, true, 0.0..1.0)
 
             CoalitionalPlayer(id, acceptanceToRisk)
         }
@@ -106,8 +104,9 @@ private fun getPlayerTypeFromStdin() : PlayerType {
     println(typeOfPlayerMsg)
     println(PlayerType.getAvailableTypes())
 
-    val type : Int = absIntWithinRangeFromStdin(
+    val type : Int = intFromStdin(
         "player type",
+        true,
         1..PlayerType.entries.size
     )
     val result = PlayerType.fromInt(type)!!
