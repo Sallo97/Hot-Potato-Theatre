@@ -10,8 +10,8 @@ fun createHotPotatoFromStdin() : Potato {
     println("Creating the hot potato...")
     val potatoType = potatoTypeFromStdin()
     val lifetime = intFromStdin("lifetime", true)
-    val gain = doubleFromStdin("gain")
-    val loss = doubleFromStdin("loss")
+    val gain = doubleFromStdin("gain", true)
+    val loss = doubleFromStdin("loss", true)
     val gainFactor = if(potatoType == PotatoType.FIXED) { 1.0 } else {
        doubleFromStdin("by how much the gain changes over time")
     }

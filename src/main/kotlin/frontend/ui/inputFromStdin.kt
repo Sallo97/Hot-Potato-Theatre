@@ -27,7 +27,7 @@ fun choiceFromStdin(question: String) : Boolean {
  * @return a correct input from stdin parsed as an absolute integer
  */
 fun intFromStdin(name: String, isNotNegative: Boolean = false, range: IntRange? = null): Int {
-    val message = "Input $name " + if (isNotNegative) "(must be strictly positive)" else ""
+    val message = createInputMessage(name, isNotNegative, range)
 
     while (true) {
         print(message)
@@ -51,9 +51,7 @@ fun doubleFromStdin(
     isNotNegative: Boolean = false,
     range: ClosedFloatingPointRange<Double>? = null
 ): Double {
-    val rangeText = range?.let { " (range: ${it.start}..${it.endInclusive})" } ?: ""
-    val positiveText = if (isNotNegative) " (must be strictly positive)" else ""
-    val message = "Input $name$positiveText$rangeText: "
+    val message = createInputMessage(name, isNotNegative, range)
 
     while (true) {
         print(message)
@@ -67,3 +65,14 @@ fun doubleFromStdin(
     }
 }
 
+private fun <T : Comparable<T>> createInputMessage(name: String, isNotNegative: Boolean = false, range: ClosedRange<T>? = null) : String {
+    val startMessage = "Input $name"
+    val positiveMessage = if (isNotNegative) {
+        " (must be strictly positive)"
+    } else {
+        ""
+    }
+    val rangeText = range?.let { " (range: ${it.start}..${it.endInclusive})" } ?: ""
+
+    return "$startMessage$positiveMessage$rangeText: "
+}

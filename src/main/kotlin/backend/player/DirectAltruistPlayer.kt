@@ -22,7 +22,6 @@ import kotlin.math.pow
 class DirectAltruistPlayer(id: Int, val altruism: Double = 0.5, val alterBelief: Double = 1.0) : Player(id) {
     init {
         require(altruism in 0.0..1.0)
-        require(alterBelief in 0.0..1.0)
     }
 
     /**

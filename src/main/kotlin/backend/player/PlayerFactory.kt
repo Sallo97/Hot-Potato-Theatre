@@ -65,25 +65,25 @@ private fun createPlayerOfTypeFromStdin(type: PlayerType, id:Int = 0) : Player {
             StochasticPlayer(id, alterDenyBelief)
         }
         PlayerType.DIRECT_ALTRUIST -> {
-            val altruismMessage = "altruism, value between [0,1] representing how much the player is willing to help the beneficiary."
+            val altruismMessage = "how much the player is willing to help the beneficiary."
             val altruism = doubleFromStdin(altruismMessage, true, 0.0..1.0)
 
-            val alterBelief = "the belief of the current player that an alter will help the same beneficiary. Is a value > 0"
+            val alterBelief = "the belief of the current player that an alter will help the same beneficiary"
             val helpAlterBelief = doubleFromStdin(alterBelief, true)
 
             DirectAltruistPlayer(id, altruism, helpAlterBelief)
         }
         PlayerType.BENTHAMITE -> {
-            val gainMessage = "how much weight has the acceptance of the hot potato. Is a value > 0"
+            val gainMessage = "how much weight has the acceptance of the hot potato"
             val gainWeight = doubleFromStdin(gainMessage, true)
 
-            val lossMessage = "how much weight has the loss of the hot potato. Is a value > 0"
+            val lossMessage = "how much weight has the loss of the hot potato"
             val lossWeight = doubleFromStdin(lossMessage, true)
 
             BenthamitePlayer(id, gainWeight, lossWeight)
         }
         PlayerType.COALITIONAL -> {
-            val riskMessage = "how much the current players is willing to risk accepting the potato for the proposed coalition. Is a value between 0 and 1."
+            val riskMessage = "how much the current players is willing to risk accepting the potato for the proposed coalition"
             val acceptanceToRisk = doubleFromStdin(riskMessage, true, 0.0..1.0)
 
             CoalitionalPlayer(id, acceptanceToRisk)
