@@ -12,7 +12,7 @@ import frontend.ui.absIntWithinRangeFromStdin
 fun createSetOfPlayersFromStdin(numOfPlayers: Int, isHomogeneous: Boolean = false) : Set<Player> {
     // println("Creating set of players...")
 
-    var type: Int? = if(isHomogeneous) {
+    var type: PlayerType? = if(isHomogeneous) {
         getPlayerTypeFromStdin()
     } else {
         null
@@ -42,9 +42,8 @@ fun createPlayerFromStdin (id:Int = 0) : Player {
 /**
  * @return player object of specified [type] and [id] with parameters coming from user's input.
  */
-private fun createPlayerOfTypeFromStdin(type: Int, id:Int = 0) : Player {
-    val playerType = PlayerType.fromInt(type)
-    val player = when(playerType) {
+private fun createPlayerOfTypeFromStdin(type: PlayerType, id:Int = 0) : Player {
+    val player = when(type) {
          PlayerType.RATIONAL -> {
             RationalPlayer(id)
         }
@@ -93,10 +92,6 @@ private fun createPlayerOfTypeFromStdin(type: Int, id:Int = 0) : Player {
         PlayerType.INPUT -> {
             InputPlayer(id)
         }
-
-        else -> {
-            error("Invalid type for player")
-        }
     }
     // println("Created the player: $player")
     return player
@@ -105,7 +100,7 @@ private fun createPlayerOfTypeFromStdin(type: Int, id:Int = 0) : Player {
 /**
  * @return the player's type as an integer
  */
-private fun getPlayerTypeFromStdin() : Int {
+private fun getPlayerTypeFromStdin() : PlayerType {
     val typeOfPlayerMsg = "Select which type of player do you want between:"
     println(typeOfPlayerMsg)
     println(PlayerType.getAvailableTypes())
@@ -114,5 +109,6 @@ private fun getPlayerTypeFromStdin() : Int {
         "player type",
         1..PlayerType.entries.size
     )
-    return type
+    val result = PlayerType.fromInt(type)!!
+    return result
 }

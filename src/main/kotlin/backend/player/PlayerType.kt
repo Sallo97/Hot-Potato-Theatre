@@ -29,7 +29,7 @@ enum class PlayerType(val displayName: String, val description: String) {
         }
 
         /**
-         * @return the PlayerType associated to that integer, otherwise null.
+         * @return the PlayerType associated to [value], otherwise null.
          */
         fun fromInt(value: Int): PlayerType? {
             return entries.getOrNull(value - 1)
