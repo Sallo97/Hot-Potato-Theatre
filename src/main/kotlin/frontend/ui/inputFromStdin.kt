@@ -42,7 +42,7 @@ fun intFromStdin(name: String,
         val input = readln().toIntOrNull()
 
         input?.let {
-            val satisfy = satisfiesRestriction(it, restriction)
+            val satisfy = intSatisfiesRestriction(it, restriction)
             if(satisfy) {
                 return it
             }
@@ -52,19 +52,43 @@ fun intFromStdin(name: String,
     }
 }
 
-private fun <T> satisfiesRestriction (num: T, restriction: InputRestriction) : Boolean
-        where T : Number, T : Comparable<T> {
+/**
+ * @return true if the interger satisfy [restriction], false otherwise.
+ */
+private fun intSatisfiesRestriction (num: Int, restriction: InputRestriction) : Boolean {
     when (restriction) {
         InputRestriction.ANY -> {
             return true
         }
         InputRestriction.NOT_NEGATIVE -> {
-            if(num >= 0 as T) {
+            if(num >= 0 ) {
                 return true
             }
         }
         InputRestriction.STRICTLY_POSITIVE -> {
-            if(num > 0 as T) {
+            if(num > 0 ) {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+/**
+ * @return true if the double satisfy [restriction], false otherwise.
+ */
+private fun doubleSatisfiesRestriction (num: Double, restriction: InputRestriction) : Boolean {
+    when (restriction) {
+        InputRestriction.ANY -> {
+            return true
+        }
+        InputRestriction.NOT_NEGATIVE -> {
+            if(num >= 0.0 ) {
+                return true
+            }
+        }
+        InputRestriction.STRICTLY_POSITIVE -> {
+            if(num > 0.0 ) {
                 return true
             }
         }
@@ -89,7 +113,7 @@ fun doubleFromStdin(
         print(message)
         val input = readln().toDoubleOrNull()
         input?.let {
-            val satisfy = satisfiesRestriction(it, restriction)
+            val satisfy = doubleSatisfiesRestriction(it, restriction)
             if(satisfy) {
                 return it
             }
