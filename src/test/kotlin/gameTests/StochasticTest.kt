@@ -21,9 +21,9 @@ class StochasticTest : GameTest() {
         }
         doExactGameTest(potato,
             players,
-            5,
-            5,
-            200.0)
+            4,
+            4,
+            100.0)
     }
 
     @Test
