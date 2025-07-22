@@ -21,7 +21,7 @@ class CoalitionalPlayer(id:Int) : Player(id, PlayerType.COALITIONAL) {
      * @return true if the player *chosen* to accept the good, false otherwise.
      */
     override fun decideAcceptance(game: Game): Boolean {
-        val coalition = game.coalition
+        val coalition = game.coalition!!
         return (coalition.spaceLeft > 0) && (coalition.optimalPayoff > 0.0)
     }
 

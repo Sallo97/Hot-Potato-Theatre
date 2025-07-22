@@ -21,6 +21,5 @@ class CoalitionalTest: GameTest() {
             10,
             10,
             35.0)
-
     }
 }

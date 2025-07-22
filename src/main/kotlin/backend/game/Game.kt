@@ -21,12 +21,11 @@ class Game (
     startingPopulation: Set<Player>,
     val type: GameType) {
 
-    val coalition: Coalition
     private val status : GameStatus = GameStatus(startingPopulation as MutableSet)
-
-    init {
+    val coalition: Coalition? = run {
         val coalitionSetSize = startingPopulation.filter { it is CoalitionalPlayer }.size
-        coalition = Coalition(coalitionSetSize, potato)
+        if(coalitionSetSize > 0) { Coalition(coalitionSetSize, potato) }
+        else { null }
     }
 
     /**
@@ -46,7 +45,7 @@ class Game (
         }
 
         // Game Ended, let the coalition split their total payoff among the members
-        coalition.splitTotalPayoff()
+        coalition?.splitTotalPayoff()
         status.gameEnded = true
     }
 
@@ -142,7 +141,7 @@ class Game (
         status.updateStatus(p)
         potato.updatePotato()
         if (p is CoalitionalPlayer) {
-            coalition.addMember(p)
+            coalition!!.addMember(p)
         }
     }
 
@@ -158,7 +157,7 @@ class Game (
         if (p !is CoalitionalPlayer) {
             p.payoff += payoff
         } else {
-            coalition.totalPayoff += payoff
+            coalition!!.totalPayoff += payoff
         }
     }
 
