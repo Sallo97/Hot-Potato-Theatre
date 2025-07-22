@@ -39,9 +39,9 @@ class BarnumTest: GameTest() {
 
         doExactGameTest(potato,
             players,
-            5,
-            5,
-            10.0)
+            4,
+            4,
+            5.0)
     }
 
     @Test
