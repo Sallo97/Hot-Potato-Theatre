@@ -33,7 +33,6 @@ sealed class Player (val id: Int, val behavior: PlayerType){
         var denyWeight = denyWeight
         if (potato.type == PotatoType.MUTABLE) {
             acceptanceWeight *= (1/potato.gainFactor)
-        } else {
             denyWeight *= potato.lossFactor
         }
         return acceptanceWeight >= denyWeight
