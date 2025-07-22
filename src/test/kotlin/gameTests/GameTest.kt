@@ -1,6 +1,7 @@
 package gameTests
 
 import backend.game.Game
+import backend.game.GameType
 import backend.player.Player
 import backend.potato.Potato
 import kotlin.test.assertEquals
@@ -27,7 +28,7 @@ open class GameTest {
                         expChainSize: Int,
                         expTotalPayoff:Double,
                         tryAll: Boolean = true) {
-        val game = Game(potato, players)
+        val game = Game(potato, players, GameType.HOMOGENEOUS)
         game.run(tryAll)
 
         val turn = game.getCurrentTurn()
@@ -51,12 +52,13 @@ open class GameTest {
      * will check only a single random player.
      */
     fun doGEGameTest(potato: Potato,
-                      players: MutableSet<Player>,
-                      expTurn: Int,
-                      expChainSize: Int,
-                      expTotalPayoff:Int,
-                      tryAll: Boolean = true) {
-        val game = Game(potato, players)
+                     players: MutableSet<Player>,
+                     gameType: GameType,
+                     expTurn: Int,
+                     expChainSize: Int,
+                     expTotalPayoff:Int,
+                     tryAll: Boolean = true) {
+        val game = Game(potato, players, gameType)
         game.run(tryAll)
 
         val turn = game.getCurrentTurn()

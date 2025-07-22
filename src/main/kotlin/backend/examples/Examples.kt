@@ -56,7 +56,7 @@ val coalitionalExample by lazy {
     val potato = Potato(lifetime = 10, baseGain = 5.0, baseLoss = 10.0)
     val set = mutableSetOf<Player>().apply {
         for(i in 1..10) {
-            val player = CoalitionalPlayer(i, 0.5)
+            val player = CoalitionalPlayer(i)
             this.add(player)
         }
     }

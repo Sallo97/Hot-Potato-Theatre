@@ -26,7 +26,7 @@ class Game (
 
     init {
         val coalitionSetSize = startingPopulation.filter { it is CoalitionalPlayer }.size
-        coalition = Coalition(coalitionSetSize)
+        coalition = Coalition(coalitionSetSize, potato)
     }
 
     /**
