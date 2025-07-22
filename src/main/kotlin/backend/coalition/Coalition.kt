@@ -1,97 +1,128 @@
 package backend.coalition
 
+import backend.game.Game
+import backend.game.GameType
 import backend.player.CoalitionalPlayer
+import backend.player.Player
 import backend.potato.Potato
+import kotlin.math.pow
 
 /**
  * Implements a basic coalition between coalitional players, managing all the surrounding information.
  *
- * @property [totalCoalitionalPlayers] the total number of coalitional players in the game.
- * @property [members]  set of coalitional players which are in the coalition.
- * @property [totalPayoff] total payoff gained by the coalition thus far.
- * @property [spaceLeft] the number of coalitional players not yet in the coalition.
+ * @property [payoff] the current payoff guaranteed for the current players in the coalition.
  */
 class Coalition (
-    val totalCoalitionalPlayers: Int,
-    potato : Potato) {
+    game: Game) {
+    private var gain: Double = 0.0
+    var payoff: Double? = null
 
-    var totalPayoff : Double = 0.0
-    private val members: MutableSet<CoalitionalPlayer> = mutableSetOf()
-    data class BestCoalition(
-        val bestSize: Int,
-        val bestPayoff: Double
-    )
-    private val bestCoalition: BestCoalition = findOptimalPayoffAndSize(potato)
-    var spaceLeft = bestCoalition.bestSize
-    val optimalPayoff = bestCoalition.bestPayoff
+    private data class Member (val player: Player, val turn: Int)
+    private val chain: MutableList<Member> = mutableListOf()
 
+    private class OptimalCoalition (val optimalSize:Int, val optimalPayoff: Double)
+    private val optimalCoalition: OptimalCoalition? = if(game.type == GameType.HOMOGENEOUS) {
+        findBestCoalition(game.potato, game.numOfCoalitionalPlayer)
+    } else {
+        null
+    }
+
+    /**
+     * @return true if the coalition is willing to take a new member, false otherwise.
+     */
+    fun isWillingToTakeANewMember() : Boolean {
+        val decision = optimalCoalition?.let{
+            chain.size < optimalCoalition.optimalSize
+        }?: true
+
+        return decision
+    }
 
     /**
      * @return the optimal size of the coalition and optimal payoff possible according to [potato].
      */
-    private fun findOptimalPayoffAndSize(potato: Potato): BestCoalition {
-        val turns = minOf(potato.lifetime, totalCoalitionalPlayers)
+    private fun findBestCoalition(potato: Potato, numOfCoalitionalPlayer: Int): OptimalCoalition? {
+        val turns = minOf(potato.lifetime, numOfCoalitionalPlayer)
 
         data class State(
             val gain: Double,
             val loss: Double,
-            val bestCoalition: BestCoalition
+            val optimalCoalition: OptimalCoalition
         )
 
         val finalState = (1..turns).fold(
-            State(0.0, potato.baseLoss, BestCoalition(0, Double.NEGATIVE_INFINITY))
+            State(0.0, potato.baseLoss, OptimalCoalition(0, Double.NEGATIVE_INFINITY))
         ) { state, i ->
             val currentPayoff = (state.gain - state.loss) / i
             val nextGain = state.gain + if (state.gain == 0.0) potato.baseGain else potato.gainFactor * state.gain
             val nextLoss = state.loss * potato.lossFactor
 
-            if (currentPayoff > state.bestCoalition.bestPayoff) {
-                State(nextGain, nextLoss, BestCoalition(i, currentPayoff))
+            if (currentPayoff > state.optimalCoalition.optimalPayoff) {
+                State(nextGain, nextLoss, OptimalCoalition(i, currentPayoff))
             } else {
-                State(nextGain, nextLoss, bestCoalition)
+                State(nextGain, nextLoss, state.optimalCoalition)
             }
         }
 
-        if (finalState.bestCoalition.bestPayoff < 0) {
-            return BestCoalition(0, Double.NEGATIVE_INFINITY)
+        if (finalState.optimalCoalition.optimalPayoff < 0) {
+            return null
         }
-        return finalState.bestCoalition
+        return finalState.optimalCoalition
     }
 
     /**
      * After game ended provide the payoff to all players which engaged in the coalition.
      * The amount of payoff is equal to all members of the coalition.
      */
-    fun splitTotalPayoff() {
-        val payoff: Double = totalPayoff / members.size
-        for (p in members) {
-            p.payoff += payoff
+    fun distributePayoff() {
+        for (member in chain) {
+            member.player.payoff += payoff?:error("payoff of the coalition is null")
         }
     }
 
     /**
-     * Adds [p] to the coalition
+     * Adds [player] at [turn] to the coalition.
      */
-    fun addMember(p: CoalitionalPlayer) {
-        require(spaceLeft > 0) {"The coalition is full, no other members can be added"}
-        members.add(p)
-        spaceLeft--
+    fun addMember(player: CoalitionalPlayer, turn: Int, potato: Potato) {
+        optimalCoalition?.let {
+            require(isWillingToTakeANewMember()) {"The coalition is full, no other members can be added"}
+        }
+        chain.add(Member(player, turn))
+
+        // Updating gain and payoff
+        if(chain.size != 1) {
+            val gainTurn = chain[chain.size - 2].turn
+            gain = gain.plus(potato.gainFactor.pow(gainTurn) * potato.baseGain)
+        }
+        val  lossTurn = chain.last().turn
+        val totalPayoff = gain.minus((potato.baseLoss * potato.lossFactor.pow(lossTurn)))
+        payoff = totalPayoff / chain.size
     }
 
     /**
      * @return the number of players in the coalition.
      */
     fun size(): Int {
-        return members.size
+        return chain.size
     }
 
     override fun toString(): String {
-        val message = if (members.isEmpty()) {
+        val message = if (chain.isEmpty()) {
             "No coalition was formed"
         } else {
-            "Coalition = { coalition payoff = $totalPayoff; number of members = ${members.size}, members = [$members] }"
+            "Coalition = { coalition payoff = $payoff; number of members = ${chain.size}, members = [$chain] }"
         }
         return message
+    }
+
+    /**
+     * [proposerLoss] the loss the proposer is willing to take.
+     * @return true if the coalition accept the proposer to be a member, false otherwise.
+     */
+    fun acceptProposition(proposerLoss: Double) : Boolean {
+        val proposedPayoff = (gain - proposerLoss)/ (chain.size - 1)
+        val decision = payoff?.let{ proposedPayoff >= it }?:true
+        return decision
     }
 
 }

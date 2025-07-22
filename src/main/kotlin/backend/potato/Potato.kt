@@ -1,6 +1,7 @@
 package backend.potato
 
 import backend.player.Player
+import kotlin.math.pow
 
 /**
  * Defines a hot potato object.
@@ -59,5 +60,19 @@ data class Potato(val lifetime:Int, val baseGain:Double, val baseLoss:Double,
         currentGain *= gainFactor
         currentLoss *= lossFactor
         ratio = currentGain / currentLoss
+    }
+
+    /**
+     * @return the gain at [turn]
+     */
+    fun getCurrentGain(turn: Int) : Double {
+        return baseGain * gainFactor.pow(turn)
+    }
+
+    /**
+     * @return the loss at [turn]
+     */
+    fun getCurrentLoss(turn: Int) : Double {
+        return baseLoss * lossFactor.pow(turn)
     }
 }
