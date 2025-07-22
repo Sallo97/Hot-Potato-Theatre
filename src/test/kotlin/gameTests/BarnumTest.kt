@@ -1,5 +1,6 @@
 package gameTests
 
+import backend.game.GameType
 import backend.player.BarnumPlayer
 import backend.player.Player
 import backend.potato.Potato
@@ -58,6 +59,7 @@ class BarnumTest: GameTest() {
 
         doGEGameTest(potato,
             players,
+            GameType.HOMOGENEOUS,
             1,
             1,
         -10,
