@@ -14,8 +14,8 @@ import kotlin.math.pow
  *
  * @property [altruism] value between [0,1] representing how much the player is willing to help the beneficiary.
  * Default value is 1/2.
- * @property [alterBelief] the belief of the current player that an alter will help the same beneficiary. Is a value > 0.
- * Default value is 1
+ * @property [alterBelief] the belief of the current player that an alter will help the same beneficiary. Is a value in [0,1].
+ * Default value is 1/2
  * @property [payoff] the payoff of the player.
  * @constructor creates a player without the hot potato, with a [payoff] of 0 and with [altruism] passed as argument.
  */
@@ -24,6 +24,7 @@ class DirectAltruistPlayer(
     val alterBelief: Double = 1.0) : Player(id, PlayerType.DIRECT_ALTRUIST) {
     init {
         require(altruism in 0.0..1.0)
+        require(alterBelief in 0.0..1.0)
     }
 
     /**
@@ -37,14 +38,15 @@ class DirectAltruistPlayer(
         val potato = game.potato
 
         val otherHelpers = minOf(0, game.getNumOfAvailablePlayers() - 2) // remove both current player and beneficiary.
-        val responsibilityScaling: Double = if (otherHelpers == 0) {
+
+        val responsibility: Double = if (otherHelpers == 0) {
             0.0
         } else {
-            1 / otherHelpers.toDouble().pow(alterBelief)
+           1 - alterBelief.pow(otherHelpers)
         }
 
-        val gainWeight: Double = potato.currentGain * responsibilityScaling
-        val lossWeight: Double = potato.currentLoss * (1 - altruism)
+        val gainWeight: Double = potato.currentGain / altruism
+        val lossWeight: Double = (potato.currentLoss * altruism * responsibility)
 
         return potatoAcceptance(gainWeight, lossWeight, potato)
     }

@@ -1,4 +1,4 @@
-package backend.gameStatus
+package backend.game.gameStatus
 
 import backend.player.Player
 import backend.player.RationalPlayer

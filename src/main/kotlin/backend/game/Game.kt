@@ -1,7 +1,7 @@
 package backend.game
 
 import backend.coalition.Coalition
-import backend.gameStatus.GameStatus
+import backend.game.gameStatus.GameStatus
 import backend.player.CoalitionalPlayer
 import backend.player.GulliblePlayer
 import backend.player.Player

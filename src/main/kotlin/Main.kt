@@ -115,7 +115,7 @@ private fun findOptimal() {
  * Prints a description of the application
  */
 private fun help() {
-    val briefDescription = "This program offers way to create and play Simple Hot Potato Games (SHPG for short), offering" +
+    val briefDescription = "This program offers way to create, analyse and play Simple Hot Potato Games (SHPG for short), offering" +
             "an assortment of customization option like different players' type, each with their own unique behaviour."
     println(briefDescription)
 

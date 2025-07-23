@@ -70,7 +70,7 @@ private fun createPlayerOfTypeFromStdin(type: PlayerType, id:Int = 0) : Player {
             val altruism = doubleFromStdin(altruismMessage, InputRestriction.NOT_NEGATIVE, 0.0..1.0)
 
             val alterBelief = "the belief of the current player that an alter will help the same beneficiary"
-            val helpAlterBelief = doubleFromStdin(alterBelief, InputRestriction.STRICTLY_POSITIVE)
+            val helpAlterBelief = doubleFromStdin(alterBelief, InputRestriction.NOT_NEGATIVE, 0.0..1.0)
 
             DirectAltruistPlayer(id, altruism, helpAlterBelief)
         }
