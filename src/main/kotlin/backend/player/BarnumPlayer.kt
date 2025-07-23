@@ -48,4 +48,5 @@ class BarnumPlayer (id: Int, val prob: Double) : Player(id, PlayerType.BARNUM) {
         val str = "${super.toString()} prob: $prob}"
         return str
     }
+
 }

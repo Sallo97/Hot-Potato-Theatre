@@ -3,6 +3,7 @@ package backend.game
 import backend.coalition.Coalition
 import backend.gameStatus.GameStatus
 import backend.player.CoalitionalPlayer
+import backend.player.GulliblePlayer
 import backend.player.Player
 import backend.potato.Potato
 
@@ -18,14 +19,25 @@ import backend.potato.Potato
  */
 class Game (
     val potato: Potato,
-    startingPopulation: Set<Player>,
+    private val startingPopulation: Set<Player>,
     val type: GameType) {
 
-    private val status : GameStatus = GameStatus(startingPopulation as MutableSet)
-    val numOfCoalitionalPlayer = startingPopulation.filter { it is CoalitionalPlayer }.size
-    val coalition: Coalition? = run {
+    private var status : GameStatus = GameStatus(startingPopulation as MutableSet)
+    var numOfCoalitionalPlayer = startingPopulation.filter { it is CoalitionalPlayer }.size
+    var coalition: Coalition? = run {
         if(numOfCoalitionalPlayer > 0) { Coalition( this) }
         else { null }
+    }
+
+    /**
+     * Returns game to starting status.
+     */
+    private fun reset() {
+        status = GameStatus(startingPopulation as MutableSet)
+        coalition = run {
+            if(numOfCoalitionalPlayer > 0) { Coalition( this) }
+            else { null }
+        }
     }
 
     /**
@@ -48,6 +60,100 @@ class Game (
         coalition?.distributePayoff()
         status.gameEnded = true
     }
+
+    /**
+     * Tries to find an optimal solution, i.e. a sequence of players which will lead to the longest possible chain.
+     *
+     * @return the ordered list of players representing an optimal solution.
+     */
+    fun findOptimalSolution() : List<Player> {
+        val turns = getRemainingTurnsWithCurrent()
+
+        // Construct acceptance arrays for non-coalitional players
+        val nonCoalitionalPlayers = status.activePopulation.filter { player -> player !is CoalitionalPlayer }
+        val acceptanceListNotCoalitional: MutableList<AcceptanceArray> = mutableListOf<AcceptanceArray>().apply {
+            for (player in nonCoalitionalPlayers) {
+                    this.add(constructAcceptanceArray(player, turns))
+            }
+        }
+
+        // Construct acceptance array for coalitional players
+        val coalitionalPlayers = status.activePopulation.filter { player -> player is CoalitionalPlayer }
+        val acceptanceListCoalitionalPlayer = constructAcceptanceArraysCoalition(coalitionalPlayers, turns)
+
+        val acceptanceList = mutableListOf<AcceptanceArray>().apply {
+            this.addAll(acceptanceListNotCoalitional)
+            this.addAll(acceptanceListCoalitionalPlayer)
+        }
+
+        val possibleSolution = mutableListOf<Player>().apply {
+            for (t in 0..<turns) {
+                val currentAcceptPlayers: List<AcceptanceArray> = acceptanceList.filter { it.array[t] }
+                val optimalPlayerAtTurn =
+                    if(!currentAcceptPlayers.isEmpty()) {
+                        findHighestPriorityPlayer(currentAcceptPlayers, t)
+                    }
+                    else {
+                        return emptyList()
+                    }
+                this.add(optimalPlayerAtTurn)
+            }
+        }
+
+        return possibleSolution.toList()
+    }
+
+    /**
+     * @return the first player type with the highest priority over [list].
+     */
+    private fun findHighestPriorityPlayer(list : List<AcceptanceArray>, turn:Int) : Player {
+        return list.minByOrNull { it.acceptanceAfterTurn(turn) }?.player
+            ?: throw IllegalArgumentException("List cannot be empty")
+    }
+
+    /**
+     * @param [turns] number of turns of the game.
+     * @return the acceptanceArrays for players in a coalition
+     */
+    private fun constructAcceptanceArraysCoalition (set: List<Player>, turns: Int) : List<AcceptanceArray> {
+        reset()
+        val list = mutableListOf<AcceptanceArray>()
+        for (player in set) {
+            val acceptanceArray = AcceptanceArray(player, turns)
+            for( i in getCurrentTurn()..<turns) {
+                val acceptance = player.decideAcceptance(this)
+                acceptanceArray.array[i] = acceptance
+                if(acceptance) {
+                    updateGame(player)
+                    break
+                } else {
+                    updateGame(GulliblePlayer(0))
+                }
+            }
+            list.add(acceptanceArray)
+        }
+        reset()
+        return list
+    }
+
+    /**
+     * @param [turns] number of turns of the game.
+     * @return the acceptanceArray of [player] for the following game.
+     */
+    private fun constructAcceptanceArray (player: Player, turns: Int): AcceptanceArray {
+        reset()
+        val acceptanceArray = AcceptanceArray(player, turns)
+        for(i in 0..<turns) {
+            val acceptance = player.decideAcceptance(this)
+            acceptanceArray.array[i] = acceptance
+            val dummy = GulliblePlayer(0)
+            updateGame(dummy)
+        }
+
+        reset()
+        return acceptanceArray
+    }
+
 
     /**
      * @return true if the game ended, false otherwise.

@@ -152,7 +152,7 @@ class CoalitionalPlayer(id:Int) : Player(id, PlayerType.COALITIONAL) {
     }
 
     override fun toString(): String {
-        val str = super.toString()
+        val str = super.toString() + " }"
         return str
     }
 }

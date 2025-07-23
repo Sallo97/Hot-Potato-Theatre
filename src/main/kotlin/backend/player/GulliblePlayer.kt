@@ -23,4 +23,5 @@ class GulliblePlayer (id: Int) : Player(id, PlayerType.GULLIBLE) {
     override fun toString(): String {
         return "${super.toString()} }"
     }
+
 }

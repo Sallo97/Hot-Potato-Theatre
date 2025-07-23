@@ -23,11 +23,12 @@ private fun chooseAndExecuteMode() {
         val message = "Choose one of the following mode:\n" +
                 "1 - Create and play a custom Hot Potato Game.\n" +
                 "2 - Play one of the available examples.\n" +
-                "3 - Help.\n" +
-                "4 - Exit application."
+                "3 - Find optimal solution for a game.\n" +
+                "4 - Help.\n" +
+                "5 - Exit application."
         println(message)
 
-        val mode = intFromStdin("mode", InputRestriction.STRICTLY_POSITIVE, 1..4)
+        val mode = intFromStdin("mode", InputRestriction.STRICTLY_POSITIVE, 1..5)
         println()
         when(mode) {
             1 -> {
@@ -38,9 +39,12 @@ private fun chooseAndExecuteMode() {
 
             }
             3 -> {
-                help()
+                findOptimal()
             }
             4 -> {
+                help()
+            }
+            5 -> {
                 break
             }
         }
@@ -84,6 +88,27 @@ private fun playExample() {
         }
     }
 
+}
+
+/**
+ * Finds a possible optimal solution for a game.
+ */
+private fun findOptimal() {
+    while(true) {
+        val game = createGameFromStdin()
+        val solution = game.findOptimalSolution()
+
+        val message = if (solution.isEmpty()) {
+            "No solution was found for the game."
+        } else {
+            "Found the following solution:\n${solution}"
+        }
+        println(message)
+
+        if (!choiceFromStdin("Wanna try to find another solution?")) {
+            break
+        }
+    }
 }
 
 /**

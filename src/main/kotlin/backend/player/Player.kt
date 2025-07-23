@@ -12,7 +12,7 @@ import backend.potato.PotatoType
  * @property [behavior] describes the player behavior.
  * @constructor creates a player without the hot potato and with an initial payoff of 0.
  */
-sealed class Player (val id: Int, val behavior: PlayerType){
+sealed class Player (val id: Int, val behavior: PlayerType) {
     var payoff: Double = 0.0
 
     /**
@@ -39,6 +39,7 @@ sealed class Player (val id: Int, val behavior: PlayerType){
     }
 
     override fun toString() : String {
-        return "$behavior {id: $id; payoff: $payoff "
+        return "$behavior:{id: $id; payoff: $payoff "
     }
+
 }

@@ -41,4 +41,5 @@ class StochasticPlayer(id: Int,
         val str = "${super.toString()} alterDenyBelief = $alterDenyBelief }"
         return str
     }
+
 }

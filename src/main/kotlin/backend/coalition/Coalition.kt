@@ -90,13 +90,19 @@ class Coalition (
         chain.add(Member(player, turn))
 
         // Updating gain and payoff
-        if(chain.size != 1) {
-            val gainTurn = chain[chain.size - 2].turn
-            gain = gain.plus(potato.gainFactor.pow(gainTurn) * potato.baseGain)
+        if(chain.size >= 2) {
+            // Iterative Case
+            val gainTurn = chain[chain.size - 2].turn - 1
+            gain += potato.gainFactor.pow(gainTurn) * potato.baseGain
+            val  lossTurn = chain.last().turn - 1
+            val loss = potato.baseLoss * potato.lossFactor.pow(lossTurn)
+            val totalPayoff = gain - loss
+            payoff = totalPayoff / chain.size
+        } else {
+            // Base Case
+            gain = 0.0
+            payoff = 0.0
         }
-        val  lossTurn = chain.last().turn
-        val totalPayoff = gain.minus((potato.baseLoss * potato.lossFactor.pow(lossTurn)))
-        payoff = totalPayoff / chain.size
     }
 
     /**
@@ -120,6 +126,9 @@ class Coalition (
      * @return true if the coalition accept the proposer to be a member, false otherwise.
      */
     fun acceptProposition(proposerLoss: Double) : Boolean {
+        if (chain.size == 1) {
+            return true
+        }
         val proposedPayoff = (gain - proposerLoss)/ (chain.size - 1)
         val decision = payoff?.let{ proposedPayoff >= it }?:true
         return decision
