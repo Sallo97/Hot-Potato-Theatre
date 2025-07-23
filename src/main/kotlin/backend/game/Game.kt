@@ -66,7 +66,7 @@ class Game (
      *
      * @return the ordered list of players representing an optimal solution.
      */
-    fun findOptimalSolution() : List<Player> {
+    fun findLongestChain() : List<Player> {
         val turns = getRemainingTurnsWithCurrent()
 
         // Construct acceptance arrays for non-coalitional players

@@ -28,7 +28,7 @@ sealed class Player (val id: Int, val behavior: PlayerType) {
      *
      * @return true if the potato should be accepted, false otherwise
      */
-    protected fun potatoAcceptance (acceptanceWeight: Double, denyWeight: Double, potato: Potato) : Boolean {
+    protected fun mutablePotatoAcceptance (acceptanceWeight: Double, denyWeight: Double, potato: Potato) : Boolean {
         var acceptanceWeight = acceptanceWeight
         var denyWeight = denyWeight
         if (potato.type == PotatoType.MUTABLE) {

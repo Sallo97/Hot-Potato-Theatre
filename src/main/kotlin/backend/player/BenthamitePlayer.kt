@@ -42,7 +42,7 @@ class BenthamitePlayer(
             lossWeight * (1/remainingPlayers)
         }
 
-        return potatoAcceptance(groupBenefit, diffusionResponsibility, potato)
+        return mutablePotatoAcceptance(groupBenefit, diffusionResponsibility, potato)
     }
 
     override fun toString(): String {

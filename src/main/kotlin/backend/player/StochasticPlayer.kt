@@ -34,7 +34,7 @@ class StochasticPlayer(id: Int,
         val gainWeight = probGameContinuesNextTurn * potato.currentGain
         val lossWeight = probGameEndsNextTurn * potato.currentLoss
 
-        return potatoAcceptance(gainWeight, lossWeight, potato)
+        return mutablePotatoAcceptance(gainWeight, lossWeight, potato)
     }
 
     override fun toString(): String {

@@ -41,7 +41,7 @@ class BarnumPlayer (id: Int, val prob: Double) : Player(id, PlayerType.BARNUM) {
             0.0
         }
 
-        return potatoAcceptance(potato.ratio, probRatio, potato)
+        return mutablePotatoAcceptance(potato.ratio, probRatio, potato)
     }
 
     override fun toString(): String {

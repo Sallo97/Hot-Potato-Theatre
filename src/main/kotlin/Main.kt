@@ -23,7 +23,7 @@ private fun chooseAndExecuteMode() {
         val message = "Choose one of the following mode:\n" +
                 "1 - Create and play a custom Hot Potato Game.\n" +
                 "2 - Play one of the available examples.\n" +
-                "3 - Find optimal solution for a game.\n" +
+                "3 - Find a longest chain for a game.\n" +
                 "4 - Help.\n" +
                 "5 - Exit application."
         println(message)
@@ -96,7 +96,7 @@ private fun playExample() {
 private fun findOptimal() {
     while(true) {
         val game = createGameFromStdin()
-        val solution = game.findOptimalSolution()
+        val solution = game.findLongestChain()
 
         val message = if (solution.isEmpty()) {
             "No solution was found for the game."
@@ -123,7 +123,7 @@ private fun help() {
         val choiceMessage = "What you wanna know more about?\n" +
                 "1 - What are hot potatoes and Simple Hot Potato Games?\n" +
                 "2 - What types of players are available?\n" +
-                "3 - What is an optimal solution and how the program finds it?\n" +
+                "3 - What is a longest chain and how the program finds it?\n" +
                 "4 - What are the available examples?"
         println(choiceMessage)
         val choice = intFromStdin("choice", InputRestriction.STRICTLY_POSITIVE, 1..4)
@@ -164,7 +164,7 @@ private fun help() {
             }
 
             3 -> {
-                val optimalMsg = "In a Simple Hot Potato Game (SHPG), an optimal solution is defined as a longest ordered list" +
+                val optimalMsg = "In a Simple Hot Potato Game (SHPG), a longest chain is defined as a longest ordered list" +
                         "of players such that, if the game proceeds by selecting the next player from this list at each " +
                         "turn, each player will accept the potato.\n\n" +
                         "The algorithm for finding an optimal solution works as follows:\n" +

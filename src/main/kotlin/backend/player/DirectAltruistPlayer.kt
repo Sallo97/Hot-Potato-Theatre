@@ -1,6 +1,7 @@
 package backend.player
 
 import backend.game.Game
+import kotlin.math.absoluteValue
 import kotlin.math.pow
 
 /**
@@ -46,9 +47,9 @@ class DirectAltruistPlayer(
         }
 
         val gainWeight: Double = potato.currentGain / altruism
-        val lossWeight: Double = (potato.currentLoss * altruism * responsibility)
+        val lossWeight: Double = (potato.currentLoss * (altruism - responsibility).absoluteValue)
 
-        return potatoAcceptance(gainWeight, lossWeight, potato)
+        return mutablePotatoAcceptance(gainWeight, lossWeight, potato)
     }
 
     override fun toString(): String {

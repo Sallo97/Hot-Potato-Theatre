@@ -91,7 +91,7 @@ class CoalitionalPlayer(id:Int) : Player(id, PlayerType.COALITIONAL) {
         val acceptanceWeight = minPayoff * probAcceptance
         val denyWeight = potato.baseLoss * probDeny
 
-        return potatoAcceptance(acceptanceWeight, denyWeight, potato)
+        return mutablePotatoAcceptance(acceptanceWeight, denyWeight, potato)
     }
 
     /**

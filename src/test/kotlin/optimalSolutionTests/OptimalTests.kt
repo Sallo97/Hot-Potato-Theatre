@@ -22,7 +22,7 @@ class OptimalTests() {
             }
         }
         val game = Game(potato, players, GameType.HOMOGENEOUS)
-        val solution = game.findOptimalSolution()
+        val solution = game.findLongestChain()
         assertEquals(5, solution.size, "solution should have 5 players")
     }
 
@@ -40,7 +40,7 @@ class OptimalTests() {
             }
         }
         val game = Game(potato, players, GameType.MIXED)
-        val solution = game.findOptimalSolution()
+        val solution = game.findLongestChain()
         val solutionList = solution.map { it.behavior }
         val expectedList = listOf<PlayerType>(PlayerType.COALITIONAL,PlayerType.COALITIONAL,PlayerType.COALITIONAL,PlayerType.GULLIBLE,PlayerType.GULLIBLE)
         assertEquals(expectedList, solutionList)
