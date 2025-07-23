@@ -27,5 +27,5 @@ It is possible to compile the process manually within a terminal using `gradlew`
 
 ```bash
 ./gradlew build      // Building the project
-./gradlew run Main   // Running the application
+./gradlew run   // Running the application
 ```
