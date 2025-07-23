@@ -123,9 +123,10 @@ private fun help() {
         val choiceMessage = "What you wanna know more about?\n" +
                 "1 - What are hot potatoes and Simple Hot Potato Games?\n" +
                 "2 - What types of players are available?\n" +
-                "3 - What are the available examples?"
+                "3 - What is an optimal solution and how the program finds it?\n" +
+                "4 - What are the available examples?"
         println(choiceMessage)
-        val choice = intFromStdin("choice", InputRestriction.STRICTLY_POSITIVE, 1..3)
+        val choice = intFromStdin("choice", InputRestriction.STRICTLY_POSITIVE, 1..4)
         when (choice) {
             1 -> {
                 val shpgMsg =
@@ -163,6 +164,22 @@ private fun help() {
             }
 
             3 -> {
+                val optimalMsg = "In a Simple Hot Potato Game (SHPG), an optimal solution is defined as a longest ordered list" +
+                        "of players such that, if the game proceeds by selecting the next player from this list at each " +
+                        "turn, each player will accept the potato.\n\n" +
+                        "The algorithm for finding an optimal solution works as follows:\n" +
+                        "1 - For each player in the SHPG, we identify at each turn whether they will accept the potato or not.\n" +
+                        "2 - At each turn, the algorithm checks which players are willing to accept the potato.\n" +
+                        "If no such player exists, the game has no optimal solution and the algorithm terminates.\n" +
+                        "Otherwise, it selects as a candidate the player among them with the fewest remaining turns in " +
+                        "which they are still willing to accept the potato.\n\n" +
+                        "Note: Coalitional players act as a single unit, since a member's willingness to accept the " +
+                        "potato depends on the previous member's acceptance.\n" +
+                        "Their acceptance is therefore evaluated collectively.\n" +
+                        "If the algorithm selects the first player in a coalition, the entire coalition must be selected as a group.\n\n"
+                print(optimalMsg)
+            }
+            4 -> {
                 val examplesMsg =
                     "The available examples are an assortment of ready-to-play games to show the possible scenarios" +
                             "realizable with this program.\n\n"

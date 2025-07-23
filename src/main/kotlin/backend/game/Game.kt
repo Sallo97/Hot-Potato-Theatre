@@ -92,11 +92,13 @@ class Game (
                 val optimalPlayerAtTurn =
                     if(!currentAcceptPlayers.isEmpty()) {
                         findHighestPriorityPlayer(currentAcceptPlayers, t)
+
                     }
                     else {
                         return emptyList()
                     }
-                this.add(optimalPlayerAtTurn)
+                acceptanceList.remove(optimalPlayerAtTurn)
+                this.add(optimalPlayerAtTurn.player)
             }
         }
 
@@ -106,8 +108,8 @@ class Game (
     /**
      * @return the first player type with the highest priority over [list].
      */
-    private fun findHighestPriorityPlayer(list : List<AcceptanceArray>, turn:Int) : Player {
-        return list.minByOrNull { it.acceptanceAfterTurn(turn) }?.player
+    private fun findHighestPriorityPlayer(list : List<AcceptanceArray>, turn:Int) : AcceptanceArray {
+        return list.minByOrNull { it.acceptanceAfterTurn(turn) }
             ?: throw IllegalArgumentException("List cannot be empty")
     }
 
