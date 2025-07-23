@@ -1,5 +1,16 @@
 plugins {
     kotlin("jvm") version "2.1.10"
+    application
+}
+
+application {
+    mainClass.set("MainKt")  // For Main.kt file in default package
+    // OR if Main.kt is in a package, use: mainClass.set("your.package.name.MainKt")
+}
+
+// Configure the run task to use standard input
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
 }
 
 group = "org.example"
@@ -17,6 +28,7 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(17)
 }
