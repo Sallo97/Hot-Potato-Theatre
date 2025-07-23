@@ -76,12 +76,9 @@ private fun createPlayerOfTypeFromStdin(type: PlayerType, id:Int = 0) : Player {
         }
         PlayerType.BENTHAMITE -> {
             val gainMessage = "how much weight has the acceptance of the hot potato"
-            val gainWeight = doubleFromStdin(gainMessage, InputRestriction.NOT_NEGATIVE)
+            val gainWeight = doubleFromStdin(gainMessage, InputRestriction.NOT_NEGATIVE, range = 0.0..1.0)
 
-            val lossMessage = "how much weight has the loss of the hot potato"
-            val lossWeight = doubleFromStdin(lossMessage, InputRestriction.NOT_NEGATIVE)
-
-            BenthamitePlayer(id, gainWeight, lossWeight)
+            BenthamitePlayer(id, gainWeight)
         }
         PlayerType.COALITIONAL -> {
             // val riskMessage = "how much the current players is willing to risk accepting the potato for the proposed coalition"

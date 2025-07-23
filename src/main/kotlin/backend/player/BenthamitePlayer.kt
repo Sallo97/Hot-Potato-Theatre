@@ -16,7 +16,8 @@ import backend.game.Game
 class BenthamitePlayer(
     id: Int,
     val gainWeight: Double = 0.5,
-    val lossWeight: Double = 0.5) : Player(id, PlayerType.BENTHAMITE){
+    ) : Player(id, PlayerType.BENTHAMITE){
+    val lossWeight: Double = 1.0 - gainWeight
     init {
         require(gainWeight in 0.0..1.0)
     }
