@@ -1,5 +1,5 @@
-# Hot Potato Theatre
-Hot Potato Theatre is a program for building, analysing and executing Simple Hot Potato Games. It has been developed as 
+# <img src="hptheatre_logo.png" width=100/> Hot Potato Theatre
+Hot Potato Theatre is a tool for building, analysing and executing Simple Hot Potato Games. It has been developed as 
 the final project for the exam *Algorithmic Game Theory* held at University of Pisa.
 The project is based on the Simple Hot Potato Games proposed in the paper *Rational and Empirical Play in the Simple Hot Potato Game*
 by *Carter T. Butts and David C. Rode*.
