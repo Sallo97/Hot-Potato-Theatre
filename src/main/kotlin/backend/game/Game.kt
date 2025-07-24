@@ -86,6 +86,7 @@ class Game (
             this.addAll(acceptanceListCoalitionalPlayer)
         }
 
+        // Compute solution
         val possibleSolution = mutableListOf<Player>().apply {
             for (t in 0..<turns) {
                 val currentAcceptPlayers: List<AcceptanceArray> = acceptanceList.filter { it.array[t] }
@@ -95,7 +96,7 @@ class Game (
 
                     }
                     else {
-                        return emptyList()
+                        break
                     }
                 acceptanceList.remove(optimalPlayerAtTurn)
                 this.add(optimalPlayerAtTurn.player)
